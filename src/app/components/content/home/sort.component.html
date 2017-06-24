@@ -1,0 +1,30 @@
+<div class="grid-nav">
+  <div class="type-group hidden-lg-down">
+    <div class="input-group">
+      <div class="form-inline">
+        <ol class="grid-type" id="contentGrid">
+          <li [ngClass]="{'page-item':true, 'grid-nav-item':true, 'display-grid':true, 'active': ListingComponent.sortBy.value === 'created'}">
+            <a href="#" (click)="ListingComponent.sort($event, 'created')">Most Recent</a>
+          </li>
+          <li [ngClass]="{'page-item':true, 'grid-nav-item':true, 'display-list':true, 'active': ListingComponent.sortBy.value === ''}">
+            <a href="#" (click)="ListingComponent.sort($event, '')">Most Popular</a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="display-group hidden-lg-down">
+    <div class="input-group">
+      <div class="form-inline">
+        <ol class="list-mode" id="contentGrid">
+          <li [ngClass]="{'page-item':true, 'grid-nav-item':true, 'display-grid':true, 'active': ListingComponent.displayGrid}">
+            <a href="#" (click)="listDisplayClick($event, 'grid')">Grid</a>
+          </li>
+          <li [ngClass]="{'page-item':true, 'grid-nav-item':true, 'display-list':true, 'active': ListingComponent.displayList}">
+            <a href="#" (click)="listDisplayClick($event, 'list')">List</a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>

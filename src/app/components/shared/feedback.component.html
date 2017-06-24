@@ -1,0 +1,27 @@
+<button class="btn btn-feedback btn-danger" (click)="toggleFeedback()">Feedback</button>
+<div class="feedback-background" *ngIf="showFeedback" (click)="toggleFeedback()"></div>
+<div class="feedback-form" *ngIf="showFeedback">
+  <h2>Feedback</h2>
+  <label>What do you want to let us know about?</label>
+  <div *ngFor="let feedbacks of feedbackTypes">
+      <div class="form-check">
+        <label class="form-check-label">
+          <div class="custom-control custom-radio">
+            <input class="custom-control-input ng-untouched ng-pristine ng-valid" type="radio" name="feedbackType" [value]="feedbacks.value" [(ngModel)]="feedback.type" />
+            <div class="custom-control-indicator"></div>
+            {{feedbacks.label}}
+          </div>
+      </label>
+    </div>
+  </div>
+  <hr>
+  <div class="form-group">
+    <label for="textareaDetails">Please provide some details of your feedback</label>
+    <br>
+    <textarea class="form-control" id="textareaDetails" #text (change)="feedback.feedback = text.value" [value]="feedback.feedback" rows="3"></textarea>
+  </div>
+  <div class="button-group">
+    <button type="submit" class="btn btn-primary" (click)="submitFeedback()">Submit</button>
+    <button type="button" class="btn btn-default" (click)="toggleFeedback()">Cancel</button>
+  </div>
+</div>

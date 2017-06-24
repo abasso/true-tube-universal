@@ -1,0 +1,62 @@
+.notification-wrapper {
+  width:100%;
+  height:4rem;
+  position:fixed;
+  left:0;
+  top:0;
+  transition: all 200ms ease-in-out;
+  background: rgba(0,0,0,0.7);
+  z-index:8888;
+  opacity:0;
+  transform:translateY(-4rem);
+  &.visible {
+    opacity:1;
+    transform:translateY(0rem);
+  }
+}
+.notification {
+  opacity:0;
+  position:fixed;
+  white-space: nowrap;
+  top:.875rem;
+  right:2%;
+  left:2%;
+  width:96%;
+  @media(min-width: $breakpoint-lg) {
+    top:.875rem;
+    right:1rem;
+    left:auto;
+    width:auto;
+  }
+  background-color: $brand-gray;
+  padding:.5rem 1rem .5rem 40px;
+  border-radius:$border-radius-sm;
+  color:white !important;
+  font-size:$font-size-sm;
+  transition: all 200ms ease-in-out;
+  z-index:9999;
+  transform:translateY(-100px);
+  background: $brand-gray no-repeat 10px center url("/assets/images/added.svg");
+  background-size:20px 20px;
+  &.visible {
+    opacity:1;
+    transform:translateY(0px);
+  }
+  &.remove {
+    background: $brand-gray no-repeat 10px center url("/assets/images/removed.svg");
+    background-size:20px 20px;
+  }
+  &.favourite {
+    background: $brand-gray no-repeat 10px center url("/assets/images/added_heart.svg");
+    background-size:20px 20px;
+    &.remove {
+      background: $brand-gray no-repeat 10px center url("/assets/images/removed_heart.svg") !important;
+      background-size:20px 20px !important;
+    }
+  }
+
+  &.email {
+    background: $brand-gray no-repeat 10px center url("/assets/images/correct.svg");
+    background-size:20px 20px;
+  }
+}

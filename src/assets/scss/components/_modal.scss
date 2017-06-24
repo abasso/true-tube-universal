@@ -1,0 +1,37 @@
+.modal-login {
+  .modal-header {
+    background:black;
+    border-top-left-radius: $border-radius-sm;
+    border-top-right-radius: $border-radius-sm;
+    color:white;
+  }
+  .modal-content {
+
+    a {
+      border-bottom:dotted 1px rgba(0,0,0,0.2);
+      font-size:$font-size-sm;
+    }
+    .modal-footer {
+      display:flex;
+      align-items: center;
+
+      .btn {
+        border-radius:$border-radius-sm;
+        margin: 0 auto 0 0;
+      }
+      a {
+        margin-right: .5rem;
+      }
+      @media(max-width: $breakpoint-sm) {
+        flex-direction: column;
+        .btn {
+          width:100%;
+        }
+        a {
+          margin: 1rem 0 0.5rem;
+          font-size:.75rem;
+        }
+      }
+    }
+  }
+}

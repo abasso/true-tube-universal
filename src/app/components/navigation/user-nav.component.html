@@ -1,0 +1,12 @@
+<ul class="p-a-0 hidden-md-down">
+  <li *ngFor="let menuItem of menu" class="menu-item">
+    <a href="#" [routerLink]="menuItem.url" class="text-link {{menuItem.css}}">{{menuItem.label}}</a>
+  </li>
+</ul>
+<div class="input-group content-nav-mobile">
+  <select id="select" class="custom-select form-control" (change)="navigate($event.target.value)">
+    <optgroup label="Select">
+      <option *ngFor="let menuItem of menu" [value]="menuItem.url" [selected]="menuItem.selected">{{menuItem.label}}</option>
+    </optgroup>
+  </select>
+</div>

@@ -1,0 +1,19 @@
+p {
+  a {
+  color:$brand-red;
+}
+}
+
+.text-link {
+  font-weight:200;
+  border-bottom:solid 1px $gray-lighter;
+  transition: all .2s ease-in-out;
+  &:hover {
+    border-color:$gray-light;
+  }
+  &.disabled {
+    &:hover {
+      border-color:$gray-lighter;
+    }
+  }
+}

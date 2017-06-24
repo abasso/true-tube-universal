@@ -2,6 +2,7 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 import 'rxjs/Rx';
 import * as express from 'express';
+import * as path from 'path';
 import { platformServer, renderModuleFactory } from '@angular/platform-server';
 import { ServerAppModule } from './app/server-app.module';
 import { ngExpressEngine } from '@nguniversal/express-engine';
@@ -22,6 +23,14 @@ app.set('view engine', 'html');
 app.set('views', 'src');
 
 app.use('/', express.static('dist', {index: false}));
+
+function cacheControl(req, res, next) {
+  // instruct browser to revalidate in 60 seconds
+  res.header('Cache-Control', 'max-age=60');
+  next();
+};
+
+app.use('/assets', cacheControl, express.static(path.join(__dirname, 'src', 'assets'), {maxAge: 30}));
 
 ROUTES.forEach(route => {
   app.get(route, (req, res) => {

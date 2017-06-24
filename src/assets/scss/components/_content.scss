@@ -1,0 +1,40 @@
+main {
+  &.sticky {
+    margin-top:13rem;
+    @media(min-width: $breakpoint-lg) {
+      margin-top:9rem;
+    }
+  }
+  padding-bottom:4rem;
+}
+
+.interactive-wrapper {
+  width:100%;
+  height:0;
+  padding-bottom:75%;
+  position:relative;
+  margin-top:1rem;
+  iframe {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+  }
+}
+
+.related {
+  border-top:solid 3px $gray-lighter;
+}
+
+.login-prompt {
+  font-size:$font-size-sm;
+  font-weight:$font-weight-normal;
+}
+
+.download-link {
+  display:flex;
+  margin-right:auto;
+  font-size:$font-size-sm;
+  font-weight:$font-weight-normal;
+}

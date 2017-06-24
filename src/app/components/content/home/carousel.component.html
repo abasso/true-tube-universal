@@ -1,0 +1,37 @@
+<swiper class="homepage-carousel" [config]="config">
+  <div class="swiper-wrapper">
+
+  <div class="swiper-slide" *ngFor="let item of slides, let i = index">
+    <a href="#" *ngIf="item.externalLink === false" [routerLink]="[item._source.link]" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Homepage Carousel {{i}}" [angularticsProperties]="{label: item._source.title}">
+      <!-- <picture>
+        <source srcset="{{item._source.image[0].styles.large}}" media="(min-width: 1024px)">
+          <source srcset="{{item._source.image[0].styles.medium}}" media="(min-width: 769px)">
+            <source srcset="{{item._source.image[0].styles.small}}" media="(min-width: 0px)">
+              <img srcset="{{item._source.image[0].styles.large}}" alt="{{item._source.image[0].alt}}">
+            </picture> -->
+            <img srcset="{{item._source.image[0].styles.large}}" alt="{{item._source.image[0].alt}}">
+
+            <h2 class="display-4" *ngIf="item._source.hide_text !== true">
+              <a href="#" [routerLink]="[item._source.link]" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Homepage Carousel {{i}}" [angularticsProperties]="{label: item._source.title}">
+                <span>{{item._source.sub_title}}</span> {{item._source.title}}
+              </a>
+            </h2>
+          </a>
+
+          <a href="{{item._source.link}}" *ngIf="item.externalLink === true" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Homepage Carousel {{i}}" [angularticsProperties]="{label: item._source.title}">
+            <!-- <picture>
+              <source srcset="{{item._source.image[0].styles.large}}" media="(min-width: 1024px)">
+                <source srcset="{{item._source.image[0].styles.medium}}" media="(min-width: 769px)">
+                  <source srcset="{{item._source.image[0].styles.small}}" media="(min-width: 0px)">
+                  </picture> -->
+                  <img srcset="{{item._source.image[0].styles.large}}" alt="{{item._source.image[0].alt}}">
+                  <h2 class="display-4" *ngIf="item._source.hide_text !== true">
+                    <a href="{{item._source.link}}" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Homepage Carousel {{i}}" [angularticsProperties]="{label: item._source.title}">
+                      <span>{{item._source.sub_title}}</span> {{item._source.title}}
+                    </a>
+                  </h2>
+                </a>
+
+              </div>
+            </div>
+            </swiper>

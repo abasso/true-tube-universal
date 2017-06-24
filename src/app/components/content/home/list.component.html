@@ -1,0 +1,9 @@
+<home-sort #sort *ngIf="contentLoading !== true"></home-sort>
+<div class="row grid-row content-grid loading-grid" *ngIf="contentLoading === true">
+  <div class="spinner"></div>
+</div>
+<app-list-item [ngClass]="{'row': true, 'grid-row': displayGrid, 'list-row': displayList, 'content-grid': true}" *ngIf="contentLoading === false" [items]="items" [paginationData]="paginationData"></app-list-item>
+
+<div class="load-more">
+  <a href="" class="btn-load-more" (click)="loadMore($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Homepage List Load More">Load More</a>
+</div>

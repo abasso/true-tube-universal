@@ -1,0 +1,4 @@
+<form method="post" (ngSubmit)="search($event)">
+	<input type="search" #input id="search" class="primary-nav__search-input" (keyup)="populateText($event)" (click)="populateText($event)" placeholder="e.g. Cultural videos" (focus)="focus()" (blur)="blur()"/>
+	<button type="submit" class="primary-nav__link" (click)="emptyCheck($event)"></button>
+</form>

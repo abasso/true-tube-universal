@@ -1,0 +1,38 @@
+.info {
+  margin: 1rem .75rem 1rem 0;
+  display:flex;
+  align-self: center;
+  position:relative;
+  font-weight: $font-weight-normal;
+  border-right:solid 1px $gray-lighter;
+  padding-right:.75rem;
+  line-height:auto;
+}
+
+.info-page {
+  h1 {
+    border-bottom:solid 2px $gray-lighter;
+    padding-bottom:1rem;
+  }
+  h3 {
+    border-bottom:solid 1px $gray-lighter;
+    padding-bottom:.5rem;
+    margin-bottom:.5rem;
+  }
+  .menu-item {
+    margin:1rem 0 0;
+    padding:0 0 1rem 0;
+    border-bottom:solid 1px $gray-lighter;
+    list-style:none;
+    width:100%;
+  }
+  .content {
+    p, ol, li {
+      font-weight: $font-weight-normal;
+      font-size:$font-size-sm;
+    }
+  }
+  .list-description {
+    border-bottom:solid 1px $gray-lighter;
+  }
+}

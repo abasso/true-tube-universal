@@ -1,0 +1,31 @@
+<!--
+<h1>Hello {{ profile.name }}</h1>
+
+<pre>{{ profile | json }}</pre> -->
+
+
+<div class="row profile profile-listing">
+  <app-user-nav class="col-xs-12 col-md-3 col-xl-3 col-lg-p-right m-t-2"></app-user-nav>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-lg-p-left m-t-1">
+      <h1 class="page-title">
+        Your Lists
+      </h1>
+      <div class="notification-wrapper" [ngClass]="{'visible': showNotification, 'remove': notificationRemove}">
+        <div class="notification col-xs-12 col-ml-12 col-xl-2" [ngClass]="{'visible': showNotification, 'remove': notificationRemove}" [innerHTML]="notificationMessage"></div>
+      </div>
+      <div *ngFor="let list of lists" class="user-list" [ngClass]="{'removed': list.removed, 'removing': list.removing, 'to-remove': list.toRemove}">
+        <a href="" [routerLink]="[list.url]" class="user-list-link text-link list-title" [innerHTML]="list.titleWithCount" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Lists" [angularticsProperties]="{label: list.title}"></a>
+        <div class="user-list-options">
+          <a href="#" (click)='highlightRow($event, list.title)' (blur)="unHighlightRow(list.title)" *ngIf="list.canDelete" class="btn btn-assembly-plan user-list-delete btn-sm"
+          mwlConfirmationPopover
+          [title]="deleteDialogTitle"
+          placement="left"
+          (confirm)="removeList($event, list.key)"
+          (cancel)="unHighlightRow(list.title)"
+          angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Lists Remove" [angularticsProperties]="{label: list.title}"
+      >delete</a>
+          <!-- <a href="" [routerLink]="[list.url]" class="btn btn-assembly-plan user-list-view btn-sm">view</a> -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,14 @@
+<div class="row info-page">
+  <div class="col-xs-12 col-ml-12 col-xl-3 col-xl-p-right m-t-2 hidden-lg-down">
+    <app-pages-nav>
+		</app-pages-nav>
+
+  </div>
+  <div class="col-xs-12 col-ml-12 col-xl-9 col-xl-p-left m-t-1" *ngFor="let item of content">
+    <h1 class="page-title">
+      {{item._source.title}}
+    </h1>
+    <div class="content" [innerHTML]="item._source.description">
+    </div>
+  </div>
+</div>

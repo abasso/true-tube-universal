@@ -1,0 +1,37 @@
+<div id="calendar-wrap">
+  <div class="content-header wrap-title m-t-1 m-b-2 p-b-1">
+
+    <h1 class="page-title"> {{selectedMonthString}} <span>{{eventCountString}}</span> </h1>
+    <div class="month-selector">
+      <a href="#" (click)="prevMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 0}" class="icon-circle-left icon-nav icon-left text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Previous"><span>Previous month</span></a>
+      <a href="#" (click)="nextMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 11}" class="icon-circle-right icon-nav icon-right text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Next"><span>Next month</span></a>
+    </div>
+  </div>
+  <div id="calendar">
+    <ul class="weekdays">
+      <li>Sunday</li>
+      <li>Monday</li>
+      <li>Tuesday</li>
+      <li>Wednesday</li>
+      <li>Thursday</li>
+      <li>Friday</li>
+      <li>Saturday</li>
+    </ul>
+    <ul class="days" *ngFor="let week of weeks">
+      <li class="day {{day.css}} calendar-day-{{i}}" *ngFor="let day of week; let i = index">
+        <div class="date">{{day.day}}</div>
+        <a [routerLink]="event._source.slug" [ngClass]="{active: toHighlight === event._id}" class="event {{event.css}} event-order-{{event.index}}" *ngFor="let event of day.events" (mouseover)="highlightEvent($event, event._id)" (mouseout)="highlightEvent($event, null)" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Calendar" [angularticsProperties]="{label: event._source.title}">
+          <span class="event-desc">
+            {{event._source.title}}
+          </span>
+          <!-- <div class="event-time">
+          1:00pm to 3:00pm
+        </div> -->
+      </a>
+    </li>
+  </ul>
+  <div class="row grid-row content-grid loading-grid m-t-3" *ngIf="calendarLoaded === false">
+    <div class="spinner"></div>
+  </div>
+</div>
+</div>

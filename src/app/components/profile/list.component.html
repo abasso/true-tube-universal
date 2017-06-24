@@ -1,0 +1,54 @@
+<!--
+<h1>Hello {{ profile.name }}</h1>
+
+<pre>{{ profile | json }}</pre> -->
+
+
+<div class="row profile profile-list">
+  <app-user-nav class="col-xs-12 col-md-12 col-lg-3 col-xl-3 col-lg-p-right m-t-2"></app-user-nav>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-lg-p-left m-t-1">
+      <h1 class="page-title">
+        {{title}}
+      </h1>
+      <div class="notification-wrapper" [ngClass]="{'visible': showNotification, 'remove': notificationRemove}">
+        <div class="notification" [ngClass]="{'visible': showNotification, 'remove': notificationRemove}" [innerHTML]="notificationMessage"></div>
+      </div>
+      <div [ngClass]="{'row': true, 'list-row': true, 'content-grid': true}">
+        <div class="list-item" *ngFor="let item of items">
+          <div class="block-media__media" *ngIf="item.thumbnail">
+            <a [routerLink]="[item.slug]" class="block-media__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User List" [angularticsProperties]="{label: item.title}">
+              <img [src]="item.thumbnail[0].url" alt="item.thumbnail[0].alt" />
+              <div class="listing-time" *ngIf="item.duration">
+                {{ dataService.duration(item.duration) }}
+              </div>
+            </a>
+          </div>
+          <div class="block-media__body">
+              <h6 class="block-media__headline" *ngIf="item.title">
+                {{ item.title }}
+                <a href="#" (click)='highlightRow($event, item.title)' (blur)="unHighlightRow(item.title)" class="btn btn-assembly-plan user-list-delete btn-sm"
+                mwlConfirmationPopover
+                [title]="deleteDialogTitle"
+                placement="left"
+                (confirm)="removeItem($event, item.id)"
+                (cancel)="unHighlightRow(list.title)"
+                angulartics2On="click" angularticsEvent="Action" angularticsCategory="User List Remove" [angularticsProperties]="{label: item.title}"
+            >Remove</a>
+              </h6>
+
+            <p class="block-media__description small" [innerHTML]="item.description">
+            </p>
+            <div class="block-media__types" *ngIf="item.contenttypes">
+              <a [routerLink]="[item.slug]" [queryParams]="type.query" *ngFor="let type of item.contenttypes" class="btn btn-sm {{ type.class }}" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User List Type" [angularticsProperties]="{label: item.title + ' ' + type.label}">
+                <span>
+                  {{ type.label }}
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+  </div>

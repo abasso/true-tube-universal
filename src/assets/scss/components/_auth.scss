@@ -1,0 +1,118 @@
+.auth0-lock {
+  p {
+    color:$brand-gray !important;
+  }
+  &.auth0-lock {
+  font-family: $font-family-sans-serif;
+  &.auth0-lock-opened
+  {
+    .auth0-lock-widget {
+
+    }
+  }
+  .auth0-lock-cred-pane {
+    border-radius:$border-radius-sm;
+  }
+  .auth0-lock-widget {
+    position:relative;
+    box-shadow:none !important;
+    border-radius:$border-radius-sm !important;
+    width:400px;
+    transform:none !important;
+  }
+  .auth0-lock-header-bg {
+    display:none;
+  }
+  .auth0-lock-header {
+    background:$gray-lightest;
+    color:white;
+    padding:0;
+    height:auto;
+  }
+
+  .auth0-lock-content {
+    padding:10px;
+  }
+  .auth0-lock-tabs-container {
+    margin:-10px -10px 20px;
+  }
+  .auth0-lock-tabs {
+    box-shadow:none !important;
+     li {
+       background:$gray-lighter;
+       a {
+         font-weight: $font-weight-normal;
+      }
+      &.auth0-lock-tabs-current {
+        background:white;
+        box-shadow:none !important;
+      }
+    }
+  }
+  .auth0-lock-header-logo {
+    width:auto !important;
+    margin:1rem !important;
+    display:block !important;
+    height:45px !important;
+  }
+  .auth0-lock-name {
+    display:none;
+    background:$brand-gray;
+    font-weight: $font-weight-normal;
+    padding:.5rem 0;
+    font-size:$font-size-base;
+  }
+  .auth0-lock-submit {
+    color:black !important;
+    text-transform:capitalize !important;
+    letter-spacing:0 !important;
+    font-size:$font-size-base !important;
+    transform:none !important;
+    border-radius:$border-radius-sm !important;
+    &:hover {
+      background:darken($brand-yellow, 10%) !important;
+    }
+    span {
+      transform:none !important;
+      span {
+        transform:none !important;
+        display:none !important;
+      }
+    }
+  }
+}
+}
+
+.auth0-lock-close-button {
+  background:$brand-gray !important;
+  box-shadow:none !important;
+  width:28px !important;
+  height:28px !important;
+  border-radius:28px !important;
+  border:none !important;
+  svg {
+    display:none !important;
+  }
+  &:before {
+    content:"";
+    background-image: url("/assets/images/close.svg");
+    background-size:contain;
+    background-repeat: no-repeat;
+    width: 12px;
+    height: 14px;
+    position: absolute;
+    background-position: center;
+    top: 7px;
+    left: 8px;
+  }
+
+  &:hover {
+    background:$brand-red !important;
+
+  }
+
+}
+
+.auth0-lock-overlay {
+  background:rgba(0,0,0,0.8) !important;
+}

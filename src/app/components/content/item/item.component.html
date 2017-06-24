@@ -1,0 +1,303 @@
+<div class="row">
+	<div class="col-xs-12 col-ml-12 col-xl-9 col-xl-p-right content-main m-t-1">
+		<div class="content-header">
+			<h1 class="page-title" [innerHTML]="item.title">
+			</h1>
+			<nav id="nav" class="content-nav">
+				<button class="btn {{embed.class}}" (click)="tab(embed.term)" [ngClass]="{active: activeTab === embed.term}" *ngFor="let embed of item.resource_types | EmbedMenuPipe" angulartics2On="click" angularticsEvent="{{embed.tabLabel}}" angularticsCategory="Content Tab" [angularticsProperties]="{label: item.title}"><span>{{embed.tabLabel}}</span></button>
+			</nav>
+			<div class="input-group content-nav-mobile" *ngIf="item.hideMenu !== true">
+				<select id="select" class="custom-select form-control" [(ngModel)]="this.activeTab" (change)="setActiveTab($event.target.value)">
+					<optgroup label="Select">
+						<option *ngFor="let embed of item.resource_types | EmbedMenuPipe" [value]="embed.term">{{embed.label}}</option>
+					</optgroup>
+				</select>
+			</div>
+
+		</div>
+		<!-- {{> organisms-video }}
+		{{> organisms-lesson-plans }} -->
+		<!-- <template ngFor let-embed [ngForOf]="item.embedded" let-i="index" [ngForTrackBy]="trackByFn"> -->
+
+		<div class="tab tab-videos" [ngClass]="{visible: activeTab === 'film'}" *ngFor="let embed of embeddedContent.film">
+			<div class="video-header">
+				<span class="info icon-clock icon-v-shift icon-small icon-left" *ngIf="embed.duration" >{{dataService.duration(embed.duration)}}</span>
+
+			<a href="#" (click)="playSubtitlePlayer($event)" class="info icon-cc icon-large" *ngIf="embed.subtitles !== null" popover="This film has closed captions (Subtitles)" ></a>
+
+		<span class="advisory-warning" *ngIf="embed.advisory === '1'">ADVISORY</span>
+		<div class="rating" *ngIf="embed.rating">
+			<div class="rating-stars">
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star "></span>
+			</div>
+			<div class="rating-label hidden-sm-down">2 Votes</div>
+		</div>
+		<div class="video-actions">
+			<div *ngIf="!auth.authenticated()" class="hidden-sm-down">
+				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Favourites Login" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Login</a> to Add to Favourites
+			</div>
+			<div *ngIf="auth.authenticated()" class="hidden-sm-down">
+				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event)" angulartics2On="click" angularticsEvent="Add to Favourites" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Add to Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event)" angulartics2On="click" angularticsEvent="Remove From Favourites" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Remove from Favourites</a>
+			</div>
+			<div *ngIf="embed.allow_download" class="hidden-sm-down">
+				<a href="https://www.truetube.co.uk/v5/api/file/{{embed.uuid}}" class="icon-download icon-small icon-left video-download text-link" *ngIf="auth.authenticated()">Download</a>
+				<div *ngIf="!auth.authenticated()">
+					<a href="#" class="icon-download icon-small icon-left video-download text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Download Login" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Login</a> to Download</div>
+				</div>
+				<a href="" class="icon-embed icon-small icon-left video-embed text-link download-link hidden-xs-down" (click)="toggleEmbed($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Embed Video Toggle" [angularticsProperties]="{label: item.title}">Embed</a>
+			</div>
+		</div>
+		<div class="video-embed-container p-t-1 m-b-1" [ngClass]="{show: showEmbed}">
+			<div class="video-embed-form p-a-1">
+				<label>Use the following code to embed this video on your site or blog</label>
+				<div class="input-group">
+					<input type="text" class="form-control" #inputTarget value="<div style='position:relative;height:0;overflow:hidden;padding-bottom:56.25%;'><iframe src='https://www.truetube.co.uk/v5/embed/{{embed.uuid}}' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' allowfullscreen style='position:absolute;top:0;left:0;width:100%;height:100%;'></iframe></div>">
+					<span class="input-group-btn">
+
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="video-js-wrapper">
+			<a href="#" (click)="playPlayer($event)" class="advisory-warning-overlay" [ngClass]="{'hidden-xs-up': hideAdvisory}"  *ngIf="embed.advisory === '1'" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Advisory Warning" [angularticsProperties]="{label: item.title}">
+				<span class="advisory-warning"><span class="title icon-left icon icon-play">Advisory Warning</span>
+				<span *ngIf="embed.advisory_message === ''">
+					<p>This video may contain content <strong>unsuitable for sensitive or younger students.</strong> Teacher discretion is advised.</p>
+				</span>
+				<span *ngIf="embed.advisory_message !== ''" [innerHTML]="embed.advisory_message">
+					<p>This video may contain content <strong>unsuitable for sensitive or younger students.</strong> Teacher discretion is advised.</p>
+				</span>
+				<span class="link">Click to play</span>
+			</span>
+		</a>
+		<app-video-player [embed]="embed" [embeddedContent]="embeddedContent" [subtitles]="item.subtitles" [activeTab]="activeTab" [play]="play" [enableSubtitles]="enableSubtitles"></app-video-player>
+	</div>
+
+	<div class="video-footer">
+		<span class="info icon-views icon-small icon-left" *ngIf="embed.view_count">{{embed.view_count}}</span>
+		<span class="info ">Posted {{age(item.created)}}</span>
+		<div class="video-share">
+			<span class="share-title">Share</span>
+			<a href="https://www.facebook.com/sharer/sharer.php?u=https://www.truetube.co.uk{{item.slug}}" class="icon-facebook icon-social" target="_blank"></a>
+			<a href="https://twitter.com/intent/tweet?text={{item.title}}&amp;url=https://www.truetube.co.uk{{item.slug}}&amp;via=True Tube" target="_blank" class="icon-twitter icon-social"></a>
+			<a target="_blank" href="https://plus.google.com/share?url=https://www.truetube.co.uk{{item.slug}}" class="icon-google-plus icon-social"></a>
+			<!-- <a href="" class="icon-share icon-social"></a> -->
+		</div>
+	</div>
+
+</div>
+
+<div class="tab tab-lesson-plans visible" [ngClass]="{visible: activeTab === 'lesson_plan'}" *ngIf="embeddedContent.lesson_plan">
+	<!-- <h2 class="section-title">
+	Lesson Plans
+</h2>
+<div class="grid-nav">
+</div> -->
+<div class="row list-row content-grid">
+	<div class="list-item" *ngFor="let lesson of embeddedContent.lesson_plan">
+		<div class="block-media__media">
+			<img src="{{lesson.thumbnail[0].url}}" alt="{{lesson.thumbnail[0].alt}}" />
+		</div>
+		<div class="block-media__body">
+			<h6 class="block-media__headline">{{lesson.title}}</h6>
+			<p class="block-media__description" [innerHTML]="lesson.description"></p>
+			<a href="{{lesson.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Lesson Plan" [angularticsProperties]="{label: item.title}">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Lesson Plan Login" [angularticsProperties]="{label: item.title}">Login</a> to download this lesson plan</p>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="tab tab-assembly-scripts" [ngClass]="{visible: activeTab === 'assembly_plan'}" *ngIf="embeddedContent.assembly_plan">
+	<!-- <h2 class="section-title">
+	Assembly Scripts
+</h2>
+<div class="grid-nav">
+</div> -->
+<div class="row list-row content-grid">
+	<div class="list-item" *ngFor="let assembly of embeddedContent.assembly_plan">
+		<div class="block-media__media">
+			<img src="{{assembly.thumbnail[0].url}}" alt="{{assembly.thumbnail[0].alt}}" />
+		</div>
+		<div class="block-media__body">
+			<h6 class="block-media__headline">{{assembly.title}}</h6>
+			<p class="block-media__description" [innerHTML]="assembly.description"></p>
+			<a href="{{assembly.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Assembly Plan" [angularticsProperties]="{label: item.title}">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Assembly Plan Login" [angularticsProperties]="{label: item.title}">Login</a> to download this assembly plan</p>
+		</div>
+	</div>
+</div>
+</div>
+
+<div class="tab tab-teachers-notes" [ngClass]="{visible: activeTab === 'teachers_notes'}" *ngIf="embeddedContent.teachers_notes">
+	<!-- <h2 class="section-title">
+	Teachers Notes
+</h2>
+<div class="grid-nav">
+</div> -->
+<div class="row list-row content-grid">
+	<div class="list-item" *ngFor="let notes of embeddedContent.teachers_notes">
+		<div class="block-media__media">
+			<img src="{{notes.thumbnail[0].url}}" alt="{{notes.thumbnail[0].alt}}" />
+		</div>
+		<div class="block-media__body">
+			<h6 class="block-media__headline">{{notes.title}}</h6>
+			<p class="block-media__description" [innerHTML]="notes.description"></p>
+			<a href="{{notes.file}}" class="icon-download icon-small icon-left text-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Teachers Notes" [angularticsProperties]="{label: item.title}">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Teachers Notes Login" [angularticsProperties]="{label: item.title}">Login</a> to download these teachers notes</p>
+		</div>
+	</div>
+</div>
+</div>
+<div class="tab tab-interactive" [ngClass]="{visible: activeTab === 'interactive'}" *ngFor="let embed of embeddedContent.interactive">
+	<div class="interactive-wrapper">
+		<iframe [src]="embed.link | SanitiseUrlPipe" frameborder="0"></iframe>
+	</div>
+</div>
+<div class="tab tab-audio" [ngClass]="{visible: activeTab === 'audio'}" *ngFor="let embed of embeddedContent.audio">
+	<div class="video-header">
+		<span class="advisory-warning" *ngIf="embed.advisory === '1'">ADVISORY</span>
+		<div class="rating" *ngIf="embed.rating">
+			<div class="rating-stars">
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star filled"></span>
+				<span class="rating-star "></span>
+			</div>
+			<div class="rating-label hidden-sm-down">2 Votes</div>
+		</div>
+		<div class="video-actions hidden-sm-down" *ngIf="item.resource_types.length === 1">
+			<div *ngIf="!auth.authenticated()">
+				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Login" [angularticsProperties]="{label: item.title}">Login</a> to Add to Favourites
+			</div>
+			<div *ngIf="auth.authenticated()" >
+				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Add" [angularticsProperties]="{label: item.title}">Add to Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Remove" [angularticsProperties]="{label: item.title}">Remove from Favourites</a>
+			</div>
+		</div>
+	</div>
+	<div class="audio-wrapper">
+	</div>
+	<div class="video-footer">
+		<div class="video-share hidden-xs-down">
+			<span class="share-title hidden-xs-down">Share</span>
+			<a href="https://www.facebook.com/sharer/sharer.php?u=http://www.truetube.co.uk/{{item.slug}}" class="icon-facebook hidden-xs-down icon-social"></a>
+			<a href="https://twitter.com/intent/tweet?text={{item.title}}&amp;url=http://www.truetube.co.uk/{{item.slug}}&amp;via=True Tube" class="icon-twitter hidden-xs-down icon-social"></a>
+			<a href="'https://plus.google.com/share?url=http://www.truetube.co.uk/{{item.slug}}" class="icon-google-plus hidden-xs-down icon-social"></a>
+			<!-- <a href="" class="icon-share icon-social"></a> -->
+		</div>
+	</div>
+</div>
+
+<div class="hidden-lg-down related" *ngIf="hasAttributes(item.related)">
+	<h2 class="section-title">
+		Related
+	</h2>
+	<div class="grid-nav">
+	</div>
+	<app-list-item [ngClass]="{'row': true, 'grid-row': true, 'list-row': displayList, 'content-grid': true}" [items]="item.related" [paginationData]="paginationData"></app-list-item>
+</div>
+
+</div>
+<div class="col-xs-12 col-ml-12 col-xl-3 col-xl-p-left">
+	<div class="content-info">
+		<div class="add-to-list">
+			<div class="notification-wrapper" [ngClass]="{'visible': showNotification, 'remove': notificationRemove, 'favourite': notificationFavourite}">
+				<div class="notification" [ngClass]="{'visible': showNotification, 'remove': notificationRemove, 'favourite': notificationFavourite}" [innerHTML]="notificationMessage"></div>
+			</div>
+			<a href="#" class="icon-add-to-list icon-small icon-left icon-border text-link" (click)="toggleLists($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Add to List" [angularticsProperties]="{label: item.title}">Add to a list</a>
+
+			<div class="add-to-list-wrapper" *ngIf="showLists" id="GridFilter" [ngClass]="{'not-logged-in': auth.authenticated() === false}">
+				<div class="login-warning-overlay" *ngIf="!auth.authenticated()">
+					<span class="login-warning"><span class="title icon-left icon icon-play">Login Required</span>
+					<p>You need to login to add content to lists <a href="#" class="link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Add to List Login" [angularticsProperties]="{label: item.title}">click here</a> to login.</p>
+				</span>
+			</div>
+			<div class="list-controls" *ngIf="auth.authenticated()">
+				<fieldset class="filter-fieldset flex-none" *ngFor="let list of listArray">
+					<div class="form-group">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" (click)="setList($event, list.key, list.title)" class="custom-control-input" value="1" [checked]="list.checked">
+							<div class="custom-control-indicator"></div>
+							<span class="custom-control-description" [innerHTML]='list.title'></span>
+							<!-- <span class="custom-control-description">{{subcategory.label}} ({{subcategory.count}})</span> -->
+						</label>
+					</div>
+				</fieldset>
+				<fieldset class="filter-fieldset new-list">
+					<label>Add to a new list</label>
+					<input class="form-control" type="text" [ngClass]="{'form-control-warning': addListError === true }" [(ngModel)]="createListTitle" placeholder="e.g. Easter Videos" />
+					<div *ngIf="addListError" class="form-control-feedback" [innerHTML]="addListErrorMessage"></div>
+					<button (click)="addList($event)" class="btn btn-sm btn-create-list {{listButtonClass}}" [innerHTML]="[listButtonLabel]"></button>
+				</fieldset>
+				<fieldset class="filter-fieldset manage-lists">
+					<a href="" [routerLink]="'/me/lists'" class="text-link btn-toolbox icon-list icon-left icon-small" angulartics2On="click" angularticsEvent="Action" angularticsCategory="View and Manage Lists" [angularticsProperties]="{label: item.title}">View & manage your lists</a>
+				</fieldset>
+			</div>
+			<div class="list-controls" *ngIf="!auth.authenticated()">
+				<fieldset class="filter-fieldset flex-none">
+					<div class="form-group">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" (click)="setList($event, list.key, list.title)" class="custom-control-input" value="1">
+							<div class="custom-control-indicator"></div>
+							<span class="custom-control-description">Favourites</span>
+							<!-- <span class="custom-control-description">{{subcategory.label}} ({{subcategory.count}})</span> -->
+						</label>
+					</div>
+				</fieldset>
+				<fieldset class="filter-fieldset new-list">
+					<label>Add to a new list</label>
+					<input class="form-control" type="text" [ngClass]="{'form-control-warning': addListError === true }" [(ngModel)]="createListTitle" placeholder="e.g. Easter Videos" />
+					<button class="btn btn-sm btn-create-list btn-create-list {{listButtonClass}}" [innerHTML]="[listButtonLabel]"></button>
+
+				</fieldset>
+				<fieldset class="filter-fieldset manage-lists">
+					<a href="" [routerLink]="'/'" class="text-link btn-toolbox icon-list icon-left icon-small">View & manage your lists</a>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+
+	<p [innerHTML]="item.description">
+	</p>
+	<div class="content-info-attributes">
+		<div *ngIf="hasAttributes(item.topic)">
+			<h5>Main Topic</h5>
+			<a href="#" (click)="navigateAttribute($event, 'topics', topic.slug)" *ngFor="let topic of item.topic | AttributePipe" [innerHTML]=[topic.label]></a>
+		</div>
+		<div *ngIf="hasAttributes(item.related_topics)">
+			<h5>Related Topic(s)</h5>
+			<a href="#" (click)="navigateAttribute($event, 'topics', topic.slug)" *ngFor="let topic of item.related_topics | AttributePipe" [innerHTML]=[topic.label]></a>
+		</div>
+		<div *ngIf="hasAttributes(item.keystage)">
+			<h5>Keystage(s)</h5>
+			<a href="#" (click)="navigateAttribute($event, 'keystages', keystage.slug)" ngTrim="false" *ngFor="let keystage of item.keystage | AttributePipe" [innerHTML]=[keystage.label]></a>
+		</div>
+		<div *ngIf="hasAttributes(item.subjects)">
+			<h5>Subject(s)</h5>
+			<a href="#" (click)="navigateAttribute($event, 'subject', subject.slug)" *ngFor="let subject of item.subjects | AttributePipe" [innerHTML]=[subject.label]></a>
+		</div>
+		<div *ngIf="hasAttributes(item.keywords)">
+			<h5>Keyword(s)</h5>
+			<a href="#" (click)="navigateAttribute($event, 'search', keyword.slug)" *ngFor="let keyword of item.keywords | AttributePipe" [innerHTML]=[keyword.label]></a>
+		</div>
+	</div>
+</div>
+</div>
+<div class="col-xs-12 col-ml-12 col-xl-9 col-xl-p-right hidden-xl-up" *ngIf="hasAttributes(item.related)">
+	<h2 class="section-title">
+		Related
+	</h2>
+	<div class="grid-nav">
+	</div>
+	<app-list-item [ngClass]="{'grid-row': displayGrid, 'list-row': displayList, 'content-grid': true}" [items]="item.related" [paginationData]="paginationData"></app-list-item>
+</div>
+</div>

@@ -1,0 +1,26 @@
+<div class="container">
+<div class="call-to-action-copy" *ngIf="!auth.authenticated()">
+  Award-winning free resources for RE, PSHE and Citizenship
+  <button href="#" (click)="auth.signup($event)" class="btn btn-login" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Call To Action" [angularticsProperties]="{label: 'Register'}">Register for Free</button>
+</div>
+<div class="call-to-action-copy call-to-action-tools" *ngIf="auth.authenticated()">
+  <button href="#" [routerLink]="'me/lists'" class="btn btn-toolbox icon-list icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Lists'}">Lists</button>
+  <button href="#" [routerLink]="'me/list/favourites'" class="btn btn-favourites icon-favourite icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Favourites'}">Favourites</button>
+    <button href="#" [routerLink]="'/calendar'" class="btn btn-calendar icon-posted icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Calendar'}">Calendar</button>
+</div>
+<div class="call-to-action-nav">
+<nav id="nav" class="accessibility-nav hidden-md-down">
+  <a href="#" class="btn-dyslexia" [ngClass]="{dyslexia: dyslexiaEnabled === false, standard: dyslexiaEnabled === true}" (click)="toggleDyslexiaFont($event)" [innerHTML]="dyslexiaLabel"></a>
+  <!-- Font Size
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="#" class="btn btn-font-smaller" (click)="reduceFont($event)">-</a>
+    <a href="#" class="btn btn-font-bigger" (click)="enlargeFont($event)">+</a>
+
+  </div> -->
+  <!-- <a href="#" class="btn-font-smaller" (click)="reduceFont($event)">Smaller</a>
+  <a href="#" class="btn-font-bigger" (click)="enlargeFont($event)">Bigger Font</a> -->
+</nav>
+<!-- <a href="#" class="btn btn-login icon-switch icon-button btn-switch m-l-1 hidden-md-down" (click)="toggleSite($event)">Switch to old site</a> -->
+
+</div>
+</div>

@@ -1,0 +1,8 @@
+<div class="primary-nav__wrapper">
+  <div *ngFor="let item of items | QueryStringPipe:'content types'" class="primary-nav__item"><a [routerLink]="['/list']" [queryParams]="item.query" (click)="resetRootPath($event, item.query)" class="primary-nav__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: item.label}">{{ item.label }}</a></div>
+</div>
+<div class="primary-nav__item primary-nav__account" *ngIf="auth.authenticated()"><a [routerLink]="['/me']" class="primary-nav__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" (click)="this.menuClick.emit($event)" [angularticsProperties]="{label: 'Profile'}">Profile</a></div>
+<div class="primary-nav__item primary-nav__account" *ngIf="auth.authenticated()"><a href="#" (click)="logout($event)" class="primary-nav__link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Logout'}">Logout</a></div>
+<div class="primary-nav__item primary-nav__account" *ngIf="!auth.authenticated()"><a href="#" (click)="login($event)" class="primary-nav__link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Login'}">Login</a></div>
+<div class="primary-nav__item primary-nav__account" *ngIf="!auth.authenticated()"><a href="#" (click)="register($event)" class="primary-nav__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Register'}">Register</a></div>
+<app-search #search (searchSubmitted)="searchDone($event)" class="primary-nav__search" [ngClass]="{'active': search.focussed}"></app-search>

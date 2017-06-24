@@ -1,0 +1,23 @@
+<div class="row page-event" *ngFor="let item of items">
+  <div class="col-xs-12 col-ml-12 col-xl-12">
+    <div class="content-header wrap-title m-t-1">
+      <div class="page-title-wrapper p-b-1">
+        <h1 class="page-title">
+        {{item._source.title}}
+      </h1>
+      <a href="#" class="icon-posted icon-small icon-left text-link" [routerLink]="'/calendar'">Full Calendar</a>
+    </div>
+      <h3 class="page-sub-title p-t-1">{{item.date}}</h3>
+    </div>
+  </div>
+  <div class="col-xs-12 col-ml-12 flex-order-lg-1" [ngClass]="{'col-xl-9': item._source.description !== '', 'col-xl-12': item._source.description === '', 'col-xl-p-right': item._source.description !== '' }">
+
+  <app-list-item class="grid-row row" [ngClass]="{'grid-row-four': item._source.description === ''}" [items]="item._source.related" [paginationData]="paginationData"></app-list-item>
+</div>
+<div class="col-xs-12 col-ml-12 col-xl-3 col-xl-p-left flex-order-lg-0">
+  <div class="content-info">
+    <p [innerHTML]="item._source.description">
+    </p>
+  </div>
+</div>
+</div>

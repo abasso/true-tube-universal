@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-xs-12 col-ml-12 col-xl-3 col-xl-p-right">
+    <app-filter #filter>
+    </app-filter>
+    <app-events-block class="hidden-lg-down"></app-events-block>
+
+  </div>
+  <div [ngClass]="{sticky: stickyTitle === true}" class="col-xs-12 col-ml-12 col-xl-9 col-xl-p-left m-t-1">
+    <h1 class="page-title col-xl-12" data-spy="affix" data-offset-top="60" data-offset-bottom="200">
+      {{pageTitle(filter.filterSubjects, filter.keystages, filter.types, filter.filter.value.term, filter.category, filter.topics)}}
+      <span *ngIf="filter.itemsTotal !== 0">({{filter.itemsTotal}} {{filter.itemsTotalLabel}})</span>
+    </h1>
+    <listing-sort class="hidden-lg-down" *ngIf="itemCount !== 0"></listing-sort>
+    <div class="row grid-row content-grid" *ngIf="itemCount === 0">
+      <div class="list-item m-b-3">
+        No results.
+      </div>
+    </div>
+
+    <div class="row grid-row content-grid loading-grid" *ngIf="filter.contentLoading === true">
+      <div class="spinner"></div>
+    </div>
+      <app-list-item [ngClass]="{'row': true, 'grid-row': displayGrid, 'list-row': displayList, 'content-grid': true}" *ngIf="filter.contentLoading === false" [items]="items" [paginationData]="paginationData"></app-list-item>
+    <listing-sort class="last-sort" *ngIf="itemCount !== 0"></listing-sort>
+    <app-events-block class="hidden-lg-up"></app-events-block>
+
+  </div>
+</div>

@@ -1,0 +1,29 @@
+.page-event {
+  .content-header {
+    display: flex;
+    flex-direction: column;
+    .page-title-wrapper {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      border-bottom: solid 1px $gray-lighter;
+    }
+    @media(max-width:$breakpoint-sm) {
+      .page-title {
+        padding-right:2.5rem;
+      }
+    }
+    a {
+      margin-left: auto;
+      display: flex;
+      flex-shrink: 0;
+    }
+  }
+  .page-sub-title {
+    color: $gray-light;
+    margin: 0;
+    font-weight: 200;
+    border-bottom: solid 1px $gray-lighter;
+    padding-bottom: 1rem;
+  }
+}

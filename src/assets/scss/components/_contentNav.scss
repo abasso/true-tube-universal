@@ -1,0 +1,139 @@
+.content-header {
+  display:flex;
+  flex-wrap:wrap;
+  .page-title {
+    //margin:1.25rem 0 .75rem;
+    flex-shrink:0;
+  }
+  &.wrap-title {
+    flex-wrap:nowrap;
+    .page-title {
+      flex-shrink:1;
+    }
+  }
+  @media(max-width: $breakpoint-md) {
+    flex-direction:column;
+  }
+  @media(max-width: $breakpoint-xl) {
+    //margin-top:.5rem;
+  }
+  @media(min-width: $breakpoint-xl) {
+    .page-title {
+      //margin:1.75rem 0 1rem;
+    }
+  }
+
+  .content-nav {
+    align-self: flex-end;
+    margin-left:auto;
+    display:flex;
+    @media(max-width: $breakpoint-md) {
+      display:none;
+    }
+    .btn {
+      font-size:1rem;
+      padding:.5rem 1rem;
+      text-align:inherit;
+      transition: none;
+      outline:none;
+      border-radius:$border-radius-sm;
+      @media(min-width: $breakpoint-xl) {
+        padding:.75rem 1.25rem;
+      }
+      background:$gray-lightest;
+      //border:solid 1px $gray-lighter;
+      color:$brand-gray;
+      margin: 0 0 0.4rem 0.4rem;
+      // span {
+      //   font-weight: $font-weight-normal;
+      //   border-bottom:dotted 1px $gray-light;
+      // }
+      &.hidden {
+        display:none;
+      }
+      &.active, &:hover  {
+        color:white;
+        box-shadow:none;
+        position:relative;
+        display:block;
+        span {
+          border:none;
+        }
+        @media(min-width: $breakpoint-md) {
+          &:after {
+            content:"";
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            position:absolute;
+            bottom:-10px;
+            left:50%;
+            margin-left:-20px;
+          }
+        }
+        &.videos {
+          background:$color-videos;
+          border-color:$color-videos;
+          &:after {
+            border-top: 20px solid $color-videos;
+          }
+        }
+        &.lesson-plans {
+          background:$color-lesson-plans;
+          border-color:$color-lesson-plans;
+          color:$brand-gray;
+          &:after {
+            border-top: 20px solid $color-lesson-plans;
+          }
+        }
+        &.teachers-notes {
+          background:$color-teachers-notes;
+          border-color:$color-teachers-notes;
+          &:after {
+            border-top: 20px solid $color-teachers-notes;
+          }
+        }
+        &.assembly-scripts {
+          background:$color-assembly-plans;
+          border-color:$color-assembly-plans;
+          &:after {
+            border-top: 20px solid $color-assembly-plans;
+          }
+        }
+        &.interactive {
+          background:$color-interactive;
+          border-color:$color-interactive;
+          &:after {
+            border-top: 20px solid $color-interactive;
+          }
+        }
+        &.audio {
+          background:$color-audio;
+          border-color:$color-audio;
+          &:after {
+            border-top: 20px solid $color-audio;
+          }
+        }
+      }
+    }
+    }
+    &.visible {
+      .btn {
+        display:flex;
+      }
+    }
+    .content-nav-mobile {
+      display:none;
+      @media(max-width: $breakpoint-md) {
+        display:flex;
+      }
+      margin-bottom:1rem;
+      select {
+        display:flex;
+        background-color:$gray-lightest;
+        border:solid 1px $gray-lighter;
+        color:$brand-gray;
+      }
+    }
+}

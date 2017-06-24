@@ -1,0 +1,3 @@
+<div class="cookie-notice-wrapper" [ngClass]="{'visible': cookieSet === false}">
+  <div class="cookie-notice" [ngClass]="{'visible': true, 'remove': false}">By continuing to use this site you're agreeing to our <a class="text-link" href="#" [routerLink]="['/privacy-and-cookies']">cookie policy</a> <a href="#" (click)=setCookie($event) class="btn btn-film">Ok</a> </div>
+</div>

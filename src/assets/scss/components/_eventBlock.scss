@@ -1,0 +1,95 @@
+.event-block {
+  position:relative;
+  padding-bottom:1.5rem;
+  border-radius:$border-radius-xs;
+  // @media(min-width: $breakpoint-lg) {
+  //   min-height:300px;
+  // }
+  a {
+    font-size:$font-size-sm;
+    align-self: center;
+    color:white;
+    margin-left:auto;
+    border-bottom: solid 1px $gray;
+    display:inline;
+  }
+  background:$brand-gray;
+  display:flex;
+  flex-direction:column;
+  margin-top:1rem;
+  .section-title {
+    color:white;
+    margin:2.25rem 1.5rem 1.5rem;
+    font-weight:400;
+  }
+  .no-results {
+    font-weight: $font-weight-normal;
+  }
+  .month-selector {
+    height:32px;
+  }
+  .list-item {
+    display:flex;
+    margin:.5rem 1.5rem;
+    align-items:center;
+    .block_event__date {
+      color:$brand-red;
+      font-size:$font-size-lg;
+      font-weight:400;
+      min-width:2.5rem;
+      display:inline-block;
+      margin-right:1rem;
+    }
+    .block_event__link {
+      display:flex;
+      margin-left:1rem;
+    }
+
+  }
+    .month-selector {
+      margin:1rem auto 0 1.5rem;
+      @media(max-width: $breakpoint-xl) {
+        position:absolute;
+        right:0;
+        margin:1.5rem;
+      }
+      @media(max-width: $breakpoint-sm) {
+        position:absolute;
+        right:0;
+        margin:1.5rem;
+        bottom:0;
+      }
+      a {
+        border-bottom:none;
+        width:32px;
+        height:32px;
+        background:no-repeat center center url("/assets/images/chevron-left_white.svg");
+        margin:0 .5rem 0 0;
+        border:solid 1px rgba(255,255,255,0.2);
+        border-radius:20px;
+        display:inline-block;
+        &.disabled {
+          background:no-repeat center center url("/assets/images/chevron-left_gray.svg");
+        }
+      }
+      .btn-month-fwd {
+        background:no-repeat center center url("/assets/images/chevron-right_white.svg");
+        margin-right:0;
+        &.disabled {
+          background:no-repeat center center url("/assets/images/chevron-right_gray.svg");
+          cursor:default;
+        }
+      }
+    }
+    .event-block__calendar {
+      margin:1.5rem 0 0 1.5rem;
+      align-self: flex-start;
+      @media(min-width: $breakpoint-xl) {
+        position:absolute;
+        right:0;
+        bottom:0;
+        margin:1.5rem 1.5rem 1.75rem auto;
+      }
+
+    }
+}

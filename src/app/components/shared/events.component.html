@@ -1,0 +1,29 @@
+<div class="event-block">
+      <h3 class="section-title">
+        Events {{selectedMonthString}}
+      </h3>
+    <div *ngIf="noEvents === true" class="m-l-2 no-results">
+      No events this month.
+    </div>
+    <div *ngIf="noEvents === false">
+      <div class="list-item" *ngFor="let item of items">
+        <span class="block_event__date">
+      {{item.date}}
+      </span>
+      <span>
+      <a href="#" [routerLink]="item._source.slug" class="block-event__link text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Event Block" [angularticsProperties]="{label: item._source.title}">
+      	{{item._source.title}}
+      </a>
+    </span>
+      </div>
+    </div>
+
+        <div class="month-selector">
+            <a href="#" (click)="prevMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 0}" class=" btn-sm btn-month-back" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Event Block Previous"></a>
+
+            <a href="#" (click)="nextMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 11}" class="btn-sm btn-month-fwd" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Event Block Next"></a>
+
+        </div>
+        <a href="#" [routerLink]="'/calendar'" class="event-block__calendar text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Event Block Full Calendar">Full Calendar</a>
+
+  </div>

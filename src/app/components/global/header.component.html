@@ -1,0 +1,27 @@
+  <header class="c-header" role="banner">
+  <div class="container">
+    <div class="mobile-logo hidden-lg-up">
+			<a href="#" [routerLink]="['/']" class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
+				<img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img" alt="True Tube">
+			</a>
+    </div>
+    <div class="mobile-nav__search" (click)="mobileSearch($event)"><a href="" class="mobile-nav__burger_search" (click)="mobileSearch($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Mobile Search'}"></a></div>
+    <div class="mobile-nav__burger" (click)="toggleMenu($event)"><a href="" class="mobile-nav__burger_link" (click)="toggleMenu($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Mobile Menu'}"></a></div>
+  </div>
+  <div class="menu-mobile" [ngClass]="{show: menuVisible}">
+    <div class="container">
+      <div class="mobile-logo">
+        <a href="#" [routerLink]="['/']"  class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
+          <img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img hidden-md-down" alt="True Tube">
+          <img src="/assets/images/true-tube-logo_white.svg" class="logo c-logo-link__img hidden-md-up" alt="True Tube">
+        </a>
+      </div>
+      <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" id="primary-nav" class="primary-nav"></app-primary-nav>
+    </div>
+    <!-- <app-secondary-nav id="secondary-nav" class="secondary-nav"></app-secondary-nav> -->
+
+    <div (click)="toggleMenu($event)" class="mobile-nav__close"><a></a></div>
+
+  </div>
+  <app-call-to-action [ngClass]="{'logged-in': auth.authenticated()}" class="call-to-action"></app-call-to-action>
+</header>

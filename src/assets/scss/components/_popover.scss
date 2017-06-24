@@ -1,0 +1,15 @@
+.popover-title {
+  background-color:white !important;
+}
+
+.popover-content {
+  .nav-item {
+      padding:.5rem 1rem;
+      text-align:center;
+      border-bottom:solid 1px $gray-lightest;
+      a {
+        border-bottom:dotted 1px $gray-lighter;
+        font-size:$font-size-sm;
+      }
+  }
+}

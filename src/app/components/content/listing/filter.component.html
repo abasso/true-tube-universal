@@ -1,0 +1,115 @@
+<div class="grid-filter" id="GridFilter">
+  <div [formGroup]="filter">
+  <div class="grid-filter-header">
+    <h5>
+      Filter Results
+    </h5>
+    <span class="clear" *ngIf="filterActive()" (click)="clearAll($event)" >
+      Clear All
+    </span>
+  </div>
+  <a href="#" (click)="showFilter($event)" class="btn filter-show-hide">Show</a>
+  <fieldset class="filter-fieldset">
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        Search Term
+        <span class="clear" *ngIf="filter.value.term" (click)="clearTerm($event)">
+          Clear
+        </span>
+      </a>
+    </legend>
+    <input id="filterSearch" formControlName="term" class="form-control filter-search-term" type="text" placeholder="e.g. Social studies" (keyup)="search($event)"/>
+  </fieldset>
+  <fieldset class="filter-fieldset flex-none">
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        Content Type(s)
+        <span class="clear" *ngIf="checkboxesActive(types)" (click)="clearTypes($event)">
+          Clear
+        </span>
+      </a>
+    </legend>
+    <button class="btn btn-sm {{type.class}}" *ngFor="let type of types" (click)="setFilter($event, type)" [ngClass]="{active: type.active}" ngDefaultControl>{{type.label}}</button>
+
+    <div class="form-group hidden-xs-up" *ngFor="let type of types">
+      <label class="custom-control custom-checkbox">
+        <input formControlName="{{type.name}}" type="checkbox">
+        <span class="custom-control-description">{{type.label}}</span>
+      </label>
+    </div>
+
+  </fieldset>
+  <fieldset>
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        Subject <span class="clear" *ngIf="subjectsActive(filterSubjects)" (click)="clearSubject($event)">Clear</span></a>
+    </legend>
+    <select (change)="setSubject($event)" formControlName="subject" class="custom-select form-control">
+      <option selected="selected">
+        All
+      </option>
+      <option *ngFor="let subject of subjects" [value]="subject.slug">{{subject.label}}</option>
+    </select>
+  </fieldset>
+  <fieldset class="filter-fieldset filter-keystage flex-none">
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        Key Stage(s)
+        <span class="clear"  *ngIf="checkboxesActive(keystages)" (click)="clearKeystages($event)">
+          Clear
+        </span>
+      </a>
+    </legend>
+    <button class="btn btn-sm" *ngFor="let key of keystages" (click)="setFilter($event, key)" [ngClass]="{active: key.active}">{{key.label}}</button>
+
+    <div class="form-group hidden-xs-up" *ngFor="let key of keystages">
+      <label class="custom-control custom-checkbox">
+        <input formControlName="{{key.name}}" type="checkbox">
+        <span class="custom-control-description">{{key.label}}</span>
+      </label>
+    </div>
+
+
+  </fieldset>
+  <fieldset class="filter-fieldset flex-none">
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        Categories
+        <span class="clear" *ngIf="category" (click)="clearCategoryAndTopics($event)">
+          Clear
+        </span>
+      </a>
+    </legend>
+    <div class="form-group" *ngFor="let category of categories">
+      <div class="form-check">
+        <label class="form-check-label">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" [checked]="category.active" name="{{category.name}}" formControlName="{{category.name}}" [value]="category.label" id="{{category.name}}" (change)="displayTopics($event)">
+            <div class="custom-control-indicator"></div>
+          </div>
+          <!-- {{category.label}} ({{category.count}}) -->
+          {{category.label}}
+        </label>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="filter-fieldset flex-none" *ngIf="category" >
+    <legend>
+      <a href="#" class="collapse-toggle" (click)="toggleFilter($event)">
+        {{currentCategoryString}} Topics
+        <span class="clear" *ngIf="isActive(topics)" (click)="clearTopics($event)">
+          Clear
+        </span>
+      </a>
+    </legend>
+    <div class="form-group" *ngFor="let topic of topics">
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" formControlName="{{topic.name}}" value="{{topic.slug}}" (change)="setTopics($event)">
+        <div class="custom-control-indicator"></div>
+        <span class="custom-control-description">{{topic.label}}</span>
+        <!-- <span class="custom-control-description">{{subcategory.label}} ({{subcategory.count}})</span> -->
+      </label>
+    </div>
+  </fieldset>
+</div>
+</div>
