@@ -12,7 +12,7 @@ import { enableProdMode } from '@angular/core';
 enableProdMode();
 const app = express();
 const api = new App();
-const port = 8000;
+const port = 8010;
 const baseUrl = `http://localhost:${port}`;
 
 app.engine('html', ngExpressEngine({
@@ -49,6 +49,6 @@ app.get('/data', (req, res) => {
   console.timeEnd(`GET: ${req.originalUrl}`);
 });
 
-app.listen(8000,() => {
+app.listen(8010,() => {
 	console.log(`Listening at ${baseUrl}`);
 });

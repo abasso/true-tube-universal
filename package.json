@@ -8,6 +8,8 @@
     "build": "webpack",
     "build:aot": "webpack --env.aot --env.client & webpack --env.aot --env.server",
     "build:prod": "webpack --env.aot --env.client -p & webpack --env.aot --env.server",
+    "deploy": "rsync -rav dist/ deploy@truetube.co.uk:/srv/http/frontend",
+    "deploy:staging": "rsync -rav dist/ deploy@truetube.co.uk:/srv/http/staging/dist",
     "prebuild": "npm run clean",
     "prebuild:aot": "npm run clean",
     "prebuild:prod": "npm run clean",

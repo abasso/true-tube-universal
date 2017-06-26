@@ -91,7 +91,7 @@ export class ItemComponent implements OnInit {
         this.meta.setTitle(this.item.title)
         this.meta.setTag('description', strippedDescription)
         this.meta.setTag('og:url', 'https://www.truetube.co.uk' + this.item.slug)
-        this.meta.setTag('og:image', this.item.thumbnail[0].url)
+        this.meta.setTag('og:image', 'https:' + this.item.thumbnail[0].url)
         // this.meta.setTag('og:description', strippedDescription)
         // this.meta.setTag('og:title', this.item.title + " - True Tube")
 

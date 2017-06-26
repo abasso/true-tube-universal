@@ -21,7 +21,7 @@ export const ContentTypes = [
   },
   {
     label: 'Assembly Scripts',
-    slug: 'assembly scripts',
+    slug: 'assembly plans',
     type: 'content types',
     name: 'typeAssembly',
     term: 'assembly_plan',
