@@ -1,4 +1,4 @@
-import { Component, AfterViewInit} from '@angular/core'
+import { Component, AfterViewInit, ChangeDetectionStrategy} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { PaginationPipe } from './../../../pipes/pagination.pipe'
 import { DataService } from './../../../services/data.service'
@@ -9,6 +9,7 @@ import * as _ from 'lodash'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 
 @Component({
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-list',
   templateUrl: './list.component.html',
   providers: [
@@ -89,13 +90,16 @@ export class ListingComponent implements AfterViewInit {
 
   pageTitle(subject: any, keystages: any, types: any, term: any, category: any, topics: any) {
     let showTopics = false
-    if (!_.isUndefined(category) && category !== null) {
-      if (_.findIndex(category[0].topics, { 'active': false}) !== -1 && _.findIndex(category[0].topics, { 'active': true}) !== -1) {
-        showTopics = true
+    if (category.length > 0) {
+      if (!_.isUndefined(category) || category !== null) {
+        if (_.findIndex(category[0].topics, { 'active': false}) !== -1 && _.findIndex(category[0].topics, { 'active': true}) !== -1) {
+          showTopics = true
+        }
       }
     }
+
     topics = (showTopics) ? this.stringifyTitleArray(topics) : ''
-    category = (_.isUndefined(category) || category === null || category === '') ? '' : category[0].label
+    category = (_.isUndefined(category) || category === null || category === '' || category.length === 0) ? '' : category[0].label
     subject = (subject === 'All') ? '' : subject
     keystages = (_.findIndex(keystages, { 'active': true}) === -1) ? '' : 'Key Stage ' + this.stringifyTitleArray(keystages)
     types = (_.findIndex(types, { 'active': true}) === -1) ? '' : this.stringifyTitleArray(types)

@@ -1,5 +1,3 @@
-# Minimal Starter with Angular on both Server and Browser Platforms
-
 ## Get Started
 ```sh
 npm run start
@@ -15,6 +13,3 @@ Includes AoT
 npm run build:prod
 npm run server
 ```
-
-Based on https://github.com/robwormald/ng-universal-demo
-

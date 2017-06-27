@@ -5447,8 +5447,12 @@ fieldset {
       .primary-nav__search:hover button:hover, .primary-nav__search.active button:hover {
         background-color: #E84524; }
     .primary-nav__search:hover input, .primary-nav__search.active input {
-      display: block;
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
       opacity: 1;
+      height: 100%;
       font-size: 1rem; }
   @media (max-width: 992px) {
     .primary-nav__search {
@@ -7051,7 +7055,7 @@ Mobile Responsiveness
   bottom: 0;
   transition: all 200ms ease-in-out;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 8888;
+  z-index: 10000;
   opacity: 0;
   display: flex;
   align-items: center;
@@ -7072,7 +7076,7 @@ Mobile Responsiveness
   color: white !important;
   font-size: 0.875rem;
   transition: all 200ms ease-in-out;
-  z-index: 9999;
+  z-index: 10000;
   transform: translateY(100px);
   background: #262625;
   background-size: 20px 20px;
@@ -7112,7 +7116,7 @@ Mobile Responsiveness
   position: fixed;
   bottom: 0rem;
   right: .25rem;
-  z-index: 10000000;
+  z-index: 9999;
   margin: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;

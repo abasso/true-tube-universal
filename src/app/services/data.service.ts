@@ -106,6 +106,8 @@ export class DataService {
       search.set('q', termString)
     }
     search.set('size', limit)
+
+    console.log("THE SEARCH", search)
     return this.http
     .get(this.searchUrl, { search })
     .map((response) => ( response.json()))
@@ -113,9 +115,9 @@ export class DataService {
 
   list(sort = 'created', limit = 1000) {
     let search: any = new URLSearchParams()
-    if (sort) {
+    // if (sort) {
       search.set('sort', sort + ':desc')
-    }
+    // }
     search.set('size', limit)
     return this.http
     .get(this.searchUrl, { search })
@@ -165,10 +167,7 @@ export class DataService {
   }
 
   sendFeedback(data: any) {
-    console.log("sending feedback")
-    console.log(data)
     let jsonData = JSON.stringify(data)
-    console.log(jsonData)
     let header = new Headers()
     let options = new RequestOptions({ headers: header })
     header.append('Content-Type', 'application/json')

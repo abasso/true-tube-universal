@@ -4,7 +4,6 @@
     "entryModule": "./app/browser-app.module#BrowserAppModule"
   },
   "include": [
-    "./main.browser.ts",
-    "./app/+lazy/lazy.module.ts"
+    "./main.browser.ts"
   ]
 }
