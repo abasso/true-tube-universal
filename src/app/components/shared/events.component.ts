@@ -12,6 +12,8 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angu
 })
 export class EventsBlockComponent implements OnInit {
   public currentTime: any = moment()
+  public currentYear: any = this.currentTime.year()
+  public currentMonth: any = this.currentTime.month()
   public selectedMonth: any = new BehaviorSubject(moment().month())
   public selectedMonthString: string
   public month: any
@@ -27,7 +29,10 @@ export class EventsBlockComponent implements OnInit {
   ) {
     this.month = this.selectedMonth.subscribe(
       (month: any) => {
-        this.selectedMonthString = (this.currentTime.month() === month) ? 'this month' : 'in ' + moment().month(month).format('MMMM')
+        this.currentYear = this.currentTime.year()
+        this.currentYear = (month > 11) ? ++this.currentYear : (month < 0) ? --this.currentYear : this.currentYear
+        this.currentMonth = month
+        this.selectedMonthString = (this.currentTime.month() === month) ? 'this month' : 'in ' + moment().month(month).format('MMMM') + ' ' + this.currentYear
         this.data = this.dataService.events(month)
         this.subscriber = this.data.subscribe(
           (data: any) => {
@@ -51,7 +56,7 @@ export class EventsBlockComponent implements OnInit {
   prevMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    if (currentMonth !== 0) {
+    if (currentMonth !== -6) {
       this.selectedMonth.next(currentMonth - 1)
     }
 
@@ -60,7 +65,7 @@ export class EventsBlockComponent implements OnInit {
   nextMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    if (currentMonth !== 11) {
+    if (currentMonth !== 18) {
       this.selectedMonth.next(currentMonth + 1)
     }
   }

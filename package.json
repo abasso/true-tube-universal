@@ -1,5 +1,5 @@
 {
-  "name": "ng-universal-demo",
+  "name": "TrueTube",
   "version": "1.0.0",
   "main": "index.js",
   "repository": {},
@@ -8,7 +8,7 @@
     "build": "webpack",
     "build:aot": "webpack --env.aot --env.client & webpack --env.aot --env.server",
     "build:prod": "webpack --env.aot --env.client -p & webpack --env.aot --env.server",
-    "deploy": "rsync -rav dist/ deploy@truetube.co.uk:/srv/http/frontend",
+    "deploy": "rsync -rav dist/ deploy@truetube.co.uk:/srv/http/frontend/dist",
     "deploy:staging": "rsync -rav dist/ deploy@truetube.co.uk:/srv/http/staging/dist",
     "prebuild": "npm run clean",
     "prebuild:aot": "npm run clean",
@@ -52,6 +52,7 @@
     "fuzzysearch-js": "^0.2.0",
     "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
+    "mdn-polyfills": "^5.1.0",
     "moment": "^2.18.1",
     "ng2-pagination": "^2.0.1",
     "ngx-clipboard": "^5.1.0",

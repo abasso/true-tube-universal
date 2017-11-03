@@ -31,7 +31,8 @@ export class DataService {
     let termArray: string[] = []
 
     if (data.term) {
-      termArray.push(encodeURIComponent(data.term))
+      // termArray.push(encodeURIComponent(data.term))
+      termArray.push(data.term.replace(/\//, encodeURIComponent))
     }
 
     if (_.findLastIndex(types, {'active': true}) !== -1) {
@@ -107,7 +108,6 @@ export class DataService {
     }
     search.set('size', limit)
 
-    console.log("THE SEARCH", search)
     return this.http
     .get(this.searchUrl, { search })
     .map((response) => ( response.json()))
@@ -115,9 +115,9 @@ export class DataService {
 
   list(sort = 'created', limit = 1000) {
     let search: any = new URLSearchParams()
-    // if (sort) {
+    if (sort) {
       search.set('sort', sort + ':desc')
-    // }
+    }
     search.set('size', limit)
     return this.http
     .get(this.searchUrl, { search })
@@ -190,15 +190,23 @@ export class DataService {
 
   events(month: number = null) {
     let search: any = new URLSearchParams()
+    let currentYear = moment().year()
     if (month !== null) {
-      let monthStart: any = moment({ M: month }).format('YYYY-MM-DD')
-      let monthEnd: any = moment({ M: month, D: moment({M: month} ).daysInMonth()}).format('YYYY-MM-DD')
+      if (month > 11) {
+        currentYear = ++currentYear
+        month = month - 11
+      } else if (month < 0) {
+        currentYear = --currentYear
+        month = month + 11
+      }
+      let monthStart: any = moment({ M: month, y: currentYear }).format('YYYY-MM-DD')
+      let monthEnd: any = moment({ M: month, D: moment({M: month}).daysInMonth(), y: currentYear}).format('YYYY-MM-DD')
       search.set('q', 'date.value:[' + monthStart + ' TO ' +  monthEnd + ']' )
     }
     search.set('size', '1000')
     return this.http
     .get(this.eventsUrl, { search })
-    .map((response) => ( response.json()))
+    .map((response) => (response.json()))
   }
 
   pages(page: string = null) {

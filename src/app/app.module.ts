@@ -209,7 +209,7 @@ export function metaFactory(): MetaLoader {
   return new MetaStaticLoader({
     pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
     pageTitleSeparator: ' - ',
-    applicationName: 'True Tube',
+    applicationName: 'TrueTube',
     defaults: {
       title: '',
       description: 'Award winning free resources for RE, PSHE and Citizenship'

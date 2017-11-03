@@ -14,7 +14,11 @@ import * as _ from 'lodash'
 export class CalendarComponent implements OnInit {
   public currentDate: any = moment()
   public currentMonth: any = this.currentDate.month()
+  public currentYear: any = this.currentDate.year()
   public selectedMonth: any = new BehaviorSubject(moment().month())
+  public activeMonth: any = this.currentDate.month()
+  public monthMin: any = this.currentDate.subtract(12, 'months')
+  public monthMax: any = this.currentDate.add(12, 'months')
   public selectedMonthString: string
   public month: any
   public data: any
@@ -35,19 +39,27 @@ export class CalendarComponent implements OnInit {
     this.weeks.length = 42
     this.month = this.selectedMonth.subscribe(
       (month: any) => {
-        this.selectedMonthString = (this.currentMonth === month) ? 'This Month' : moment().month(month).format('MMMM')
-        this.data = this.dataService.events()
+        this.activeMonth = month
+        this.currentYear = this.currentDate.year()
+        this.currentYear = (month > 11) ? ++this.currentYear : (month < 0) ? --this.currentYear : this.currentYear
+        this.selectedMonthString = (this.currentMonth === month) ? 'This Month' : moment().month(month).format('MMMM') + ' ' + this.currentYear
+        this.data = this.dataService.events(month)
         this.subscriber = this.data.subscribe(
           (data: any) => {
             if (isPlatformBrowser(this.platformId)) {
               window.scrollTo(0, 0)
             }
+            if (month > 11) {
+              month = month - 12
+            } else if (month < 0) {
+              month = month + 12
+            }
             // Build the calendar days
             this.eventCount = 0
             let days: any[] = []
-            let selectedMonth: any = moment({'M': month})
-            let currentMonthStartDay: any = selectedMonth.startOf('month').day()
-            let previousMonthEndDate: any = moment().month(month - 1).daysInMonth()
+            let selectedMonth: any = moment({y: this.currentYear, M: month})
+            let currentMonthStartDay: any = selectedMonth.startOf('month').day() + 1
+            let previousMonthEndDate: any = moment({y: this.currentYear, M: month}).subtract(1, 'months').daysInMonth()
             let startDateOffset: number = previousMonthEndDate - currentMonthStartDay + 1
             let monthStart = 1
             let nextMonthStart = 1
@@ -105,7 +117,7 @@ export class CalendarComponent implements OnInit {
                 this.eventCount++
               }
             })
-            this.eventCountString = (this.eventCount > 1) ? '(' + this.eventCount + ' Events)' : '(' + this.eventCount + ' Event)'
+            this.eventCountString = (this.eventCount === 0) ? '(No Events)' : (this.eventCount > 1) ? '(' + this.eventCount + ' Events)' : '(' + this.eventCount + ' Event)'
             _.each(days, (day, dayIndex) => {
               day.events = []
               _.each(this.items, (event, index) => {
@@ -121,16 +133,6 @@ export class CalendarComponent implements OnInit {
                     }
                 }
                 if (day.day === event.startDate.date() && day.month === event.startDate.month()) {
-
-
-                  // if (days[dayIndex - 1].events.length > 0) {
-                  //   console.log(_.find(days[dayIndex - 1].events, {title: event.title}))
-                  //   // let previousDay = _.find(days[dayIndex - 1].events, {title: event.title})
-                  //   // if (!_.isUndefined(previousDay)) {
-                  //   //   event.index = previousDay.index
-                  //   // }
-                  // }
-
                   if (_.isUndefined(event.index)) {
                     if (day.events.length === 0) {
                       event.index = eventClone.index = 0
@@ -224,7 +226,8 @@ export class CalendarComponent implements OnInit {
   prevMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    if (currentMonth !== 0) {
+    console.log(currentMonth)
+    if (currentMonth !== -6) {
       this.selectedMonth.next(currentMonth - 1)
     }
   }
@@ -232,7 +235,8 @@ export class CalendarComponent implements OnInit {
   nextMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    if (currentMonth !== 11) {
+    console.log(currentMonth)
+    if (currentMonth !== 18) {
       this.selectedMonth.next(currentMonth + 1)
     }
   }

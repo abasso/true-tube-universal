@@ -153,10 +153,7 @@ var DataService = (function () {
             .subscribe(function (response) { return (response.json()); });
     };
     DataService.prototype.sendFeedback = function (data) {
-        console.log("sending feedback");
-        console.log(data);
         var jsonData = JSON.stringify(data);
-        console.log(jsonData);
         var header = new Headers();
         var options = new RequestOptions({ headers: header });
         header.append('Content-Type', 'application/json');

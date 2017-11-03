@@ -93,7 +93,7 @@ export class ItemComponent implements OnInit {
         this.meta.setTag('og:url', 'https://www.truetube.co.uk' + this.item.slug)
         this.meta.setTag('og:image', 'https:' + this.item.thumbnail[0].url)
         // this.meta.setTag('og:description', strippedDescription)
-        // this.meta.setTag('og:title', this.item.title + " - True Tube")
+        // this.meta.setTag('og:title', this.item.title + " - TrueTube")
 
         this.embeddedContent = _.groupBy(this.item.embedded, 'type')
         if (this.item.resource_types.length === 1) {

@@ -6459,7 +6459,7 @@ p a {
     .homepage-carousel .swiper-slide a {
       width: 100%; }
   .homepage-carousel .swiper-pagination {
-    padding-top: 10px; }
+    bottom: 20px; }
     @media (min-width: 767px) {
       .homepage-carousel .swiper-pagination {
         text-align: left;

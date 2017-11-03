@@ -2,7 +2,7 @@
   <div class="container">
     <div class="mobile-logo hidden-lg-up">
 			<a href="#" [routerLink]="['/']" class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
-				<img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img" alt="True Tube">
+				<img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img" alt="TrueTube">
 			</a>
     </div>
     <div class="mobile-nav__search" (click)="mobileSearch($event)"><a href="" class="mobile-nav__burger_search" (click)="mobileSearch($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Mobile Search'}"></a></div>
@@ -12,8 +12,8 @@
     <div class="container">
       <div class="mobile-logo">
         <a href="#" [routerLink]="['/']"  class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
-          <img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img hidden-md-down" alt="True Tube">
-          <img src="/assets/images/true-tube-logo_white.svg" class="logo c-logo-link__img hidden-md-up" alt="True Tube">
+          <img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img hidden-md-down" alt="TrueTube">
+          <img src="/assets/images/true-tube-logo_white.svg" class="logo c-logo-link__img hidden-md-up" alt="TrueTube">
         </a>
       </div>
       <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" id="primary-nav" class="primary-nav"></app-primary-nav>

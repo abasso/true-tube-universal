@@ -3,10 +3,11 @@
 
     <h1 class="page-title"> {{selectedMonthString}} <span>{{eventCountString}}</span> </h1>
     <div class="month-selector">
-      <a href="#" (click)="prevMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 0}" class="icon-circle-left icon-nav icon-left text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Previous"><span>Previous month</span></a>
-      <a href="#" (click)="nextMonth($event)" [ngClass]="{disabled: selectedMonth.getValue() === 11}" class="icon-circle-right icon-nav icon-right text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Next"><span>Next month</span></a>
+      <a href="#" (click)="prevMonth($event)" class="icon-circle-left icon-nav icon-left text-link" [ngClass]="{disabled: activeMonth === -6}" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Previous"><span>Previous month</span></a>
+      <a href="#" (click)="nextMonth($event)" class="icon-circle-right icon-nav icon-right text-link" [ngClass]="{disabled: activeMonth === 18}" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Calendar Next"><span>Next month</span></a>
     </div>
   </div>
+
   <div id="calendar">
     <ul class="weekdays">
       <li>Sunday</li>

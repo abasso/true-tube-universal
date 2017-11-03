@@ -90,13 +90,16 @@ export class ListingComponent implements AfterViewInit {
 
   pageTitle(subject: any, keystages: any, types: any, term: any, category: any, topics: any) {
     let showTopics = false
-    if (category.length > 0) {
-      if (!_.isUndefined(category) || category !== null) {
-        if (_.findIndex(category[0].topics, { 'active': false}) !== -1 && _.findIndex(category[0].topics, { 'active': true}) !== -1) {
-          showTopics = true
+    if (!_.isUndefined(category)) {
+      if(category !== null) {
+        if (category.length > 0) {
+          if (_.findIndex(category[0].topics, { 'active': false}) !== -1 && _.findIndex(category[0].topics, { 'active': true}) !== -1) {
+            showTopics = true
+          }
         }
       }
     }
+
 
     topics = (showTopics) ? this.stringifyTitleArray(topics) : ''
     category = (_.isUndefined(category) || category === null || category === '' || category.length === 0) ? '' : category[0].label

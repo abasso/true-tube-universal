@@ -123,13 +123,6 @@ var CalendarComponent = (function () {
                             }
                         }
                         if (day.day === event.startDate.date() && day.month === event.startDate.month()) {
-                            // if (days[dayIndex - 1].events.length > 0) {
-                            //   console.log(_.find(days[dayIndex - 1].events, {title: event.title}))
-                            //   // let previousDay = _.find(days[dayIndex - 1].events, {title: event.title})
-                            //   // if (!_.isUndefined(previousDay)) {
-                            //   //   event.index = previousDay.index
-                            //   // }
-                            // }
                             if (_.isUndefined(event.index)) {
                                 if (day.events.length === 0) {
                                     event.index = eventClone.index = 0;
