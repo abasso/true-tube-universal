@@ -10,6 +10,7 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 })
 export class HeaderComponent implements OnInit {
   public menuVisible = false
+  public showLogin: Boolean = false
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public auth: Auth,
@@ -39,6 +40,10 @@ export class HeaderComponent implements OnInit {
 
   menuClick() {
     this.hideMenu()
+  }
+
+  openLogin() {
+    this.showLogin = true
   }
 
   hideMenu() {

@@ -36,6 +36,7 @@ import { HomeListingComponent } from './components/content/home/list.component'
 import { HomeSortComponent } from './components/content/home/sort.component'
 import { CarouselComponent } from './components/content/home/carousel.component'
 import { PartnersCarouselComponent } from './components/shared/partners-carousel.component'
+import { LoginComponent } from './components/shared/login.component'
 // import { SwiperModule } from 'ngx-swiper-wrapper'
 // import { SwiperConfigInterface } from 'ngx-swiper-wrapper'
 import { SwiperModule } from '../../node_modules/angular2-useful-swiper'
@@ -244,6 +245,7 @@ export function metaFactory(): MetaLoader {
     ListingComponent,
     ListItemComponent,
     ListingSortComponent,
+    LoginComponent,
     PageComponent,
     PagesNavComponent,
     PaginationPipe,

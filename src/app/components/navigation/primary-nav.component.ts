@@ -18,6 +18,7 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 export class PrimaryNavComponent implements OnInit {
   @Output() searchSubmitted = new EventEmitter()
   @Output() menuClick = new EventEmitter()
+  @Output() loginClick = new EventEmitter()
   public items: any[]
   public item: any = ItemComponent
   constructor(
@@ -48,8 +49,8 @@ export class PrimaryNavComponent implements OnInit {
   }
 
   login(event: any) {
-    this.auth.login(event)
-    this.menuClick.emit(event)
+    // this.auth.login(event)
+    this.loginClick.emit(event)
   }
 
   register(event: any) {

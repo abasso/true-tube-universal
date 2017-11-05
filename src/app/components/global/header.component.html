@@ -16,7 +16,7 @@
           <img src="/assets/images/true-tube-logo_white.svg" class="logo c-logo-link__img hidden-md-up" alt="TrueTube">
         </a>
       </div>
-      <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" id="primary-nav" class="primary-nav"></app-primary-nav>
+      <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" (loginClick)="openLogin($event)" id="primary-nav" class="primary-nav"></app-primary-nav>
     </div>
     <!-- <app-secondary-nav id="secondary-nav" class="secondary-nav"></app-secondary-nav> -->
 
@@ -24,4 +24,5 @@
 
   </div>
   <app-call-to-action [ngClass]="{'logged-in': auth.authenticated()}" class="call-to-action"></app-call-to-action>
+  <app-login [showLogin]="showLogin"></app-login>
 </header>

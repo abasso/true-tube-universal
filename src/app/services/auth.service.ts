@@ -12,11 +12,13 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
 // Avoid name not found warnings
 declare let Auth0Lock: any
+declare let auth0: any
 
 @Injectable()
 export class Auth {
   // Configure Auth0
-  private lock: any
+  public lock
+  public auth0
   private userProfile: any
   public loggedInStatus: any = new Subject()
   constructor(
@@ -25,52 +27,101 @@ export class Auth {
     private router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
-    // myConfig.options['auth'].params.state = JSON.stringify({pathname: route})
-    this.lock = new Auth0Lock(myConfig.clientID, myConfig.domain, myConfig.options)
+      this.lock = new Auth0Lock(
+        myConfig.clientID,
+        myConfig.domain,
+        myConfig.options
+      )
+      this.auth0 = new auth0.WebAuth({
+        domain: myConfig.domain,
+        clientID: myConfig.clientID,
+        callbackURL: 'http://localhost:3000/',
+        responseType: 'token id_token'
+      })
     // Add callback for lock `authenticated` event
-    this.lock.on('authenticated', (authResult: any) => {
-      let redirectUrl: string = ''
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('token', authResult.idToken)
-        redirectUrl = localStorage.getItem('redirectUrl')
-      }
-      // Fetch profile information
-       this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
-         if (error) {
-           // Handle error
-           return
-         }
-         if (isPlatformBrowser(this.platformId)) {
-           localStorage.setItem('profile', JSON.stringify(profile))
-         }
-         this.userProfile = profile
-         ga('set', 'userId', profile.user_id)
-       })
-       this.loggedInStatus.next('update')
-      if (redirectUrl) {
-          this.router.navigate([redirectUrl])
-      } else {
-          this.router.navigate(['/me'])
-      }
-    })
-    this.lock.on('show', () => {
-      if (isPlatformBrowser(this.platformId)) {
-        let parent: any = document.querySelectorAll('.auth0-lock-body-content')
-        parent[0].insertAdjacentHTML('beforebegin', '<div class="rm-unify-login"><a class="btn btn-rm-unify">Log In with <img src="/assets/images/logo_RM.png" /></a>or<div><div class="signin-notification"><strong>PLEASE NOTE</strong><br/>Users from the old site need to reset their password. Please click "Forgotten or need to reset your password?" below to reset it. </div>')
-        document.querySelectorAll('.btn-rm-unify')[0].addEventListener('click', (event) => {
-          this.loginWithRM(event)
-        })
-      }
-    })
+    // this.lock.on('authenticated', (authResult: any) => {
+    //   let redirectUrl: string = ''
+    //   if (isPlatformBrowser(this.platformId)) {
+    //     localStorage.setItem('token', authResult.idToken)
+    //     redirectUrl = localStorage.getItem('redirectUrl')
+    //   }
+    //   // Fetch profile information
+    //    this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
+    //      if (error) {
+    //        // Handle error
+    //        return
+    //      }
+    //      if (isPlatformBrowser(this.platformId)) {
+    //        localStorage.setItem('profile', JSON.stringify(profile))
+    //      }
+    //      this.userProfile = profile
+    //      ga('set', 'userId', profile.user_id)
+    //    })
+    //    this.loggedInStatus.next('update')
+    //   if (redirectUrl) {
+    //       this.router.navigate([redirectUrl])
+    //   } else {
+    //       this.router.navigate(['/me'])
+    //   }
+    // })
+
+    // this.lock.on('show', () => {
+    //   if (isPlatformBrowser(this.platformId)) {
+    //     let parent: any = document.querySelectorAll('.auth0-lock-body-content')
+    //     parent[0].insertAdjacentHTML('beforebegin', '<div class="rm-unify-login"><a class="btn btn-rm-unify">Log In with <img src="/assets/images/logo_RM.png" /></a>or<div><div class="signin-notification"><strong>PLEASE NOTE</strong><br/>Users from the old site need to reset their password. Please click "Forgotten or need to reset your password?" below to reset it. </div>')
+    //     document.querySelectorAll('.btn-rm-unify')[0].addEventListener('click', (event) => {
+    //       this.loginWithRM(event)
+    //     })
+    //   }
+    // })
+    //
     }
   }
 
-  public login(event: any) {
-    event.preventDefault()
+  public isAuthed(authResult: any) {
+    let redirectUrl: string = ''
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', authResult.idToken)
+      redirectUrl = localStorage.getItem('redirectUrl')
+    }
+    this.auth0.client.userInfo(authResult.accessToken, (err, user) => {
+      console.log(localStorage.getItem('token'));
+      console.log(err)
+      console.log(user)
+        // Now you have the user's information
+      if (isPlatformBrowser(this.platformId)) {
+           localStorage.setItem('profile', user)
+         }
+
+         this.userProfile = user
+         this.loggedInStatus.next('update')
+       if (redirectUrl) {
+           this.router.navigate([redirectUrl])
+       } else {
+           this.router.navigate(['/me'])
+       }
+      //ga('set', 'userId', user.user_id)
+    });
+  }
+
+
+  public login(data) {
+    console.log('logging in')
+    //event.preventDefault()
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('redirectUrl', this.router.url)
     }
-    this.lock.show()
+    this.auth0.client.login({
+      realm: 'Username-Password-Authentication', //connection name or HRD domain
+      username: data.email,
+      password: data.password,
+      scope: 'read:order write:order',
+      }, function(err, authResult) {
+        console.log('There was an error', err)
+        if(err) return err
+        console.log('The result', authResult)
+
+    });
   }
 
   public signup(event: any) {
