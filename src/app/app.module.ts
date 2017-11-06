@@ -57,7 +57,8 @@ import { ProfileResolver } from './components/profile/profile.resolver'
 import { UserListsComponent } from './components/profile/lists.component'
 import { UserListComponent } from './components/profile/list.component'
 import { Angulartics2Module } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga/angulartics2-ga'
+
 import { FeedbackComponent } from './components/shared/feedback.component'
 import { RmAuthComponent } from './components/profile/rm-auth.component'
 import { MetaGuard } from '@ngx-meta/core'
@@ -265,6 +266,7 @@ export function metaFactory(): MetaLoader {
     RmAuthComponent
   ],
   imports: [
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     // PopoverModule,
     BrowserModule,
     // ClipboardModule,
@@ -280,7 +282,6 @@ export function metaFactory(): MetaLoader {
       useFactory: (metaFactory)
     }),
     SwiperModule,
-    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ])
   ],
   providers: [
     AUTH_PROVIDERS,

@@ -5,7 +5,7 @@ import {Observable} from 'rxjs'
 import {AuthHttp} from 'angular2-jwt'
 
 import * as _ from 'lodash'
-import {Http} from "@angular/http";
+import {Http} from "@angular/http"
 
 @Injectable()
 export class ProfileResolver implements Resolve<Profile> {
@@ -19,7 +19,7 @@ export class ProfileResolver implements Resolve<Profile> {
         if (!!localStorage.getItem('rmlogin')) {
             return this.plainHttp.get(this.profileUrl)
                 .map(r => r.json())
-                .map(Profile.hydrate);
+                .map(Profile.hydrate)
         }
         return this.http.get(this.profileUrl)
             .map(r => r.json())

@@ -10,7 +10,7 @@ import { ContentTypes } from './../../../definitions/content-types'
 import { KeyStages } from './../../../definitions/key-stages'
 import { ListService } from './../../../services/list.service'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import * as _ from 'lodash'
 import 'rxjs/add/operator/map'
@@ -49,9 +49,8 @@ export class ListFilterComponent implements OnInit {
     private dataService: DataService,
     private location: Location,
     private formBuilder: FormBuilder,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private angulartics2: Angulartics2
 
+    public angulartics2: Angulartics2
   ) {
     listService.pathToReset$.subscribe(
       query => {
@@ -104,15 +103,15 @@ export class ListFilterComponent implements OnInit {
         this.ListingComponent.itemCount = data.hits.total
         this.ListingComponent.items = data.hits.hits
         _.each(this.ListingComponent.items, (item) => {
-          item._source.description = this.dataService.trimDescription(item._source.description)
-          if (_.endsWith(item._source.description, '...')) {
-            item.readMore = true
+          item['_source'].description = this.dataService.trimDescription(item['_source'].description)
+          if (_.endsWith(item['_source'].description, '...')) {
+            item['readMore'] = true
           }
           _.each(this.categories, (category) => {
             _.each(category.topics, (subCategory) => {
-              _.each(item._source.topic, (topic) => {
+              _.each(item['_source'].topic, (topic) => {
                 if (topic === subCategory.label) {
-                  item._source.category = category
+                  item['_source'].category = category
                 }
               })
             })
@@ -126,7 +125,8 @@ export class ListFilterComponent implements OnInit {
           item.contenttypes = []
           _.each(item.typesCount, (type, key) => {
             let typestring = key.replace('_', ' ')
-            if (_.findIndex(this.types, {'term': key}) !== -1) {
+            if (_.findIndex(this.types, type => {
+              return type.term === key}) !== -1) {
               item.contenttypes.push({'label': typestring, 'class': 'btn-' + key.replace('_', '-'), 'query': { 'tab': key}})
             }
           })
@@ -212,7 +212,9 @@ export class ListFilterComponent implements OnInit {
         this.category = _.filter(this.categories, {slug: category})
         this.displayTopics(this.category[0].name)
       } else {
-        if (_.findIndex(this.topics, {active: true}) === -1) {
+        if (_.findIndex(this.topics, (topic) => {
+          return topic.active === true
+        }) === -1) {
           this.clearCategory()
         }
       }
@@ -541,7 +543,9 @@ export class ListFilterComponent implements OnInit {
       this.currentParams['topics'] = paramTopics.join()
       delete this.currentParams.category
 
-    if (_.findIndex(this.topics, { 'active': true}) === -1) {
+    if (_.findIndex(this.topics,(topic) => {
+      return topic.active === true
+    }) === -1) {
       _.each(this.topics, (topic) => {
         topic.active = false
       })
@@ -596,7 +600,9 @@ export class ListFilterComponent implements OnInit {
   }
 
   filterActive() {
-    return (this.filter.value.term || this.filterSubjects !== 'All' || _.findIndex(this.types, { 'active': true}) !== -1 || _.findIndex(this.keystages, { 'active': true}) !== -1 || this.category !== null ) ? true : false
+    return (this.filter.value.term || this.filterSubjects !== 'All' || _.findIndex(this.types, type => {
+      return type.active === true }) !== -1 || _.findIndex(this.keystages, keystage => {
+        return keystage.active === true }) !== -1 || this.category !== null ) ? true : false
   }
 
   subjectsActive(subject: any) {

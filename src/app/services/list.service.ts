@@ -23,10 +23,10 @@ export class ListService {
 
   pageTitle(subject: string, keystages: any[], types: any[], term: string, categories: string, topics: any[]) {
     let categoriesString: string = (_.isUndefined(categories) || categories === '') ? '' : categories
-    let topicsString: string = (_.findIndex(types, { 'active': true}) === -1 || (_.findLastIndex(types, { 'active': true}) === types.length)) ? this.stringifyTitleArray(topics) : ''
+    let topicsString: string = (_.findIndex(types, (type) => { return type.active === true}) === -1 || (_.findLastIndex(types, (type) => { return type.active === true}) === types.length)) ? this.stringifyTitleArray(topics) : ''
     let subjectString: string = (subject === 'All') ? '' : subject
-    let keystagesString: string = (_.findIndex(keystages, { 'active': true}) === -1) ? '' : 'Key Stage ' + this.stringifyTitleArray(keystages)
-    let typesString: string = (_.findIndex(types, { 'active': true}) === -1) ? '' : this.stringifyTitleArray(types)
+    let keystagesString: string = (_.findIndex(keystages, (keyStage) => { return keyStage.active === true}) === -1) ? '' : 'Key Stage ' + this.stringifyTitleArray(keystages)
+    let typesString: string = (_.findIndex(types, (type) => { return type.active === true}) === -1) ? '' : this.stringifyTitleArray(types)
     let termString: string = (term === null || term === '') ? '' : term
     if (topicsString !== '') {
       categoriesString = ''

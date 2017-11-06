@@ -4,7 +4,7 @@ import * as _ from 'lodash'
 import {AuthHttp} from 'angular2-jwt'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 
 @Component({
   selector: 'app-lists',
@@ -42,9 +42,8 @@ export class UserListsComponent {
     public route: ActivatedRoute,
     public router: Router,
     public http: AuthHttp,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private angulartics2: Angulartics2
 
+    public angulartics2: Angulartics2
   ) {
       route.data.subscribe(data => {
           this.profile = data['profile']
@@ -106,7 +105,9 @@ export class UserListsComponent {
         }
       })
       setTimeout(() => {
-         _.remove(this.lists, {'key': key})
+         _.remove(this.lists, list => {
+           return list.key === key
+         })
        }, 200)
     })
   }
