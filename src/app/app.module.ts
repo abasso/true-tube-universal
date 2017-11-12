@@ -18,6 +18,7 @@ import { AudioComponent } from './components/content/item/audio.component'
 import { ListFilterComponent } from './components/content/listing/filter.component'
 import { ListingSortComponent } from './components/content/listing/sort.component'
 import { DataService } from './services/data.service'
+import { ValidationService } from './services/validation.service'
 import { ListService } from './services/list.service'
 import { UserService } from './services/user.service'
 import { MetaService } from './services/meta.service'
@@ -37,6 +38,7 @@ import { HomeSortComponent } from './components/content/home/sort.component'
 import { CarouselComponent } from './components/content/home/carousel.component'
 import { PartnersCarouselComponent } from './components/shared/partners-carousel.component'
 import { LoginComponent } from './components/shared/login.component'
+import { RegisterComponent } from './components/content/register/register.component'
 // import { SwiperModule } from 'ngx-swiper-wrapper'
 // import { SwiperConfigInterface } from 'ngx-swiper-wrapper'
 import { SwiperModule } from '../../node_modules/angular2-useful-swiper'
@@ -63,6 +65,7 @@ import { FeedbackComponent } from './components/shared/feedback.component'
 import { RmAuthComponent } from './components/profile/rm-auth.component'
 import { MetaGuard } from '@ngx-meta/core'
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core'
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 
 // import {PopoverModule} from 'ngx-popover'
 
@@ -179,6 +182,10 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
     path: 'me/lists',
     component: UserListsComponent,
     canActivate: [LoggedInGuard],
@@ -251,11 +258,11 @@ export function metaFactory(): MetaLoader {
     PagesNavComponent,
     PaginationPipe,
     PartnersCarouselComponent,
-    VideoComponent,
     AudioComponent,
     PrimaryNavComponent,
     ProfileComponent,
     QueryStringPipe,
+    RegisterComponent,
     SanitiseUrlPipe,
     SearchComponent,
     TopicsComponent,
@@ -263,7 +270,8 @@ export function metaFactory(): MetaLoader {
     UserListsComponent,
     UserNavComponent,
     FeedbackComponent,
-    RmAuthComponent
+    RmAuthComponent,
+    VideoComponent
   ],
   imports: [
     // PopoverModule,
@@ -273,13 +281,14 @@ export function metaFactory(): MetaLoader {
       confirmButtonType: 'danger'
     }),
     FormsModule,
-    HttpModule,
     ReactiveFormsModule,
+    HttpModule,
     RouterModule.forRoot(appRoutes),
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: (metaFactory)
     }),
+    NgbModule.forRoot(),
     SwiperModule,
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
 
@@ -291,6 +300,7 @@ export function metaFactory(): MetaLoader {
     ListFilterComponent,
     ListingComponent,
     ListService,
+    ValidationService,
     MetaService,
     LoggedInGuard,
     ProfileResolver,

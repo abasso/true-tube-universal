@@ -15,6 +15,7 @@ export const ROUTES: string[] = [
   '/partners',
   '/terms-and-conditions',
   '/privacy-and-cookies',
+  '/register',
   '/about',
   '/films',
   '/lesson plans',

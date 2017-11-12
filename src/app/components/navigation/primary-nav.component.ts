@@ -1,9 +1,6 @@
 import { PLATFORM_ID, Component, OnInit, Output, EventEmitter, Inject } from '@angular/core'
 import { ListFilterComponent } from './../content/listing/filter.component'
 import { Angulartics2 } from 'angulartics2'
-
-// import {PopoverModule} from 'ngx-popover'
-
 import { ContentTypes } from './../../definitions/content-types'
 import { ListService } from './../../services/list.service'
 import { ItemComponent } from './../content/item/item.component'
@@ -18,7 +15,7 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 export class PrimaryNavComponent implements OnInit {
   @Output() searchSubmitted = new EventEmitter()
   @Output() menuClick = new EventEmitter()
-  @Output() loginClick = new EventEmitter()
+  //@Output() loginClick = new EventEmitter()
   public items: any[]
   public item: any = ItemComponent
   constructor(
@@ -49,8 +46,8 @@ export class PrimaryNavComponent implements OnInit {
   }
 
   login(event: any) {
-    // this.auth.login(event)
-    this.loginClick.emit(event)
+    this.auth.login(event)
+    //this.loginClick.emit(event)
   }
 
   register(event: any) {

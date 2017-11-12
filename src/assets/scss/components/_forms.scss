@@ -1,38 +1,37 @@
 fieldset {
-  display:flex;
+  display: flex;
   font-weight: $font-weight-normal;
-  overflow:hidden;
-  max-height:20rem;
-  transition: all 0.8s;
-  margin-bottom:0.5rem;
+  overflow: hidden;
+  max-height: 20rem;
+  transition: all .8s;
+  margin-bottom: .5rem;
 
   legend {
-    font-weight:normal;
+    font-weight: normal;
     .collapse-toggle {
-      border-top:solid 1px $gray-lighter;
+      border-top: solid 1px $gray-lighter;
       font-size: $font-size-sm;
-      width:100%;
-      padding:1rem 0;
+      width: 100%;
+      padding: 1rem 0;
       &:after {
-        transition: all 0.8s;
-        content:"";
-        position:absolute;
-        right:0;
-        top:1.5rem;
-        background:no-repeat right center url("/assets/images/arrow-down_black.svg") ;
-        background-size:10px 10px;
-        width:10px;
-        height:10px;
+        transition: all .8s;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 1.5rem;
+        background: no-repeat right center url('/assets/images/arrow-down_black.svg') ;
+        background-size: 10px 10px;
+        width: 10px;
+        height: 10px;
       }
     }
-
   }
   &.collapsed {
-    max-height:3rem;
+    max-height: 3rem;
     legend {
       .collapse-toggle {
         &:after {
-          transform:rotate(180deg);
+          transform: rotate(180deg);
         }
       }
     }
@@ -40,41 +39,22 @@ fieldset {
 }
 
 .clear {
-  margin-left:0.75rem;
-  color:$gray-light;
-  border-bottom:dotted 1px $gray-lighter;
+  margin-left: .75rem;
+  color: $gray-light;
+  border-bottom: dotted 1px $gray-lighter;
   font-weight: $font-weight-normal;
-  font-size:$font-size-xs;
-  cursor:pointer;
+  font-size: $font-size-xs;
+  cursor: pointer;
   &:hover {
-    color:$gray;
+    color: $gray;
   }
 }
 
 .form-control-feedback {
-  font-size:$font-size-xs;
-  padding:.25rem .5rem;
-  background:$brand-red;
-  color:white;
-  border-radius:$border-radius-xs;
-  margin-top:-0.12rem;
-}
-
-// input:required:invalid, input:focus:invalid {
-//   background:no-repeat 99% center url("../../images/error.svg");
-//   background-size:20px 20px;
-// }
-.register, .modal-login {
-  input {
-    &:required {
-      &:valid {
-        background:no-repeat 99% center url("/assets/images/correct.svg");
-        background-size:20px 20px;
-      }
-    }
-    &:valid {
-      background:no-repeat 99% center url("/assets/images/correct.svg");
-      background-size:20px 20px;
-    }
-  }
+  font-size: $font-size-xs;
+  padding: .25rem .5rem;
+  background: $brand-red;
+  color: white;
+  border-radius: $border-radius-xs;
+  margin-top: -.12rem;
 }

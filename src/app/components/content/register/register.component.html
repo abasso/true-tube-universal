@@ -1,0 +1,121 @@
+
+<div class="row register">
+  <div class="col-xs-12 col-ml-12 col-xl-9 register-form">
+    <div class="content-header wrap-title m-t-1">
+      <div class="page-title-wrapper">
+        <div class="row register">
+        <h1 *ngIf="userType" class="page-title">
+          Register as a {{userTitle}}
+        </h1>
+        <h1 *ngIf="!userType" class="page-title">
+          Register for Free
+        </h1><br>
+        <h4 *ngIf="!userType">All of our accounts are <span>100% free forever</span> and have full access to the complete range of content on the site.</h4>
+        <!-- <h2>Which account do you need?</h2> -->
+        </div>
+        <div class="switch-registration" *ngIf="userType">Don't want to register as a {{userType}}? <a (click)="userType=null">Go back</a></div>
+        <div class="row register-types" *ngIf="!userType">
+
+            <div class="register-type">
+              <h3>Teacher</h3>
+              <ul>
+                <li>View unlimited content on the site</li>
+                <li>Save Favourites</li>
+                <li>Create and save lists</li>
+                <li>Download videos for offline viewing</li>
+                <li>Download lesson plans and supporting material</li>
+                <li>Student passcode to give to students to view content</li>
+              </ul>
+              <a class="btn btn-login" (click)="setUserType('teacher')">Choose</a>
+            </div>
+            <div class="register-type">
+              <h3>Student</h3>
+              <ul>
+                <li>View unlimited content on the site</li>
+                <li>Save Favourites</li>
+                <li>Create and save lists</li>
+                <li>Download videos for offline viewing</li>
+                <li>Download lesson plans and supporting material</li>
+              </ul>
+              <a class="btn btn-login" (click)="setUserType('student')">Choose</a>
+            </div>
+            <div class="register-type">
+              <h3>Other</h3>
+              <ul>
+                <li>View unlimited content on the site</li>
+                <li>Save Favourites</li>
+                <li>Create and save lists</li>
+                <li>Download videos for offline viewing</li>
+                <li>Download lesson plans and supporting material</li>
+              </ul>
+              <a class="btn btn-login" (click)="setUserType('other')">Choose</a>
+            </div>
+        </div>
+
+
+        <form [formGroup]="form" (ngSubmit)="register(form)">
+          <div class="form-teacher" *ngIf="userType === 'teacher'">
+            <div class="form-group" [ngClass]="{ 'error': formErrors.email === true }">
+              <label for="email">Email (required)</label>
+              <input required id="email" formControlName="email" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.email">A valid email is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'error': formErrors.password === true }">
+              <label for="password">Password (required)</label>
+              <input required type="password" formControlName="password" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.password">A valid password is required</div>
+            </div>
+            <div class="form-group">
+              <label for="email">Teacher Type (required)</label>
+              <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value)">
+                <option disabled selected>What kind of teacher are you?</option>
+                <option value="permanent">Permanent Teacher</option>
+                <option value="private">Private Teacher</option>
+                <option value="supply">Supply Teacher</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="teacherTypeSelect">
+              <label for="email">Location (required)</label>
+              <select required class="custom-select form-control" #countrySelect formControlName="countrySelect" (change)="setLocation(countrySelect.value)">
+                <option disabled selected>Please choose your location</option>
+                <option value="england">England</option>
+                <option value="scotland">Scotland</option>
+                <option value="wales">Wales</option>
+                <option value="ireland">Ireland</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="showAuthority">
+              <label for="email">Local Authority (required)</label>
+              <!-- <input type="type" formControlName="authority" /> -->
+              <input formControlName="authority" id="typeahead-authority" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" />
+
+            </div>
+
+            <div class="form-group" *ngIf="location">
+              <label for="email">School (required)</label>
+              <!-- <input type="type" formControlName="authority" /> -->
+              <input required id="typeahead-school" type="text" class="form-control" [ngbTypeahead]="searchSchools"/>
+
+            </div>
+            <div class="button-group">
+              <button type="submit" class="btn btn-login">Register</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-ml-12 col-xl-3">
+    <div class="registration-prompt">
+      <h2>Why Register?</h2>
+      <h4>For You</h4>
+      <p>By registering you get the ability to watch, view and download the unlimited range of content on our site. It also gives you access to tools and functions to help you manage and organise our content. Check out the features etc above.</p>
+      <h4>For Us</h4>
+      <p><strong>We are proud of the fact we can offer our amazing range of content completely free.</strong></p>
+      <p>To continue to do this we need to understand our users and how they interact with our productions, it helps guide us in what to make and what you like, by registering you enable us to do this.</p>
+
+    </div>
+  </div>
+</div>

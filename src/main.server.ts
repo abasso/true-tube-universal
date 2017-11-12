@@ -8,7 +8,7 @@ import { ServerAppModule } from './app/server-app.module';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { ROUTES } from './routes';
 import { enableProdMode } from '@angular/core';
-enableProdMode();
+// enableProdMode();
 const app = express();
 const port = 8081;
 const baseUrl = `http://localhost:${port}`;

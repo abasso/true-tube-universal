@@ -19,6 +19,8 @@ export class DataService {
   private eventsUrl = this.baseUrl + 'events/_search?sort=date.value:desc'
   private pagesUrl = this.baseUrl + 'pages/_search'
   private itemPageUrl = this.baseUrl + 'item_pages/page'
+  private schoolsUrl = this.baseUrl + 'schools/_search'
+  private districtUrl = 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LAD_DEC_2016_UK_NC/FeatureServer/0/query?where=1%3D1&outFields=LAD16NM&outSR=4326&f=json'
 
   constructor(
     private http: Http,
@@ -207,6 +209,23 @@ export class DataService {
     return this.http
     .get(this.eventsUrl, { search })
     .map((response) => (response.json()))
+  }
+
+  districts() {
+    return this.http
+    .get(this.districtUrl)
+    .map((response) => ( response.json()))
+  }
+
+  schools(district) {
+    console.log('school search')
+    console.log(district)
+    let search: any = new URLSearchParams()
+    search.set('q', 'la_name:' + district)
+    search.set('size', '5000')
+    return this.http
+    .get(this.schoolsUrl, { search })
+    .map((response) => ( response.json()))
   }
 
   pages(page: string = null) {

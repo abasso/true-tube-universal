@@ -5,7 +5,9 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga/angulartics2-ga'
   selector: 'app-root',
   templateUrl: './app.component.html',
   encapsulation: ViewEncapsulation.None,
-
+  styleUrls: [
+  './../styles.scss'
+  ],
 })
 export class AppComponent implements OnInit {
   constructor(
