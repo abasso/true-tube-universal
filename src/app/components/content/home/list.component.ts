@@ -6,8 +6,6 @@ import { ListService } from './../../../services/list.service'
 import { Categories } from './../../../definitions/categories'
 import { ContentTypes } from './../../../definitions/content-types'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
-
 import * as _ from 'lodash'
 
 @Component({
@@ -42,9 +40,8 @@ export class HomeListingComponent implements OnInit {
   constructor(
     public dataService: DataService,
     public listService: ListService,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private angulartics2: Angulartics2
-  ) {
+    public angulartics2: Angulartics2
+    ) {
     this.paginationData = {
       currentPage: 0,
       itemsPerPage: 6,
@@ -76,15 +73,15 @@ export class HomeListingComponent implements OnInit {
             })
             this.items = data.hits.hits
             _.each(this.items, (item) => {
-              item._source.description = this.dataService.trimDescription(item._source.description)
-              if (_.endsWith(item._source.description, '...')) {
-                item.readMore = true
+              item['_source'].description = this.dataService.trimDescription(item['_source'].description)
+              if (_.endsWith(item['_source'].description, '...')) {
+                item['readMore'] = true
               }
               _.each(this.categories, (category) => {
                 _.each(category.topics, (subCategory) => {
-                  _.each(item._source.topic, (topic) => {
+                  _.each(item['_source'].topic, (topic) => {
                     if (topic === subCategory.label) {
-                      item._source.category = category
+                      item['_source'].category = category
                     }
                   })
                 })

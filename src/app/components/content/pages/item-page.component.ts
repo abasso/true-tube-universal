@@ -2,7 +2,7 @@ import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
 import { DataService } from './../../../services/data.service'
 import { ActivatedRoute } from '@angular/router'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 import * as _ from 'lodash'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
@@ -19,7 +19,7 @@ export class ItemPageComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private dataService: DataService,
     private route: ActivatedRoute,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    
     private angulartics2: Angulartics2
   ) {
   }

@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 var EventsBlockComponent = (function () {
     function EventsBlockComponent(dataService, angulartics2GoogleAnalytics, angulartics2) {
         var _this = this;

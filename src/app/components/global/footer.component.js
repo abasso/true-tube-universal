@@ -13,7 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { PLATFORM_ID, Component, Inject } from '@angular/core';
 import * as moment from 'moment';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import * as Cookies from 'js-cookie';
 import { isPlatformBrowser } from '@angular/common';
 var FooterComponent = (function () {

@@ -5,7 +5,7 @@ import { Categories } from './../../../definitions/categories'
 import * as Cookies from 'js-cookie'
 import * as _ from 'lodash'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
 @Component({
@@ -23,7 +23,7 @@ export class HomeSortComponent {
     @Inject(PLATFORM_ID) private platformId: Object,
     public ListingComponent: HomeListingComponent,
     public dataService: DataService,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    
     private angulartics2: Angulartics2
   ) {
     this.setListDisplay((_.isUndefined(Cookies.get('list-display'))) ? 'grid' : Cookies.get('list-display'))

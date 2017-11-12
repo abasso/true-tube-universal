@@ -3,7 +3,7 @@ import {Profile} from './profile.model'
 import {ActivatedRoute} from '@angular/router'
 import * as _ from 'lodash'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 import {AuthHttp} from 'angular2-jwt'
 import { DataService } from './../../services/data.service'
 import { Auth } from './../../services/auth.service'

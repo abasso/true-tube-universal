@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 import {ActivatedRoute, Router} from '@angular/router'
 import * as _ from 'lodash'
 
@@ -32,7 +32,7 @@ export class UserNavComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    
     private angulartics2: Angulartics2
   ) {
 

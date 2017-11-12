@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 import { PLATFORM_ID, Component, Input, ViewChild, ElementRef, Inject } from '@angular/core';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import * as _ from 'lodash';
 import { isPlatformBrowser } from '@angular/common';
 var VideoComponent = (function () {

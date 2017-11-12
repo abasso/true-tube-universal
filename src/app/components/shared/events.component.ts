@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs/Rx'
 import * as moment from 'moment'
 import * as _ from 'lodash'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 
 @Component({
   selector: 'app-events-block',
@@ -23,7 +23,7 @@ export class EventsBlockComponent implements OnInit {
   public items: any[] = []
   constructor(
     public dataService: DataService,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    
     private angulartics2: Angulartics2
 
   ) {

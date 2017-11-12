@@ -15,7 +15,7 @@ import * as Cookies from 'js-cookie';
 import * as _ from 'lodash';
 import { Auth } from './../../services/auth.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import { isPlatformBrowser } from '@angular/common';
 var CallToActionComponent = (function () {
     function CallToActionComponent(platformId, auth, angulartics2GoogleAnalytics, angulartics2) {

@@ -13,7 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { PLATFORM_ID, Component, Output, EventEmitter, Inject } from '@angular/core';
 import { ListFilterComponent } from './../content/listing/filter.component';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 // import {PopoverModule} from 'ngx-popover'
 import { ContentTypes } from './../../definitions/content-types';
 import { ListService } from './../../services/list.service';

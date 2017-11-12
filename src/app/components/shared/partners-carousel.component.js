@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { DataService } from './../../services/data.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 var PartnersCarouselComponent = (function () {
     function PartnersCarouselComponent(dataService, angulartics2GoogleAnalytics, angulartics2) {
         this.dataService = dataService;

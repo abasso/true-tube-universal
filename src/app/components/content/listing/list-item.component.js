@@ -14,7 +14,7 @@ import { ImagePipe } from './../../../pipes/image.pipe';
 import { ListFilterComponent } from './filter.component';
 import { ActivatedRoute } from '@angular/router';
 import { Angulartics2 } from 'angulartics2/dist/core/angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import * as _ from 'lodash';
 var ListItemComponent = (function () {
     function ListItemComponent(route, dataService, angulartics2GoogleAnalytics, angulartics2, listFilterComponent) {

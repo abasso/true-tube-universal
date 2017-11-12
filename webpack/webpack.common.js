@@ -8,7 +8,8 @@ var path = require('path')
 module.exports = {
   devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    unsafeCache: true
   },
   output: {
     path: root('dist')
@@ -16,19 +17,12 @@ module.exports = {
   module: {
     rules: [
       { test: /\.ts$/, loader: '@ngtools/webpack' },
-      { test: /\.css$/, loader: 'raw-loader' },
+      { test: /\.css$/,
+        use: ['raw-loader', 'css-loader']
+      },
       { test: /\.html$/, loader: 'raw-loader' },
       { test: /\.scss$/,
-        use: [{
-            loader: 'style-loader'
-        }, {
-            loader: 'css-loader'
-        }, {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ["styles.scss"]
-            }
-        }]
+        use: ['raw-loader', 'sass-loader']
       }
     ]
   },

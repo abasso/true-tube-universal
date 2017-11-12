@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataService } from './../../services/data.service';
 import { AuthHttp } from 'angular2-jwt';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import * as _ from 'lodash';
 var UserListComponent = (function () {
     function UserListComponent(route, dataService, http, angulartics2GoogleAnalytics, angulartics2) {

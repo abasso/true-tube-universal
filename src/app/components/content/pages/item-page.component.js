@@ -14,7 +14,7 @@ import { PLATFORM_ID, Component, Inject } from '@angular/core';
 import { DataService } from './../../../services/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import * as _ from 'lodash';
 import { isPlatformBrowser } from '@angular/common';
 var ItemPageComponent = (function () {

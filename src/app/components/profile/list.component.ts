@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router'
 import { DataService } from './../../services/data.service'
 import {AuthHttp} from 'angular2-jwt'
 import { Angulartics2 } from 'angulartics2'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga'
+
 
 import * as _ from 'lodash'
 
@@ -29,8 +29,8 @@ export class UserListComponent {
     public route: ActivatedRoute,
     private dataService: DataService,
     public http: AuthHttp,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    private angulartics2: Angulartics2
+
+    public angulartics2: Angulartics2
   ) {
     this.data = this.route.params
     .switchMap((params: Params) => this.dataService.userList(params['id']))
@@ -42,8 +42,8 @@ export class UserListComponent {
         .map(params => params['id'])
         .subscribe((id) => {
           this.id = id
-          this.deleteDialogTitle = 'Remove from ' + data.title + '?'
-          this.title = data.title + ' (' + this.items.length + ' Item' + ((this.items.length > 1) ? 's' : '') + ')'
+          this.deleteDialogTitle = 'Remove from ' + this.id + '?'
+          this.title = this.id + ' (' + this.items.length + ' Item' + ((this.items.length > 1) ? 's' : '') + ')'
         })
         _.each(this.items, (item) => {
           item.contenttypes = []
@@ -92,7 +92,9 @@ export class UserListComponent {
         }
       })
       setTimeout(() => {
-         _.remove(this.items, {'id': key})
+         _.remove(this.items, item => {
+           return item.id === key
+         })
          this.title = this.data.title + ' (' + this.items.length + ' Item' + ((this.items.length > 1) ? 's' : '') + ')'
        }, 200)
     })

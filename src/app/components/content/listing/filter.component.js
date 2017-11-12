@@ -22,7 +22,7 @@ import { ContentTypes } from './../../../definitions/content-types';
 import { KeyStages } from './../../../definitions/key-stages';
 import { ListService } from './../../../services/list.service';
 import { Angulartics2 } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/dist/providers/ga/angulartics2-ga';
+
 import { isPlatformBrowser } from '@angular/common';
 import * as _ from 'lodash';
 import 'rxjs/add/operator/map';
