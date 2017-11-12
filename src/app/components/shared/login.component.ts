@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
           this.auth.isAuthed(authResult)
           this.showLogin = false
         }
-    });
+    })
   }
 
 }

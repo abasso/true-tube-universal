@@ -31,6 +31,7 @@ import { SanitiseUrlPipe } from './pipes/sanitise-url.pipe'
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover'
 import { Auth, AUTH_PROVIDERS, LoggedInGuard } from './services/auth.service'
 // import { ClipboardModule } from 'ngx-clipboard'
+import { AuthRedirectComponent } from './components/global/authRedirect.component'
 import { FooterComponent } from './components/global/footer.component'
 import { HomeComponent } from './components/content/home/home.component'
 import { HomeListingComponent } from './components/content/home/list.component'
@@ -186,6 +187,10 @@ const appRoutes: Routes = [
     component: RegisterComponent
   },
   {
+    path: 'authcallback',
+    component: AuthRedirectComponent
+  },
+  {
     path: 'me/lists',
     component: UserListsComponent,
     canActivate: [LoggedInGuard],
@@ -230,6 +235,7 @@ export function metaFactory(): MetaLoader {
   declarations: [
     AccessibilityNavComponent,
     AppComponent,
+    AuthRedirectComponent,
     AttributePipe,
     AwardsComponent,
     CalendarComponent,

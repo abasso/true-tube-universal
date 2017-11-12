@@ -42,8 +42,8 @@ export class UserListComponent {
         .map(params => params['id'])
         .subscribe((id) => {
           this.id = id
-          this.deleteDialogTitle = 'Remove from ' + data.title + '?'
-          this.title = data.title + ' (' + this.items.length + ' Item' + ((this.items.length > 1) ? 's' : '') + ')'
+          this.deleteDialogTitle = 'Remove from ' + this.id + '?'
+          this.title = this.id + ' (' + this.items.length + ' Item' + ((this.items.length > 1) ? 's' : '') + ')'
         })
         _.each(this.items, (item) => {
           item.contenttypes = []

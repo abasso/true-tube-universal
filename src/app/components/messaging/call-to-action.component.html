@@ -1,7 +1,7 @@
 <div class="container">
 <div class="call-to-action-copy" *ngIf="!auth.authenticated()">
   Award-winning free resources for RE, PSHE and Citizenship
-  <button href="#" [routerLink]="register" class="btn btn-login" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Call To Action" [angularticsProperties]="{label: 'Register'}">Register for Free</button>
+  <button href="#" [routerLink]="/register" class="btn btn-login" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Call To Action" [angularticsProperties]="{label: 'Register'}">Register for Free</button>
 </div>
 <div class="call-to-action-copy call-to-action-tools" *ngIf="auth.authenticated()">
   <button href="#" [routerLink]="'me/lists'" class="btn btn-toolbox icon-list icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Lists'}">Lists</button>

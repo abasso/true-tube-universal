@@ -52,13 +52,12 @@ export class ProfileComponent {
     }
 
     passwordReminder() {
-      let userProfile = JSON.parse(localStorage.getItem('profile'))
       let header = new Headers()
       header.append('Content-Type', 'application/json')
       return this.http
       .post('https://truetube.eu.auth0.com/dbconnections/change_password', {
         'client_id': 'c1OIvYBFmOpdrUgXuHGD5j3KE7rjFSJT',
-        'email': userProfile['email'],
+        'email': this.profile.email,
         'connection': 'Username-Password-Authentication'
       }, { headers: header })
       .subscribe((response) => {

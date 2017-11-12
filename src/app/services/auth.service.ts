@@ -80,10 +80,10 @@ export class Auth {
   public isAuthed(authResult: any) {
     let redirectUrl: string = ''
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('token', authResult.idToken)
+      localStorage.setItem('token', authResult.id_token)
       redirectUrl = localStorage.getItem('redirectUrl')
     }
-    this.auth0.client.userInfo(authResult.accessToken, (err, user) => {
+    this.auth0.client.userInfo(authResult.access_token, (err, user) => {
       console.log(localStorage.getItem('token'));
       console.log(err)
       console.log(user)

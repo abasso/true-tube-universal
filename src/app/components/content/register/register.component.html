@@ -5,7 +5,7 @@
       <div class="page-title-wrapper">
         <div class="row register">
         <h1 *ngIf="userType" class="page-title">
-          Register as a {{userTitle}}
+          Register as {{userTitle}}
         </h1>
         <h1 *ngIf="!userType" class="page-title">
           Register for Free
@@ -51,10 +51,67 @@
               <a class="btn btn-login" (click)="setUserType('other')">Choose</a>
             </div>
         </div>
-
-
-        <form [formGroup]="form" (ngSubmit)="register(form)">
+        <form [formGroup]="form" (ngSubmit)="register(form)" *ngIf="form">
           <div class="form-teacher" *ngIf="userType === 'teacher'">
+            <input type="hidden" value="teacher" formControlName="memberType" />
+            <div class="form-group" [ngClass]="{ 'error': formErrors.email === true }">
+              <label for="email">Email (required)</label>
+              <input required id="email" formControlName="email" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.email">A valid email is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'error': formErrors.password === true }">
+              <label for="password">Password (required)</label>
+              <input required type="password" formControlName="password" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.password">A password is required</div>
+            </div>
+            <div class="form-group">
+              <label for="email">Type of Teacher (required)</label>
+              <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value)" (blur)="errorCheck(form)">
+                <option disabled selected>What kind of teacher are you?</option>
+                <option value="permanent">Permanent Teacher</option>
+                <option value="private">Private Teacher</option>
+                <option value="supply">Supply Teacher</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="form-error" *ngIf="formErrors.teacherTypeSelect">A type is required</div>
+            </div>
+            <div class="form-group" *ngIf="teacherTypeSelect">
+              <label for="email">Location (required)</label>
+              <select required class="custom-select form-control" #location formControlName="location" (change)="setLocation(location.value)" (blur)="errorCheck(form)">
+                <option disabled selected>Please choose your location</option>
+                <option value="england">England</option>
+                <option value="scotland">Scotland</option>
+                <option value="wales">Wales</option>
+                <option value="ireland">Ireland</option>
+                <option value="other">Other</option>
+              </select>
+              <div class="form-error" *ngIf="formErrors.location">A location is required</div>
+            </div>
+            <div class="form-group form-autofill" *ngIf="showAuthority">
+              <label for="email">Local Authority (required)</label>
+              <input formControlName="authority" id="typeahead-authority" placeholder="e.g. Brent" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.authority">A local authority is required</div>
+            </div>
+            <div class="form-group form-autofill" *ngIf="showSchools">
+              <label for="email">School (required)</label>
+              <input formControlName="school" required id="typeahead-school" placeholder="e.g. St Georges" type="text" class="form-control" [ngbTypeahead]="searchSchools" (click)="errorCheck(form)" (blur)="errorCheck(form)"/>
+              <div class="form-error" *ngIf="formErrors.school">A school authority is required</div>
+            </div>
+            <div class="form-group">
+              <label></label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
+                <div class="custom-control-indicator"></div>
+                <span class="custom-control-description">Newsletter</span>
+              </label>
+            </div>
+            <div class="button-group register-submit">
+              <button type="submit" class="btn btn-login">Register</button>
+              <div class="form-error" *ngIf="registrationError">{{registrationError}}</div>
+            </div>
+          </div>
+          <div class="form-student" *ngIf="userType === 'student'">
+            <input type="hidden" value="student" formControlName="memberType" />
             <div class="form-group" [ngClass]="{ 'error': formErrors.email === true }">
               <label for="email">Email (required)</label>
               <input required id="email" formControlName="email" (blur)="errorCheck(form)" />
@@ -66,41 +123,52 @@
               <div class="form-error" *ngIf="formErrors.password">A valid password is required</div>
             </div>
             <div class="form-group">
-              <label for="email">Teacher Type (required)</label>
-              <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value)">
-                <option disabled selected>What kind of teacher are you?</option>
-                <option value="permanent">Permanent Teacher</option>
-                <option value="private">Private Teacher</option>
-                <option value="supply">Supply Teacher</option>
+              <label for="email">Type of Student (required)</label>
+              <select required class="custom-select form-control" formControlName="studentTypeSelect" (blur)="errorCheck(form)" (click)="errorCheck(form)" #studentTypeSelect>
+                <option disabled selected>What kind of student are you?</option>
+                <option value="permanent">Permanent</option>
+                <option value="part time">Part Time</option>
+                <option value="mature">Mature</option>
                 <option value="other">Other</option>
               </select>
+              <div class="form-error" *ngIf="formErrors.studentTypeSelect">A student type is required</div>
             </div>
-            <div class="form-group" *ngIf="teacherTypeSelect">
-              <label for="email">Location (required)</label>
-              <select required class="custom-select form-control" #countrySelect formControlName="countrySelect" (change)="setLocation(countrySelect.value)">
-                <option disabled selected>Please choose your location</option>
-                <option value="england">England</option>
-                <option value="scotland">Scotland</option>
-                <option value="wales">Wales</option>
-                <option value="ireland">Ireland</option>
-                <option value="other">Other</option>
-              </select>
+            <div class="form-group">
+              <label></label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
+                <div class="custom-control-indicator"></div>
+                <span class="custom-control-description">Newsletter</span>
+              </label>
             </div>
-            <div class="form-group" *ngIf="showAuthority">
-              <label for="email">Local Authority (required)</label>
-              <!-- <input type="type" formControlName="authority" /> -->
-              <input formControlName="authority" id="typeahead-authority" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" />
-
-            </div>
-
-            <div class="form-group" *ngIf="location">
-              <label for="email">School (required)</label>
-              <!-- <input type="type" formControlName="authority" /> -->
-              <input required id="typeahead-school" type="text" class="form-control" [ngbTypeahead]="searchSchools"/>
-
-            </div>
-            <div class="button-group">
+            <div class="button-group register-submit">
               <button type="submit" class="btn btn-login">Register</button>
+              <div class="form-error" *ngIf="registrationError">{{registrationError}}</div>
+            </div>
+          </div>
+          <div class="form-other" *ngIf="userType === 'other'">
+            <input type="hidden" value="other" formControlName="memberType" />
+            <div class="form-group" [ngClass]="{ 'error': formErrors.email === true }">
+              <label for="email">Email (required)</label>
+              <input required id="email" formControlName="email" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.email">A valid email is required</div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'error': formErrors.password === true }">
+              <label for="password">Password (required)</label>
+              <input required type="password" formControlName="password" (blur)="errorCheck(form)" />
+              <div class="form-error" *ngIf="formErrors.password">A valid password is required</div>
+            </div>
+            <div class="form-group">
+              <label></label>
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
+                <div class="custom-control-indicator"></div>
+                <span class="custom-control-description">Newsletter</span>
+              </label>
+            </div>
+            <div class="button-group register-submit">
+              <button type="submit" class="btn btn-login">Register</button>
+              <div class="form-error" *ngIf="registrationError">{{registrationError}}</div>
             </div>
           </div>
         </form>

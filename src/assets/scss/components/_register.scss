@@ -2,14 +2,17 @@
 .register-form {
   h1 {
     padding-bottom: 1.5rem;
-    margin-top: 2rem;
     margin-bottom: 0;
     font-weight: 700;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     border-bottom: solid 2px $gray-lighter;
     width: 100%;
+    @media(min-width:$breakpoint-xl) {
+      margin-top: 2rem;
+      font-size: 2.5rem;
+    }
   }
   h2 {
     display: flex;
@@ -23,8 +26,6 @@
     justify-content: center;
   }
   h4 {
-    display: flex;
-    align-items: center;
     font-weight: 300;
     font-size: 1rem;
     margin-top: 2rem;
@@ -44,12 +45,21 @@
     border-radius: 3px;
     background: none;
     min-width: 300px;
+    @media(max-width:$breakpoint-md) {
+      width: 100%;
+    }
   }
   select {
     min-width: 300px;
+    @media(max-width:$breakpoint-md) {
+      width: 100%;
+    }
   }
   label {
     min-width: 300px;
+    @media(max-width:$breakpoint-md) {
+      width: 100%;
+    }
   }
   .page-title-wrapper {
     width: 100%;
@@ -73,6 +83,32 @@
       font-size: $font-size-sm;
       font-weight: 200;
       width: 300px;
+      @media(max-width:$breakpoint-md) {
+        width: 100%;
+      }
+    }
+  }
+  .form-autofill {
+    position: relative;
+    &:after {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      height: 16px;
+      width: 16px;
+      border: solid 3px $brand-red;
+      border-radius: 16px;
+      content: '';
+    }
+  }
+  .register-submit {
+    display: flex;
+    align-items: center;
+    .btn {
+      margin: 0 1rem 0 0;
+      @media(max-width:$breakpoint-md) {
+        width: 100%;
+      }
     }
   }
 }
