@@ -1,22 +1,22 @@
   <header class="c-header" role="banner">
   <div class="container">
     <div class="mobile-logo hidden-lg-up">
-			<a href="#" [routerLink]="['/']" class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
+			<a href="#" [routerLink]="['/']" class="c-logo-link" (click)="analyticsService.emitEvent('Primary Nav', 'Navigate', 'Home')">
 				<img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img" alt="TrueTube">
 			</a>
     </div>
-    <div class="mobile-nav__search" (click)="mobileSearch($event)"><a href="" class="mobile-nav__burger_search" (click)="mobileSearch($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Mobile Search'}"></a></div>
-    <div class="mobile-nav__burger" (click)="toggleMenu($event)"><a href="" class="mobile-nav__burger_link" (click)="toggleMenu($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Mobile Menu'}"></a></div>
+    <div class="mobile-nav__search" (click)="mobileSearch($event)"><a href="" class="mobile-nav__burger_search" (click)="mobileSearch($event); analyticsService.emitEvent('Primary Nav', 'Action', 'Mobile Search')"></a></div>
+    <div class="mobile-nav__burger" (click)="toggleMenu($event); analyticsService.emitEvent('Primary Nav', 'Action', 'Mobile Menu')"><a href="" class="mobile-nav__burger_link"></a></div>
   </div>
   <div class="menu-mobile" [ngClass]="{show: menuVisible}">
     <div class="container">
       <div class="mobile-logo">
-        <a href="#" [routerLink]="['/']"  class="c-logo-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Primary Nav" [angularticsProperties]="{label: 'Home'}">
+        <a href="#" [routerLink]="['/']"  class="c-logo-link" (click)="this.analyticsService.emitEvent('Primary Nav', 'Navigate', 'Home')">
           <img src="/assets/images/true-tube-logo_black.svg" class="logo c-logo-link__img hidden-md-down" alt="TrueTube">
           <img src="/assets/images/true-tube-logo_white.svg" class="logo c-logo-link__img hidden-md-up" alt="TrueTube">
         </a>
       </div>
-      <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" (loginClick)="openLogin($event)" id="primary-nav" class="primary-nav"></app-primary-nav>
+      <app-primary-nav #nav (searchSubmitted)="searchDone($event)" (menuClick)="searchDone($event)" id="primary-nav" class="primary-nav"></app-primary-nav>
     </div>
     <!-- <app-secondary-nav id="secondary-nav" class="secondary-nav"></app-secondary-nav> -->
 

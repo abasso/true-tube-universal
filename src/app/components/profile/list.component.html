@@ -16,7 +16,7 @@
       <div [ngClass]="{'row': true, 'list-row': true, 'content-grid': true}">
         <div class="list-item" *ngFor="let item of items">
           <div class="block-media__media" *ngIf="item.thumbnail">
-            <a [routerLink]="[item.slug]" class="block-media__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User List" [angularticsProperties]="{label: item.title}">
+            <a [routerLink]="[item.slug]" class="block-media__link" (click)="analyticsService.emitEvent('User List', 'Navigate', item.title)">
               <img [src]="item.thumbnail[0].url" alt="item.thumbnail[0].alt" />
               <div class="listing-time" *ngIf="item.duration">
                 {{ dataService.duration(item.duration) }}
@@ -26,20 +26,17 @@
           <div class="block-media__body">
               <h6 class="block-media__headline" *ngIf="item.title">
                 {{ item.title }}
-                <a href="#" (click)='highlightRow($event, item.title)' (blur)="unHighlightRow(item.title)" class="btn btn-assembly-plan user-list-delete btn-sm"
+                <a href="#" (click)="highlightRow($event, item.title); analyticsService.emitEvent('User List Remove', 'Action', item.title)" (blur)="unHighlightRow(item.title)" class="btn btn-assembly-plan user-list-delete btn-sm"
                 mwlConfirmationPopover
                 [title]="deleteDialogTitle"
                 placement="left"
                 (confirm)="removeItem($event, item.id)"
-                (cancel)="unHighlightRow(list.title)"
-                angulartics2On="click" angularticsEvent="Action" angularticsCategory="User List Remove" [angularticsProperties]="{label: item.title}"
-            >Remove</a>
+                (cancel)="unHighlightRow(list.title)">Remove</a>
               </h6>
-
             <p class="block-media__description small" [innerHTML]="item.description">
             </p>
             <div class="block-media__types" *ngIf="item.contenttypes">
-              <a [routerLink]="[item.slug]" [queryParams]="type.query" *ngFor="let type of item.contenttypes" class="btn btn-sm {{ type.class }}" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User List Type" [angularticsProperties]="{label: item.title + ' ' + type.label}">
+              <a [routerLink]="[item.slug]" [queryParams]="type.query" *ngFor="let type of item.contenttypes" class="btn btn-sm {{ type.class }}" (click)="analyticsService.emitEvent('User List Type', 'Navigate', item.title + ' ' + type.label)">
                 <span>
                   {{ type.label }}
                 </span>
@@ -48,7 +45,4 @@
           </div>
         </div>
       </div>
-
-
-
   </div>

@@ -3,6 +3,7 @@ import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import { DataService } from './../../../services/data.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { BehaviorSubject } from 'rxjs/Rx'
+import { AnalyticsService } from './../../../services/analytics.service'
 import * as moment from 'moment'
 import * as _ from 'lodash'
 
@@ -34,7 +35,8 @@ export class CalendarComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     public dataService: DataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public analyticsService: AnalyticsService
   ) {
     this.weeks.length = 42
     this.month = this.selectedMonth.subscribe(
@@ -230,6 +232,9 @@ export class CalendarComponent implements OnInit {
     if (currentMonth !== -6) {
       this.selectedMonth.next(currentMonth - 1)
     }
+    if (isPlatformBrowser(this.platformId)) {
+      this.analyticsService.emitEvent("Calendar Prev", "Action", "", 1)
+    }
   }
 
   nextMonth(event: any) {
@@ -238,6 +243,9 @@ export class CalendarComponent implements OnInit {
     console.log(currentMonth)
     if (currentMonth !== 18) {
       this.selectedMonth.next(currentMonth + 1)
+    }
+    if (isPlatformBrowser(this.platformId)) {
+      this.analyticsService.emitEvent("Calendar Next", "Action", "", 1)
     }
   }
 }

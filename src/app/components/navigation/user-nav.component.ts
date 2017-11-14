@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { Angulartics2 } from 'angulartics2'
-
 import {ActivatedRoute, Router} from '@angular/router'
 import * as _ from 'lodash'
 
@@ -31,10 +29,8 @@ export class UserNavComponent implements OnInit {
   ]
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-
-    public angulartics2: Angulartics2
-  ) {
+    private router: Router
+    ) {
 
    }
 

@@ -14,9 +14,6 @@
       <div class="list-item" *ngFor="let item of items.items">
         <div class="block-media__media">
           <img [src]="item.image" />
-          <!-- <div class="listing-time" *ngIf="related.duration">
-          {{ dataService.duration(related._source.duration) }}
-        </div> -->
       </div>
       <div class="block-media__body">
         <h5 class="block-media__headline" *ngIf="item.title">
@@ -27,7 +24,8 @@
         </h6>
         <p class="block-media__description " [innerHTML]="item.description">
         </p>
-        <a class="text-link listing-link" href="{{ item.link }}" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Item Page" [angularticsProperties]="{label: item.cleanLink}">{{ item.cleanLink }}</a>
+        <a class="text-link listing-link" href="{{ item.link }}" (click)="this.analyticsService.emitEvent('Item Page', 'Navigate', item.cleanLink)"
+        >{{ item.cleanLink }}</a>
       </div>
     </div>
   </div>

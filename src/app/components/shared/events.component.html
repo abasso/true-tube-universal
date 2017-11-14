@@ -11,7 +11,9 @@
       {{item.date}}
       </span>
       <span>
-      <a href="#" [routerLink]="item._source.slug" class="block-event__link text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Event Block" [angularticsProperties]="{label: item._source.title}">
+      <a href="#" [routerLink]="item._source.slug" class="block-event__link text-link"
+      (click)="analyticsService.emitEvent('Event Block', 'Navigate', item._source.title)"
+      >
       	{{item._source.title}}
       </a>
     </span>
@@ -19,11 +21,17 @@
     </div>
 
         <div class="month-selector">
-            <a href="#" (click)="prevMonth($event)" [ngClass]="{disabled: currentMonth === -6}" class=" btn-sm btn-month-back" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Event Block Previous"></a>
+            <a href="#" (click)="prevMonth($event)" [ngClass]="{disabled: currentMonth === -6}" class=" btn-sm btn-month-back"
+            (click)="analyticsService.emitEvent('Event Block Previous', 'Navigate')"
+            ></a>
 
-            <a href="#" (click)="nextMonth($event)" [ngClass]="{disabled: currentMonth === 18}" class="btn-sm btn-month-fwd" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Event Block Next"></a>
+            <a href="#" (click)="nextMonth($event)" [ngClass]="{disabled: currentMonth === 18}" class="btn-sm btn-month-fwd"
+            (click)="analyticsService.emitEvent('Event Block Next', 'Navigate')"
+            ></a>
 
         </div>
-        <a href="#" [routerLink]="'/calendar'" class="event-block__calendar text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Event Block Full Calendar">Full Calendar</a>
+        <a href="#" [routerLink]="'/calendar'" class="event-block__calendar text-link"
+        (click)="analyticsService.emitEvent('Event Block Full Calendar', 'Navigate')"
+        >Full Calendar</a>
 
   </div>

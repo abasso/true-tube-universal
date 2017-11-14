@@ -19,6 +19,7 @@ import { ListFilterComponent } from './components/content/listing/filter.compone
 import { ListingSortComponent } from './components/content/listing/sort.component'
 import { DataService } from './services/data.service'
 import { ValidationService } from './services/validation.service'
+import { AnalyticsService } from './services/analytics.service'
 import { ListService } from './services/list.service'
 import { UserService } from './services/user.service'
 import { MetaService } from './services/meta.service'
@@ -59,8 +60,6 @@ import { ProfileComponent } from './components/profile/profile.component'
 import { ProfileResolver } from './components/profile/profile.resolver'
 import { UserListsComponent } from './components/profile/lists.component'
 import { UserListComponent } from './components/profile/list.component'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga/angulartics2-ga'
-import { Angulartics2Module } from 'angulartics2'
 
 import { FeedbackComponent } from './components/shared/feedback.component'
 import { RmAuthComponent } from './components/profile/rm-auth.component'
@@ -209,6 +208,14 @@ const appRoutes: Routes = [
   {
     path: 'rmcallback',
     component: RmAuthComponent
+  },
+  {
+    path: 'page/:page',
+    component: PageComponent
+  },
+  {
+    path: ':page',
+    component: PageComponent
   }
 ]
 
@@ -289,15 +296,13 @@ export function metaFactory(): MetaLoader {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabled' }),
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: (metaFactory)
     }),
     NgbModule.forRoot(),
     SwiperModule,
-    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
-
   ],
   providers: [
     AUTH_PROVIDERS,
@@ -305,6 +310,7 @@ export function metaFactory(): MetaLoader {
     DataService,
     ListFilterComponent,
     ListingComponent,
+    AnalyticsService,
     ListService,
     ValidationService,
     MetaService,

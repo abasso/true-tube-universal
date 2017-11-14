@@ -5,7 +5,7 @@ import { Categories } from './../../../definitions/categories'
 import * as Cookies from 'js-cookie'
 import * as _ from 'lodash'
 
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
 @Component({
@@ -23,8 +23,7 @@ export class HomeSortComponent {
     @Inject(PLATFORM_ID) private platformId: Object,
     public ListingComponent: HomeListingComponent,
     public dataService: DataService,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) {
     this.setListDisplay((_.isUndefined(Cookies.get('list-display'))) ? 'grid' : Cookies.get('list-display'))
     this.currentPage = 0
@@ -49,7 +48,7 @@ export class HomeSortComponent {
     event.preventDefault()
     this.setListDisplay(type)
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Set List Type', label: type}})
+      this.analyticsService.emitEvent('Set List Type', 'Action', type)
     }
   }
 }

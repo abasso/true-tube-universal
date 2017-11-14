@@ -9,7 +9,7 @@ import { Subjects } from './../../../definitions/subjects'
 import { ContentTypes } from './../../../definitions/content-types'
 import { KeyStages } from './../../../definitions/key-stages'
 import { ListService } from './../../../services/list.service'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import * as _ from 'lodash'
@@ -49,8 +49,7 @@ export class ListFilterComponent implements OnInit {
     private dataService: DataService,
     private location: Location,
     private formBuilder: FormBuilder,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) {
     listService.pathToReset$.subscribe(
       query => {
@@ -301,7 +300,7 @@ export class ListFilterComponent implements OnInit {
       () => {
         this.currentParams['search'] = event.target.value
         if (isPlatformBrowser(this.platformId)) {
-          this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Search', label: event.target.value}})
+          this.analyticsService.emitEvent('Filter Search', 'Action', event.target.value)
         }
         this.setQueryString()
         this.ListingComponent.resetPagination()
@@ -314,7 +313,7 @@ export class ListFilterComponent implements OnInit {
     delete this.currentParams.search
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Clear Term'}})
+        this.analyticsService.emitEvent('Filter Clear Term', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -328,7 +327,7 @@ export class ListFilterComponent implements OnInit {
     delete this.currentParams.subject
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Clear Subject'}})
+        this.analyticsService.emitEvent('Filter Clear Subject', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -344,7 +343,7 @@ export class ListFilterComponent implements OnInit {
       category.active = false
     })
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Clear Category'}})
+      this.analyticsService.emitEvent('Filter Clear Category', 'Action')
     }
     delete this.currentParams.category
     this.setQueryString()
@@ -368,7 +367,7 @@ export class ListFilterComponent implements OnInit {
     delete this.currentParams.category
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Clear Category and Topics'}})
+        this.analyticsService.emitEvent('Filter Clear Category and Topics', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -391,7 +390,7 @@ export class ListFilterComponent implements OnInit {
     delete this.currentParams.topics
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Topics Clear'}})
+        this.analyticsService.emitEvent('Filter Topics Clear', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -411,7 +410,7 @@ export class ListFilterComponent implements OnInit {
     this.resetFilterState(this.types)
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Types Clear'}})
+        this.analyticsService.emitEvent('Filter Types Clear', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -424,7 +423,7 @@ export class ListFilterComponent implements OnInit {
     this.resetFilterState(this.keystages)
     if (event !== null) {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Keystages Clear'}})
+        this.analyticsService.emitEvent('Filter Keystages Clear', 'Action')
       }
       event.preventDefault()
       this.setQueryString()
@@ -435,7 +434,7 @@ export class ListFilterComponent implements OnInit {
     if (event !== null) {
       event.preventDefault()
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Clear All'}})
+        this.analyticsService.emitEvent('Filter Clear All', 'Action')
       }
     }
     this.contentLoading = true
@@ -464,7 +463,7 @@ export class ListFilterComponent implements OnInit {
     }
     this.currentParams[value.type] = filterQuery.join()
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter ' + _.capitalize(value.type), label: this.currentParams[value.type]}})
+      this.analyticsService.emitEvent('Filter ' + _.capitalize(value.type), 'Action', this.currentParams[value.type])
     }
     this.setQueryString()
   }
@@ -490,7 +489,7 @@ export class ListFilterComponent implements OnInit {
     this.contentLoading = true
     this.filterSubjects = (<HTMLSelectElement>event.srcElement).value
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Subject', label: this.filterSubjects}})
+      this.analyticsService.emitEvent('Filter Subject', 'Action', this.filterSubjects)
     }
     this.currentParams['subject'] = this.filterSubjects
     this.setQueryString()
@@ -551,7 +550,7 @@ export class ListFilterComponent implements OnInit {
       })
     }
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Topics', label: this.currentParams['topics']}})
+      this.analyticsService.emitEvent('Filter Topics', 'Action', this.currentParams['topics'])
     }
     this.setQueryString()
   }
@@ -582,7 +581,7 @@ export class ListFilterComponent implements OnInit {
     this.currentParams['category'] = this.category[0].slug
     delete this.currentParams['topics']
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Filter Category', label: this.currentParams['category']}})
+      this.analyticsService.emitEvent('Filter Category', 'Action', this.currentParams['category'])
     }
     this.setQueryString()
 

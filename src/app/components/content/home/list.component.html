@@ -5,5 +5,5 @@
 <app-list-item [ngClass]="{'row': true, 'grid-row': displayGrid, 'list-row': displayList, 'content-grid': true}" *ngIf="contentLoading === false" [items]="items" [paginationData]="paginationData"></app-list-item>
 
 <div class="load-more">
-  <a href="" class="btn-load-more" (click)="loadMore($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Homepage List Load More">Load More</a>
+  <a href="" class="btn-load-more" (click)="loadMore($event)">Load More</a>
 </div>

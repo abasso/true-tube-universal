@@ -1,5 +1,5 @@
 import { PLATFORM_ID, Component, OnInit, Input, ViewChild, ElementRef, OnChanges, OnDestroy, Inject} from '@angular/core'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
 
 import * as _ from 'lodash'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
@@ -20,10 +20,10 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('player') player: ElementRef
   private videoJSplayer: any
   public playHeadTime = 0
+  public hasBeenPlayed = false
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-
-    public angulartics2: Angulartics2  
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
@@ -50,7 +50,9 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
       if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         if (!_.isUndefined(this.videoJSplayer)) {
-          this.angulartics2.eventTrack.next({ action: 'Watch', properties: { category: 'Exit time ' + this.playHeadTime, title: this.embed.title}})
+          if (this.hasBeenPlayed === true) {
+            this.analyticsService.emitEvent('Exit time ' + this.playHeadTime, 'Watch', this.embed.title)
+          }
           this.videoJSplayer.dispose()
         }
       }, 1)
@@ -74,8 +76,9 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
               nativeTextTracks: false
             }})
               let v = document.getElementsByTagName('video')[0]
-              v.addEventListener('play', function(data) {
-                self.angulartics2.eventTrack.next({ action: 'Watch', properties: { category: 'Play', title: self.embed.title}})
+              v.addEventListener('play', (data) => {
+                this.hasBeenPlayed = true
+                this.analyticsService.emitEvent('Play', 'Watch', self.embed.title)
               }, true)
               v.addEventListener('progress', function(data) {
                 self.playHeadTime = self.videoJSplayer.currentTime()

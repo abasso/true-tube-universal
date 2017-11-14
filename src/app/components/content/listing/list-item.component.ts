@@ -4,7 +4,7 @@ import { PaginationPipe } from './../../../pipes/pagination.pipe'
 import { ImagePipe } from './../../../pipes/image.pipe'
 import { ListFilterComponent } from './filter.component'
 import { ActivatedRoute } from '@angular/router'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
 
 import * as _ from 'lodash'
 
@@ -23,7 +23,7 @@ export class ListItemComponent implements OnInit, OnChanges {
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
-    public angulartics2: Angulartics2,
+    public analyticsService: AnalyticsService,
     public listFilterComponent: ListFilterComponent,
   ) { }
 

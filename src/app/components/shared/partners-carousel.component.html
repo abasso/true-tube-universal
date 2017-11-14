@@ -2,11 +2,15 @@
 	<div class="container">
 		<div class="partners-carousel-header">
 		<h3>Our Partners</h3>
-    <a href="#" [routerLink]="'/partners'" class="text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Partner Carousel" [angularticsProperties]="{label: 'Work with us'}">Work with us</a>
+    <a href="#" [routerLink]="'/partners'" class="text-link"
+		(click)="analyticsService.emitEvent('Partner Carousel', 'Navigate', 'Work with us')"
+		>Work with us</a>
 	</div>
   <swiper [config]="carouselConfig">
     <div class="swiper-slide" *ngFor="let item of slides">
-        <a href="{{item.link}}" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Partner Carousel" [angularticsProperties]="{label: item.link}">
+        <a href="{{item.link}}"
+				(click)="analyticsService.emitEvent('Partner Carousel', 'Navigate', item.link)"
+				>
           <img src="{{item.image}}" alt="{{item.image.alt}}">
       </a>
     </div>

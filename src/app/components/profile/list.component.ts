@@ -3,7 +3,7 @@ import {Profile} from './profile.model'
 import { ActivatedRoute, Router, Params } from '@angular/router'
 import { DataService } from './../../services/data.service'
 import {AuthHttp} from 'angular2-jwt'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../services/analytics.service'
 
 
 import * as _ from 'lodash'
@@ -29,8 +29,7 @@ export class UserListComponent {
     public route: ActivatedRoute,
     private dataService: DataService,
     public http: AuthHttp,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) {
     this.data = this.route.params
     .switchMap((params: Params) => this.dataService.userList(params['id']))

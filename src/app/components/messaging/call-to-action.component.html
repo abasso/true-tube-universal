@@ -1,12 +1,19 @@
 <div class="container">
 <div class="call-to-action-copy" *ngIf="!auth.authenticated()">
   Award-winning free resources for RE, PSHE and Citizenship
-  <button href="#" [routerLink]="['/register']" class="btn btn-login" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Call To Action" [angularticsProperties]="{label: 'Register'}">Register for Free</button>
+  <button href="#" class="btn btn-login" (click)="register($event); analyticsService.emitEvent('Call To Action', 'Action', 'Register')"
+  >Register for Free</button>
+  <!-- <button href="#" [routerLink]="['/register']" class="btn btn-login" (click)="analyticsService.emitEvent('Call To Action', 'Action', 'Register')"
+  >Register for Free</button> -->
 </div>
 <div class="call-to-action-copy call-to-action-tools" *ngIf="auth.authenticated()">
-  <button href="#" [routerLink]="'me/lists'" class="btn btn-toolbox icon-list icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Lists'}">Lists</button>
-  <button href="#" [routerLink]="'me/list/favourites'" class="btn btn-favourites icon-favourite icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Favourites'}">Favourites</button>
-    <button href="#" [routerLink]="'/calendar'" class="btn btn-calendar icon-posted icon-button icon-left" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="User Nav" [angularticsProperties]="{label: 'Calendar'}">Calendar</button>
+  <button href="#" [routerLink]="'me/lists'" class="btn btn-toolbox icon-list icon-button icon-left" (click)="analyticsService.emitEvent('User nav', 'Navigate', 'Lists')"
+  >Lists</button>
+  <button href="#" [routerLink]="'me/list/favourites'" class="btn btn-favourites icon-favourite icon-button icon-left" (click)="analyticsService.emitEvent('User Nav', 'Navigate', 'Favourites')"
+  >Favourites</button>
+    <button href="#" [routerLink]="'/calendar'" class="btn btn-calendar icon-posted icon-button icon-left"
+    (click)="analyticsService.emitEvent('User Nav', 'Navigate', 'Calendar')"
+    >Calendar</button>
 </div>
 <div class="call-to-action-nav">
 <nav id="nav" class="accessibility-nav hidden-md-down">

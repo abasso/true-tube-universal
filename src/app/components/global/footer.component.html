@@ -16,8 +16,8 @@
 			EC1V 7LW
 		</div>
 	</div>
-		<div class="footer-info"><div class="copyright">&copy; {{currentYear}} TrueTube. All rights reserved.  Part of the <a href="http://www.rankfoundation.com/" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Footer" [angularticsProperties]="{label: 'Rank Foundation'}"> Rank Foundation</a></div>
-			<div class="footer-produced-by">Produced by <a href="http://www.ctvc.co.uk/" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Footer" [angularticsProperties]="{label: 'CTVC'}"></a></div>
+		<div class="footer-info"><div class="copyright">&copy; {{currentYear}} TrueTube. All rights reserved.  Part of the <a href="http://www.rankfoundation.com/" (click)="analyticsService.emitEvent('Footer', 'Navigate', 'Rank Foundation')"> Rank Foundation</a></div>
+			<div class="footer-produced-by">Produced by <a href="http://www.ctvc.co.uk/" (click)="this.analyticsService.emitEvent('Footer', 'Navigate', 'CTVC')"></a></div>
 		</div>
 
 	</div><!-- end l -->

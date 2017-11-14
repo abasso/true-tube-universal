@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://localhost:8081/authcallback',
+      redirect_uri: 'http://localhost:8010/authcallback',
       email: form.controls.email.value,
       password: form.controls.password.value,
       user_metadata: {

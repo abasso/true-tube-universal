@@ -1,12 +1,12 @@
 import { PLATFORM_ID, Component, OnInit, Output, EventEmitter, Inject } from '@angular/core'
 import { ListFilterComponent } from './../content/listing/filter.component'
-import { Angulartics2 } from 'angulartics2'
 import { ContentTypes } from './../../definitions/content-types'
 import { ListService } from './../../services/list.service'
 import { ItemComponent } from './../content/item/item.component'
 import { Auth } from './../../services/auth.service'
 import * as _ from 'lodash'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
+import { AnalyticsService } from './../../services/analytics.service'
 
 @Component({
   selector: 'app-primary-nav',
@@ -23,9 +23,7 @@ export class PrimaryNavComponent implements OnInit {
     private filter: ListFilterComponent,
     private listService: ListService,
     public auth: Auth,
-
-    public angulartics2: Angulartics2
-    // public popover: PopoverModule
+    public analyticsService: AnalyticsService
   ) {
     this.items = _.filter(ContentTypes, {inMenu: true})
   }
@@ -51,6 +49,7 @@ export class PrimaryNavComponent implements OnInit {
   }
 
   register(event: any) {
+    event.preventDefault()
     this.auth.signup(event)
     this.menuClick.emit(event)
   }
@@ -62,7 +61,7 @@ export class PrimaryNavComponent implements OnInit {
 
   searchDone(event: any) {
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Search', properties: { category: 'Primary Nav', label: event.target.elements[0].value}})
+      this.analyticsService.emitEvent("Primary Nav", "Search", event.target.elements[0].value)
     }
     this.searchSubmitted.emit(event)
   }

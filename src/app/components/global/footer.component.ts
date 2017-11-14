@@ -1,8 +1,8 @@
 import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
 import * as moment from 'moment'
-import { Angulartics2 } from 'angulartics2'
 import * as Cookies from 'js-cookie'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
+import { AnalyticsService } from './../../services/analytics.service'
 
 @Component({
   selector: 'app-footer',
@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {

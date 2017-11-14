@@ -1,3 +1,6 @@
 <nav class="footer-nav" *ngFor="let item of menu">
-			<div class="footer-nav__item"><a href="#" [routerLink]="[menuItem.slug]" *ngFor="let menuItem of item" class="footer-nav__link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Footer Nav" [angularticsProperties]="{label: menuItem.title}">{{menuItem.title}}</a></div>
+			<div class="footer-nav__item"><a href="#" [routerLink]="[menuItem.slug]" *ngFor="let menuItem of item" class="footer-nav__link"
+			(click)="analyticsService.emitEvent('Footer Nav', 'Navigate', menuItem.title)"
+
+				>{{menuItem.title}}</a></div>
 </nav>

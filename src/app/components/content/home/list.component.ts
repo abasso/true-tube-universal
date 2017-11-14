@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core'
+import { PLATFORM_ID, Component, Inject, OnInit } from '@angular/core'
 import { PaginationPipe } from './../../../pipes/pagination.pipe'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { DataService } from './../../../services/data.service'
 import { ListService } from './../../../services/list.service'
 import { Categories } from './../../../definitions/categories'
 import { ContentTypes } from './../../../definitions/content-types'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
+import { isPlatformBrowser, isPlatformServer } from '@angular/common'
+
 import * as _ from 'lodash'
 
 @Component({
@@ -38,9 +40,10 @@ export class HomeListingComponent implements OnInit {
   public contentLoading: any = true
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public dataService: DataService,
     public listService: ListService,
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
     ) {
     this.paginationData = {
       currentPage: 0,
@@ -104,6 +107,9 @@ export class HomeListingComponent implements OnInit {
     event.preventDefault();
     this.loadMoreCount = this.loadMoreCount + 12
     this.paginationData.itemsPerPageCurrent = this.loadMoreCount
+    if (isPlatformBrowser(this.platformId)) {
+      this.analyticsService.emitEvent('Homepage List Load More', 'Action')
+    }
   }
 
   resetPagination() {

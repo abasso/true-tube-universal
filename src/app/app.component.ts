@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core'
 import { TransferState } from '../modules/transfer-state/transfer-state'
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga/angulartics2-ga'
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,8 +13,15 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga/angulartics2-ga'
 export class AppComponent implements OnInit {
   constructor(
     private cache: TransferState,
-    public angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
-  ) {}
+    private router: Router
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        ga('set', 'page', event.urlAfterRedirects);
+        ga('send', 'pageview');
+      }
+    });
+  }
   ngOnInit() {
     this.cache.set('cached', true);
   }

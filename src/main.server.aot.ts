@@ -11,9 +11,9 @@ import { ServerAppModuleNgFactory } from './ngfactory/app/server-app.module.ngfa
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { ROUTES } from './routes';
 import { enableProdMode } from '@angular/core';
-// enableProdMode();
+enableProdMode();
 const app = express();
-const port = 8081;
+const port = 8010;
 const baseUrl = `http://localhost:${port}`;
 
 app.engine('html', ngExpressEngine({
@@ -36,6 +36,6 @@ ROUTES.forEach(route => {
   });
 });
 
-app.listen(8081, () => {
+app.listen(8010, () => {
   console.log(`Listening at ${baseUrl}`);
 });

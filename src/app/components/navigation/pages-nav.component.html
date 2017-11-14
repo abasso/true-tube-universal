@@ -1,5 +1,6 @@
 <ul class="p-a-0">
   <li *ngFor="let menuItem of menu" class="menu-item">
-    <a href="#" [routerLink]="menuItem.uri" class="text-link" angulartics2On="click" angularticsEvent="Navigate" angularticsCategory="Pages" [angularticsProperties]="{label: menuItem.title}">{{menuItem.title}}</a>
+    <a href="#" [routerLink]="menuItem.uri" class="text-link" (click)="analyticsService.emitEvent('Pages', 'Navigate', menuItem.title)"
+    >{{menuItem.title}}</a>
   </li>
 </ul>

@@ -4,7 +4,7 @@
 			<h1 class="page-title" [innerHTML]="item.title">
 			</h1>
 			<nav id="nav" class="content-nav">
-				<button class="btn {{embed.class}}" (click)="tab(embed.term)" [ngClass]="{active: activeTab === embed.term}" *ngFor="let embed of item.resource_types | EmbedMenuPipe" angulartics2On="click" angularticsEvent="{{embed.tabLabel}}" angularticsCategory="Content Tab" [angularticsProperties]="{label: item.title}"><span>{{embed.tabLabel}}</span></button>
+				<button class="btn {{embed.class}}" (click)="tab(embed, item)" [ngClass]="{active: activeTab === embed.term}" *ngFor="let embed of item.resource_types | EmbedMenuPipe" ><span>{{embed.tabLabel}}</span></button>
 			</nav>
 			<div class="input-group content-nav-mobile" *ngIf="item.hideMenu !== true">
 				<select id="select" class="custom-select form-control" [(ngModel)]="this.activeTab" (change)="setActiveTab($event.target.value)">
@@ -38,18 +38,18 @@
 		</div>
 		<div class="video-actions">
 			<div *ngIf="!auth.authenticated()" class="hidden-sm-down">
-				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Favourites Login" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Login</a> to Add to Favourites
+				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event); analyticsService.emitEvent('Content', 'Favourites Login', 'item.title')">Login</a> to Add to Favourites
 			</div>
 			<div *ngIf="auth.authenticated()" class="hidden-sm-down">
-				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event)" angulartics2On="click" angularticsEvent="Add to Favourites" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Add to Favourites</a>
-				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event)" angulartics2On="click" angularticsEvent="Remove From Favourites" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Remove from Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event); analyticsService.emitEvent('Content', 'Add to Favourites', 'item.title')">Add to Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event); analyticsService.emitEvent('Content', 'Remove from Favourites', 'item.title')">Remove from Favourites</a>
 			</div>
 			<div *ngIf="embed.allow_download" class="hidden-sm-down">
 				<a href="https://www.truetube.co.uk/v5/api/file/{{embed.uuid}}" class="icon-download icon-small icon-left video-download text-link" *ngIf="auth.authenticated()">Download</a>
 				<div *ngIf="!auth.authenticated()">
-					<a href="#" class="icon-download icon-small icon-left video-download text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Download Login" angularticsCategory="Content" [angularticsProperties]="{label: item.title}">Login</a> to Download</div>
+					<a href="#" class="icon-download icon-small icon-left video-download text-link" (click)="auth.login($event); analyticsService.emitEvent('Content', 'Download Login', 'item.title')">Login</a> to Download</div>
 				</div>
-				<a href="" class="icon-embed icon-small icon-left video-embed text-link download-link hidden-xs-down" (click)="toggleEmbed($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Embed Video Toggle" [angularticsProperties]="{label: item.title}">Embed</a>
+				<a href="" class="icon-embed icon-small icon-left video-embed text-link download-link hidden-xs-down" (click)="toggleEmbed($event); analyticsService.emitEvent('Embed Video Toggle', 'Action', 'item.title')">Embed</a>
 			</div>
 		</div>
 		<div class="video-embed-container p-t-1 m-b-1" [ngClass]="{show: showEmbed}">
@@ -65,7 +65,7 @@
 		</div>
 
 		<div class="video-js-wrapper">
-			<a href="#" (click)="playPlayer($event)" class="advisory-warning-overlay" [ngClass]="{'hidden-xs-up': hideAdvisory}"  *ngIf="embed.advisory === '1'" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Advisory Warning" [angularticsProperties]="{label: item.title}">
+			<a href="#" (click)="playPlayer($event); analyticsService.emitEvent('Advisory Warning', 'Action', 'item.title')" class="advisory-warning-overlay" [ngClass]="{'hidden-xs-up': hideAdvisory}"  *ngIf="embed.advisory === '1'">
 				<span class="advisory-warning"><span class="title icon-left icon icon-play">Advisory Warning</span>
 				<span *ngIf="embed.advisory_message === ''">
 					<p>This video may contain content <strong>unsuitable for sensitive or younger students.</strong> Teacher discretion is advised.</p>
@@ -107,8 +107,8 @@
 		<div class="block-media__body">
 			<h6 class="block-media__headline">{{lesson.title}}</h6>
 			<p class="block-media__description" [innerHTML]="lesson.description"></p>
-			<a href="{{lesson.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Lesson Plan" [angularticsProperties]="{label: item.title}">Download</a>
-			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Lesson Plan Login" [angularticsProperties]="{label: item.title}">Login</a> to download this lesson plan</p>
+			<a href="{{lesson.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" (click)="analyticsService.emitEvent('Download Lesson Plan', 'Action', item.title)">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event); analyticsService.emitEvent('Download Lesson Plan Login', 'Action', item.title)" class="icon-download icon-small icon-left black text-link">Login</a> to download this lesson plan</p>
 
 		</div>
 	</div>
@@ -129,8 +129,8 @@
 		<div class="block-media__body">
 			<h6 class="block-media__headline">{{assembly.title}}</h6>
 			<p class="block-media__description" [innerHTML]="assembly.description"></p>
-			<a href="{{assembly.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Assembly Plan" [angularticsProperties]="{label: item.title}">Download</a>
-			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Assembly Plan Login" [angularticsProperties]="{label: item.title}">Login</a> to download this assembly plan</p>
+			<a href="{{assembly.file}}" class="icon-download icon-small icon-left text-link download-link" *ngIf="auth.authenticated()" (click)="analyticsService.emitEvent('Download Assembly Plan', 'Action', item.title)">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event); analyticsService.emitEvent('Download Assembly Plan Login', 'Action', item.title)" class="icon-download icon-small icon-left black text-link">Login</a> to download this assembly plan</p>
 		</div>
 	</div>
 </div>
@@ -150,8 +150,8 @@
 		<div class="block-media__body">
 			<h6 class="block-media__headline">{{notes.title}}</h6>
 			<p class="block-media__description" [innerHTML]="notes.description"></p>
-			<a href="{{notes.file}}" class="icon-download icon-small icon-left text-link" *ngIf="auth.authenticated()" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Teachers Notes" [angularticsProperties]="{label: item.title}">Download</a>
-			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event)" class="icon-download icon-small icon-left black text-link" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Download Teachers Notes Login" [angularticsProperties]="{label: item.title}">Login</a> to download these teachers notes</p>
+			<a href="{{notes.file}}" class="icon-download icon-small icon-left text-link" *ngIf="auth.authenticated()" (click)="analyticsService.emitEvent('Download Teachers Notes', 'Action', item.title)">Download</a>
+			<p *ngIf="!auth.authenticated()" class="login-prompt"><a href="#" (click)="auth.login($event); analyticsService.emitEvent('Download Teachers Notes Login', 'Action', item.title)" class="icon-download icon-small icon-left black text-link">Login</a> to download these teachers notes</p>
 		</div>
 	</div>
 </div>
@@ -176,11 +176,11 @@
 		</div>
 		<div class="video-actions hidden-sm-down" *ngIf="item.resource_types.length === 1">
 			<div *ngIf="!auth.authenticated()">
-				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Login" [angularticsProperties]="{label: item.title}">Login</a> to Add to Favourites
+				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event); analyticsService.emitEvent('Favourites Login', 'Action', item.title)">Login</a> to Add to Favourites
 			</div>
 			<div *ngIf="auth.authenticated()" >
-				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Add" [angularticsProperties]="{label: item.title}">Add to Favourites</a>
-				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Favourites Remove" [angularticsProperties]="{label: item.title}">Remove from Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event); analyticsService.emitEvent('Favourites Add', 'Action', 'item.title')">Add to Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event); analyticsService.emitEvent('Favourites Remove', 'Action', item.title)">Remove from Favourites</a>
 			</div>
 		</div>
 	</div>
@@ -213,12 +213,12 @@
 			<div class="notification-wrapper" [ngClass]="{'visible': showNotification, 'remove': notificationRemove, 'favourite': notificationFavourite}">
 				<div class="notification" [ngClass]="{'visible': showNotification, 'remove': notificationRemove, 'favourite': notificationFavourite}" [innerHTML]="notificationMessage"></div>
 			</div>
-			<a href="#" class="icon-add-to-list icon-small icon-left icon-border text-link" (click)="toggleLists($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Add to List" [angularticsProperties]="{label: item.title}">Add to a list</a>
+			<a href="#" class="icon-add-to-list icon-small icon-left icon-border text-link" (click)="toggleLists($event); analyticsService.emitEvent('Add to List', 'Action', item.title)">Add to a list</a>
 
 			<div class="add-to-list-wrapper" *ngIf="showLists" id="GridFilter" [ngClass]="{'not-logged-in': auth.authenticated() === false}">
 				<div class="login-warning-overlay" *ngIf="!auth.authenticated()">
 					<span class="login-warning"><span class="title icon-left icon icon-play">Login Required</span>
-					<p>You need to login to add content to lists <a href="#" class="link" (click)="auth.login($event)" angulartics2On="click" angularticsEvent="Action" angularticsCategory="Add to List Login" [angularticsProperties]="{label: item.title}">click here</a> to login.</p>
+					<p>You need to login to add content to lists <a href="#" class="link" (click)="auth.login($event); analyticsService.emitEvent('Add to List Login', 'Action', item.title)">click here</a> to login.</p>
 				</span>
 			</div>
 			<div class="list-controls" *ngIf="auth.authenticated()">
@@ -239,7 +239,7 @@
 					<button (click)="addList($event)" class="btn btn-sm btn-create-list {{listButtonClass}}" [innerHTML]="[listButtonLabel]"></button>
 				</fieldset>
 				<fieldset class="filter-fieldset manage-lists">
-					<a href="" [routerLink]="'/me/lists'" class="text-link btn-toolbox icon-list icon-left icon-small" angulartics2On="click" angularticsEvent="Action" angularticsCategory="View and Manage Lists" [angularticsProperties]="{label: item.title}">View & manage your lists</a>
+					<a href="" [routerLink]="'/me/lists'" (click)="analyticsService.emitEvent('View and Manage Lists', 'Action', item.titlethis.analyticsService.emitEventthis.analyticsService.emitEventthis.analyticsService.emitEvent)" class="text-link btn-toolbox icon-list icon-left icon-small">View & manage your lists</a>
 				</fieldset>
 			</div>
 			<div class="list-controls" *ngIf="!auth.authenticated()">

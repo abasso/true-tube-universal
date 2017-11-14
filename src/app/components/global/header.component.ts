@@ -1,7 +1,6 @@
 import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
 import { Auth } from './../../services/auth.service'
-import { Angulartics2 } from 'angulartics2'
-
+import { AnalyticsService } from './../../services/analytics.service'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
 @Component({
@@ -14,8 +13,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public auth: Auth,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) {
   }
   ngOnInit() {

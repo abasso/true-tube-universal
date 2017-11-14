@@ -2,7 +2,7 @@ import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
 import * as Cookies from 'js-cookie'
 import * as _ from 'lodash'
 import { Auth } from './../../services/auth.service'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../services/analytics.service'
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
@@ -17,8 +17,7 @@ export class CallToActionComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public auth: Auth,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
@@ -33,7 +32,7 @@ export class CallToActionComponent implements OnInit {
     this.dyslexiaEnabled = (this.dyslexiaEnabled) ? false : true
     this.dyslexiaLabel = (this.dyslexiaEnabled) ? 'Standard Font' : 'Dyslexia Font'
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Action', properties: { category: 'Dyslexia Font', label: this.dyslexiaLabel}})
+      this.analyticsService.emitEvent('Dyslexia Font', 'Action', this.dyslexiaLabel)
     }
     event.preventDefault()
     this.setDyslexiaFont()
@@ -46,6 +45,11 @@ export class CallToActionComponent implements OnInit {
     } else {
       Cookies.remove('dyslexia-font')
     }
+  }
+
+  register(event: any) {
+    event.preventDefault()
+    this.auth.signup(event)
   }
 
   toggleSite(event: any) {

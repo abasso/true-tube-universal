@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { DataService } from './../../services/data.service'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../services/analytics.service'
 
 
 @Component({
@@ -11,8 +11,7 @@ export class PagesNavComponent implements OnInit {
   public menu: any
   constructor(
     private dataService: DataService,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {

@@ -1,6 +1,5 @@
 import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
 import * as moment from 'moment'
-import { Angulartics2 } from 'angulartics2'
 import * as Cookies from 'js-cookie'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'

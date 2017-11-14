@@ -12,7 +12,7 @@ import * as _ from 'lodash'
 import 'rxjs/add/operator/switchMap'
 import { Headers } from '@angular/http'
 import {AuthHttp} from 'angular2-jwt'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../../services/analytics.service'
 
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import { MetaService } from '@ngx-meta/core'
@@ -69,8 +69,7 @@ export class ItemComponent implements OnInit {
     private location: Location,
     private auth: Auth,
     private http: AuthHttp,
-
-    public angulartics2: Angulartics2,
+    public analyticsService: AnalyticsService,
     private meta: MetaService
   ) {}
 
@@ -142,7 +141,7 @@ export class ItemComponent implements OnInit {
     event.preventDefault()
     this.router.navigateByUrl('/list?' + type + '=' + encodeURIComponent(attribute))
     if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: 'Navigate', properties: { category: 'Content Info ' + type, title: attribute}})
+      this.analyticsService.emitEvent('Content Info' + type, 'Navigate', attribute)
     }
   }
 
@@ -162,14 +161,14 @@ export class ItemComponent implements OnInit {
   setActiveTab(event: any) {
     event = event.replace(' ', '_')
     this.activeTab = event
-    if (isPlatformBrowser(this.platformId)) {
-      this.angulartics2.eventTrack.next({ action: event, properties: { category: 'Content Tab', title: ''}})
-    }
   }
 
-  tab(event: any) {
-    this.router.navigateByUrl(this.item.slug + '?tab=' + event)
+  tab(event: any, item: any) {
+    this.router.navigateByUrl(this.item.slug + '?tab=' + event.term)
     this.hideAdvisory = false
+    if (isPlatformBrowser(this.platformId)) {
+      this.analyticsService.emitEvent('Content Tab', event.tabLabel, item.title)
+    }
   }
 
   embedCopySuccess(event: any) {
@@ -228,7 +227,7 @@ export class ItemComponent implements OnInit {
       }, 3000)
     } else if (this.createListTitle !== '') {
       if (isPlatformBrowser(this.platformId)) {
-        this.angulartics2.eventTrack.next({ action: 'Create', properties: { category: 'List', title: this.createListTitle}})
+        this.analyticsService.emitEvent('List', 'Create', this.createListTitle)
       }
       this.addListError = false
       let listSlug = _.kebabCase(this.createListTitle)
@@ -284,7 +283,7 @@ export class ItemComponent implements OnInit {
       this.http.post(this.apiUrl + '/' + key + '/' + this.item.id, {}).subscribe(
       (data) => {
         if (isPlatformBrowser(this.platformId)) {
-          this.angulartics2.eventTrack.next({ action: 'Add', properties: { category: 'List', title: this.item.id}})
+          this.analyticsService.emitEvent('List', 'Add', this.item.id)
         }
       })
     } else {
@@ -297,7 +296,7 @@ export class ItemComponent implements OnInit {
       this.http.delete(this.apiUrl + '/' + key + '/' + this.item.id).subscribe(
       (data) => {
         if (isPlatformBrowser(this.platformId)) {
-          this.angulartics2.eventTrack.next({ action: 'Remove', properties: { category: 'List', title: this.item.id}})
+          this.analyticsService.emitEvent('List', 'Remove', this.item.id)
         }
       })
     }

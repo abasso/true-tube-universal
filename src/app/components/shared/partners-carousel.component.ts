@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { DataService } from './../../services/data.service'
-import { Angulartics2 } from 'angulartics2'
+import { AnalyticsService } from './../../services/analytics.service'
 
 
 @Component({
@@ -20,8 +20,7 @@ export class PartnersCarouselComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-
-    public angulartics2: Angulartics2
+    public analyticsService: AnalyticsService
   ) {
     this.carouselConfig.breakpoints = {
       '400': {

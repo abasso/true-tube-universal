@@ -25,5 +25,7 @@ export const ROUTES: string[] = [
   '/me/lists',
   '/me/list/:id',
   '/rmcallback',
-  '/authcallback'
+  '/authcallback',
+  '/:page',
+  '/page/:page'
 ];
