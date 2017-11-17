@@ -79,7 +79,8 @@ export class CalendarComponent implements OnInit {
                 } else {
                   days.splice(i, 0, {
                     day: nextMonthStart++,
-                    month: selectedMonth.month() + 1,
+                    month: (month === 11) ? 0 : selectedMonth.month() + 1,
+                    year: (month === 11) ? ++this.currentYear : this.currentYear,
                     css: 'other-month next-month'
                   })
                 }
@@ -89,6 +90,7 @@ export class CalendarComponent implements OnInit {
                   days.splice(i, 0, {
                     day: ++startDateOffset,
                     month: selectedMonth.month() - 1,
+                    year: this.currentYear,
                     css: 'other-month previous-month'
                   })
                   // Add this months days
@@ -100,20 +102,20 @@ export class CalendarComponent implements OnInit {
                   days.splice(i, 0, {
                     day: monthStart++,
                     month: selectedMonth.month(),
+                    year: this.currentYear
                   })
                   // Add next months days
                 } else {
                   days.splice(i, 0, {
                     day: nextMonthStart++,
-                    month: selectedMonth.month() + 1,
+                    month: (month === 11) ? 0 : selectedMonth.month() + 1,
+                    year: (month === 11) ? ++this.currentYear : this.currentYear,
                     css: 'other-month next-month'
                   })
                 }
               }
             }
-            // Iterate over the events
             this.items = _.sortBy(data.hits.hits, 'date').reverse()
-            // Increment the events count for the title
             _.each(this.items, (item) => {
               if (moment(item._source.date.value).month() === selectedMonth.month() && moment(item._source.date.value).year() === selectedMonth.year()) {
                 this.eventCount++
@@ -134,7 +136,7 @@ export class CalendarComponent implements OnInit {
                       event.index = previousDay['index']
                     }
                 }
-                if (day.day === event.startDate.date() && day.month === event.startDate.month()) {
+                if (day.day === event.startDate.date() && day.month === event.startDate.month() && day.year === event.startDate.year()) {
                   if (_.isUndefined(event.index)) {
                     if (day.events.length === 0) {
                       event.index = eventClone.index = 0
@@ -166,13 +168,12 @@ export class CalendarComponent implements OnInit {
                     eventClone.css = event.css += ' event-three-lines'
                     event.multiLine = eventClone.multiLine = true
                   }
-                  // Else if the day date is equal to the end date and the day month is the same as the event end month
-                } else if (day.day === event.endDate.date() && day.month === event.endDate.month()) {
+                } else if (day.day === event.endDate.date() && day.month === event.endDate.month() && day.year === event.endDate.year()) {
                     eventClone.css += ' event-end'
-                } else if (moment({M: day.month, d: day.day}).isBetween(event.startDate, event.endDate, 'day', '[]')) {
+                } else if (moment({M: day.month, d: day.day, y: day.year}).isBetween(event.startDate, event.endDate, 'day', '[]') && !moment(event.endDate).isSame(event.startDate)) {
                   eventClone.css += ' event-multi'
                 }
-                if (moment({M: day.month, d: day.day}).isBetween(event.startDate, event.endDate, 'day', '[]')) {
+                if (moment({M: day.month, d: day.day, y: day.year}).isBetween(event.startDate, event.endDate, 'day', '[]')) {
                   day.events[event.index] = eventClone
                 }
               })
@@ -221,14 +222,12 @@ export class CalendarComponent implements OnInit {
   }
 
   setMonth(month: string) {
-    // moment({'M': month})
     this.selectedMonth.next(month)
   }
 
   prevMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    console.log(currentMonth)
     if (currentMonth !== -6) {
       this.selectedMonth.next(currentMonth - 1)
     }
@@ -240,9 +239,8 @@ export class CalendarComponent implements OnInit {
   nextMonth(event: any) {
     event.preventDefault()
     let currentMonth: any = this.selectedMonth.getValue()
-    console.log(currentMonth)
     if (currentMonth !== 18) {
-      this.selectedMonth.next(currentMonth + 1)
+      this.selectedMonth.next(++currentMonth)
     }
     if (isPlatformBrowser(this.platformId)) {
       this.analyticsService.emitEvent("Calendar Next", "Action", "", 1)

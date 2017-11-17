@@ -12,7 +12,6 @@ import { PrimaryNavComponent } from './components/navigation/primary-nav.compone
 import { SearchComponent } from './components/navigation/search.component'
 import { CallToActionComponent } from './components/messaging/call-to-action.component'
 import { ItemComponent } from './components/content/item/item.component'
-import { ItemListComponent } from './components/content/item/list.component'
 import { VideoComponent } from './components/content/item/video.component'
 import { AudioComponent } from './components/content/item/audio.component'
 import { ListFilterComponent } from './components/content/listing/filter.component'
@@ -31,7 +30,7 @@ import { EmbedMenuPipe } from './pipes/embed-menu.pipe'
 import { SanitiseUrlPipe } from './pipes/sanitise-url.pipe'
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover'
 import { Auth, AUTH_PROVIDERS, LoggedInGuard } from './services/auth.service'
-// import { ClipboardModule } from 'ngx-clipboard'
+import { ClipboardModule } from 'ngx-clipboard'
 import { AuthRedirectComponent } from './components/global/authRedirect.component'
 import { FooterComponent } from './components/global/footer.component'
 import { HomeComponent } from './components/content/home/home.component'
@@ -261,7 +260,6 @@ export function metaFactory(): MetaLoader {
     ImagePipe,
     ItemComponent,
     ItemPageComponent,
-    ItemListComponent,
     ListFilterComponent,
     ListingComponent,
     ListItemComponent,
@@ -289,7 +287,7 @@ export function metaFactory(): MetaLoader {
   imports: [
     // PopoverModule,
     BrowserModule,
-    // ClipboardModule,
+    ClipboardModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger'
     }),

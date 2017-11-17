@@ -15,11 +15,7 @@
 			</div>
 
 		</div>
-		<!-- {{> organisms-video }}
-		{{> organisms-lesson-plans }} -->
-		<!-- <template ngFor let-embed [ngForOf]="item.embedded" let-i="index" [ngForTrackBy]="trackByFn"> -->
-
-		<div class="tab tab-videos" [ngClass]="{visible: activeTab === 'film'}" *ngFor="let embed of embeddedContent.film">
+		<div class="tab tab-videos" [ngClass]="{'visible': activeTab === 'film', 'video-disabled': viewRemainingCount === 0, 'video-enabled': auth.authenticated()}" *ngFor="let embed of embeddedContent.film">
 			<div class="video-header">
 				<span class="info icon-clock icon-v-shift icon-small icon-left" *ngIf="embed.duration" >{{dataService.duration(embed.duration)}}</span>
 
@@ -38,18 +34,25 @@
 		</div>
 		<div class="video-actions">
 			<div *ngIf="!auth.authenticated()" class="hidden-sm-down">
-				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event); analyticsService.emitEvent('Content', 'Favourites Login', 'item.title')">Login</a> to Add to Favourites
+				<a href="#" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="auth.login($event); analyticsService.emitEvent('Content', 'Favourites Login', item.title)">Login</a> to Add to Favourites
 			</div>
 			<div *ngIf="auth.authenticated()" class="hidden-sm-down">
 				<a href="#" *ngIf="addedToFavourites === false" class="icon-embed icon-small icon-left icon-favourite video-embed text-link" (click)="addToFavourites($event); analyticsService.emitEvent('Content', 'Add to Favourites', 'item.title')">Add to Favourites</a>
-				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event); analyticsService.emitEvent('Content', 'Remove from Favourites', 'item.title')">Remove from Favourites</a>
+				<a href="#" *ngIf="addedToFavourites === true" class="icon-embed icon-small icon-left icon-favourite_red video-embed text-link" (click)="removeFromFavourites($event); analyticsService.emitEvent('Content', 'Remove from Favourites', item.title)">Remove from Favourites</a>
 			</div>
 			<div *ngIf="embed.allow_download" class="hidden-sm-down">
 				<a href="https://www.truetube.co.uk/v5/api/file/{{embed.uuid}}" class="icon-download icon-small icon-left video-download text-link" *ngIf="auth.authenticated()">Download</a>
 				<div *ngIf="!auth.authenticated()">
 					<a href="#" class="icon-download icon-small icon-left video-download text-link" (click)="auth.login($event); analyticsService.emitEvent('Content', 'Download Login', 'item.title')">Login</a> to Download</div>
 				</div>
-				<a href="" class="icon-embed icon-small icon-left video-embed text-link download-link hidden-xs-down" (click)="toggleEmbed($event); analyticsService.emitEvent('Embed Video Toggle', 'Action', 'item.title')">Embed</a>
+				<a href="" class="icon-embed icon-small icon-left video-embed text-link download-link hidden-xs-down" (click)="toggleEmbed($event); analyticsService.emitEvent('Embed Video Toggle', 'Action', item.title)">Embed</a>
+			</div>
+		</div>
+		<div *ngIf="!auth.authenticated()">
+			<div *ngIf="!contentAccess">
+				<div class="video-registration-warning" *ngIf="viewRemainingCount === 1">
+					You have 1 view left before you will need to <a href="#" (click)="auth.login($event);">login</a> or use an access code to watch videos.
+				</div>
 			</div>
 		</div>
 		<div class="video-embed-container p-t-1 m-b-1" [ngClass]="{show: showEmbed}">
@@ -58,14 +61,28 @@
 				<div class="input-group">
 					<input type="text" class="form-control" #inputTarget value="<div style='position:relative;height:0;overflow:hidden;padding-bottom:56.25%;'><iframe src='https://www.truetube.co.uk/v5/embed/{{embed.uuid}}' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' allowfullscreen style='position:absolute;top:0;left:0;width:100%;height:100%;'></iframe></div>">
 					<span class="input-group-btn">
-
-					</span>
+										<button class="btn {{embedButtonClass}}" [ngxClipboard]="inputTarget" (cbOnSuccess)="embedCopySuccess()" type="button" [innerHTML]="embedButtonLabel"></button>
+									</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="video-js-wrapper">
-			<a href="#" (click)="playPlayer($event); analyticsService.emitEvent('Advisory Warning', 'Action', 'item.title')" class="advisory-warning-overlay" [ngClass]="{'hidden-xs-up': hideAdvisory}"  *ngIf="embed.advisory === '1'">
+			<div class="video-registration-overlay" *ngIf="viewRemainingCount === 0">
+				<div class="video-registration-overlay-message" *ngIf="!useAccessCode">
+					Please <a href="#" (click)="auth.login($event);">login</a> or use an <a href="#" (click)="showAccessCode($event)">access code</a> to watch more videos.<br><br>
+					Don't have an account? <a [routerLink]="['/register']">Register for free</a>
+				</div>
+				<div class="video-registration-overlay-code" *ngIf="useAccessCode">
+
+					<div class="form-group">
+						<input class="form-control form-control-lg" placeholder="Access Code" [(ngModel)]="accessCode" />
+						<button class="btn-lg btn {{codeButtonClass}}" [innerHTML]="codeButtonLabel" (click)="checkAccessCode($event)"></button>
+					</div>
+					Don't have an access code? <a href="#" (click)="auth.login($event);">login</a> or <a [routerLink]="['/register']">Register for free</a>
+				</div>
+			</div>
+			<a href="#" (click)="playPlayer($event); analyticsService.emitEvent('Advisory Warning', 'Action', item.title)" class="advisory-warning-overlay" [ngClass]="{'hidden-xs-up': hideAdvisory}"  *ngIf="embed.advisory === '1'">
 				<span class="advisory-warning"><span class="title icon-left icon icon-play">Advisory Warning</span>
 				<span *ngIf="embed.advisory_message === ''">
 					<p>This video may contain content <strong>unsuitable for sensitive or younger students.</strong> Teacher discretion is advised.</p>
@@ -76,7 +93,7 @@
 				<span class="link">Click to play</span>
 			</span>
 		</a>
-		<app-video-player [embed]="embed" [embeddedContent]="embeddedContent" [subtitles]="item.subtitles" [activeTab]="activeTab" [play]="play" [enableSubtitles]="enableSubtitles"></app-video-player>
+		<app-video-player [embed]="embed" [embeddedContent]="embeddedContent" [subtitles]="item.subtitles" [activeTab]="activeTab" [play]="play" [enableSubtitles]="enableSubtitles" (playerEvent)="playerEvent($event)"></app-video-player>
 	</div>
 
 	<div class="video-footer">

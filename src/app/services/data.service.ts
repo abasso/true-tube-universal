@@ -3,6 +3,7 @@ import { Http, URLSearchParams } from '@angular/http'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import 'rxjs/add/operator/map'
+import { Observable } from "rxjs/Rx"
 import {AuthHttp} from 'angular2-jwt'
 import { Headers, RequestOptions } from '@angular/http'
 
@@ -20,6 +21,7 @@ export class DataService {
   private pagesUrl = this.baseUrl + 'pages/_search'
   private itemPageUrl = this.baseUrl + 'item_pages/page'
   private schoolsUrl = this.baseUrl + 'schools/_search'
+  private accessCodeUrl = this.baseUrl + 'verify'
   private districtUrl = 'https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/LAD_DEC_2016_UK_NC/FeatureServer/0/query?where=1%3D1&outFields=LAD16NM&outSR=4326&f=json'
 
   constructor(
@@ -175,7 +177,7 @@ export class DataService {
     header.append('Content-Type', 'application/json')
     return this.http
     .post(this.feedBackUrl, jsonData, options)
-    .subscribe((response) => ( console.log(response) ))
+    .subscribe((response) => ( response.json()))
   }
 
   carousel() {
@@ -190,13 +192,23 @@ export class DataService {
     .map((response) => ( response.json()))
   }
 
+  checkAccessCode(accessCode: string) {
+    let header = new Headers()
+    let options = new RequestOptions({ headers: header })
+    return this.http
+    .post(this.accessCodeUrl, { "token": accessCode}, options)
+    .map((response) => (response)).catch((err) => {
+      return Observable.throw(err)
+    })
+  }
+
   events(month: number = null) {
     let search: any = new URLSearchParams()
     let currentYear = moment().year()
     if (month !== null) {
       if (month > 11) {
         currentYear = ++currentYear
-        month = month - 11
+        month = month - 12
       } else if (month < 0) {
         currentYear = --currentYear
         month = month + 11
@@ -218,8 +230,6 @@ export class DataService {
   }
 
   schools(district) {
-    console.log('school search')
-    console.log(district)
     let search: any = new URLSearchParams()
     search.set('q', 'la_name:' + district)
     search.set('size', '5000')

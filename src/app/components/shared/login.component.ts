@@ -59,7 +59,6 @@ export class LoginComponent implements OnInit {
     }, (err, authResult) => {
         if(err) {
           this.error = err
-          console.log(this.error)
         }
         if(authResult) {
           this.auth.isAuthed(authResult)

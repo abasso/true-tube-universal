@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://localhost:8010/authcallback',
+      redirect_uri: 'http://localhost:8011/authcallback',
       email: form.controls.email.value,
       password: form.controls.password.value,
       user_metadata: {
@@ -107,7 +107,6 @@ export class RegisterComponent implements OnInit {
   errorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
-      console.log(formElement)
       if (form.controls[formElement]['_status'] === 'INVALID') {
         this.formErrors[formElement] = true
         this.hasErrors = true

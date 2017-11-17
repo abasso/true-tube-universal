@@ -1,4 +1,4 @@
-import { PLATFORM_ID, Component, OnInit, Input, ViewChild, ElementRef, OnChanges, OnDestroy, Inject} from '@angular/core'
+import { PLATFORM_ID, Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges, OnDestroy, Inject} from '@angular/core'
 import { AnalyticsService } from './../../../services/analytics.service'
 
 import * as _ from 'lodash'
@@ -11,6 +11,7 @@ declare var videojs: any
   templateUrl: './video.component.html'
 })
 export class VideoComponent implements OnInit, OnChanges, OnDestroy {
+  @Output() playerEvent = new EventEmitter<string>()
   @Input() embed: any
   @Input() embeddedContent: any
   @Input() activeTab: any
@@ -77,6 +78,13 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
             }})
               let v = document.getElementsByTagName('video')[0]
               v.addEventListener('play', (data) => {
+
+                let watchCount = (localStorage.getItem('watchCount') === null) ? 0 : parseInt(localStorage.getItem('watchCount'))
+                localStorage.setItem('watchCount', (watchCount + 1).toString())
+                localStorage.setItem('watchedUnregistered', 'true')
+                if(parseInt(localStorage.getItem('watchCount')) > 1) {
+                  this.playerEvent.emit('watchedUnregistered')
+                }
                 this.hasBeenPlayed = true
                 this.analyticsService.emitEvent('Play', 'Watch', self.embed.title)
               }, true)

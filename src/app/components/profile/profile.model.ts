@@ -8,16 +8,20 @@ export class Profile {
     public created: string
     public lastLogin: string
     public lists: string
+    public token: string
+    public userMetaData
 
     public static hydrate(data: any): Profile {
         const instance = new Profile()
         instance.uuid = _.get(data, 'uuid', '')
         instance.name = _.get(data, 'name', '')
         instance.email = _.get(data, 'email', '')
+        instance.token = _.get(data, 'token', '')
         instance.picture = _.get(data, 'picture', '')
         instance.created = _.get(data, 'created_at', '')
         instance.lastLogin = _.get(data, 'last_login', '')
         instance.lists = _.get(data, 'lists', '')
+        instance.userMetaData = _.get(data, 'user_metadata', '')
         return instance
     }
 }

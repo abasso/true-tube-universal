@@ -1,0 +1,28 @@
+.profile-token {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+}
+
+.account-access-token {
+  position: relative;
+  margin-right: auto;
+  .btn {
+    border-radius: $border-radius-sm;
+    margin: 0;
+  }
+  label {
+    margin-bottom: 1rem;
+    font-weight: $font-weight-normal;
+  }
+  .video-embed-form {
+    border-radius: $border-radius-sm;
+    background: $gray-lightest;
+    .btn {
+      margin: 0;
+    }
+  }
+  &.show {
+    display: block;
+  }
+}

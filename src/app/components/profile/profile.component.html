@@ -9,36 +9,30 @@
     <div class="notification" [ngClass]="{'visible': showNotification, 'email': notificationEmail}" [innerHTML]="notificationMessage"></div>
   </div>
   <app-user-nav class="col-xs-12 col-md-12 col-lg-3 col-xl-3 col-lg-p-right m-t-2"></app-user-nav>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-lg-p-left m-t-1">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-lg-p-left m-t-1">
     <h1 class="page-title">
       Hello
     </h1>
-    <div class="form-group row hidden-xs-up">
-      <label for="example-text-input" class="col-xs-12 col-sm-3 col-form-label">
-        Name
-      </label>
-      <div class="col-xs-12 col-sm-9">
-        <input class="form-control" type="text" (keyup)="setName($event)" [(value)]="profile.name">
+
+    <div class="profile-token m-t-2" *ngIf="showAccessCode">
+      <h3>Access Code</h3>
+      <p>You can use this code to allow access to content on the site.</p>
+      <p>It can be used by more than one person and never expires. Access granted with a code will reset every 24 hours.</p>
+      <div class="account-access-token">
+        <div class="input-group">
+          <input type="text" class="form-control" #inputTarget value="{{profile.token}}">
+          <span class="input-group-btn">
+            <button class="btn {{embedButtonClass}}" [ngxClipboard]="inputTarget" (cbOnSuccess)="embedCopySuccess()" type="button" [innerHTML]="embedButtonLabel"></button>
+          </span>
+        </div>
       </div>
     </div>
-    <div class="form-group row hidden-xs-up">
-      <label for="example-text-input" class="col-xs-12 col-sm-3 col-form-label">
-        Profile Image
-      </label>
-      <div class="col-xs-12 col-sm-9">
-        <img class="m-b-1" src="{{profile.picture}}" /><br/>
-        <p>Images must be in jpg or png format and no larger than 1024x768.</p>
-        <input type="file" class="profile-upload" #fileInput/>
-      </div>
 
+    <div class="profile-password m-t-2" *ngIf="auth.checkRM() === false">
+      <h3>Change Password</h3>
+      <p>Click below to recieve an email with a link to change your password.</p>
+      <button (click)="passwordReminder()" class="btn btn-assembly-scripts">Change Password</button>
     </div>
-    <button (click)="update()" class="btn btn-assembly-scripts hidden-xs-up">Update</button>
 
-  <div class="profile-password m-t-2" *ngIf="auth.checkRM() === false">
-  <h3>Change Password</h3>
-  <p>Click below to recieve an email with a link to change your password.</p>
-  <button (click)="passwordReminder()" class="btn btn-assembly-scripts">Change Password</button>
-</div>
-
-    </div>
   </div>
+</div>

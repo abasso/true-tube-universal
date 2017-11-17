@@ -1,40 +1,53 @@
 main {
   &.sticky {
-    margin-top:13rem;
+    margin-top: 13rem;
     @media(min-width: $breakpoint-lg) {
-      margin-top:9rem;
+      margin-top: 9rem;
     }
   }
-  padding-bottom:4rem;
+  padding-bottom: 4rem;
 }
 
 .interactive-wrapper {
-  width:100%;
-  height:0;
-  padding-bottom:75%;
-  position:relative;
-  margin-top:1rem;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%;
+  position: relative;
+  margin-top: 1rem;
   iframe {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 
 .related {
-  border-top:solid 3px $gray-lighter;
+  border-top: solid 3px $gray-lighter;
 }
 
 .login-prompt {
-  font-size:$font-size-sm;
-  font-weight:$font-weight-normal;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
 }
 
 .download-link {
-  display:flex;
-  margin-right:auto;
-  font-size:$font-size-sm;
-  font-weight:$font-weight-normal;
+  display: flex;
+  margin-right: auto;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+}
+
+.tab-videos {
+  &.video-disabled {
+    app-video-player {
+      pointer-events: none;
+    }
+  }
+  &.video-enabled {
+    app-video-player {
+      pointer-events: all !important;
+    }
+  }
 }

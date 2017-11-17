@@ -1,4 +1,4 @@
-import { PLATFORM_ID, Component, OnInit, Inject } from '@angular/core'
+import { PLATFORM_ID, Component, OnInit, DoCheck, Inject } from '@angular/core'
 import { Location } from '@angular/common'
 import { DataService } from './../../../services/data.service'
 import { UserService } from './../../../services/user.service'
@@ -27,13 +27,15 @@ declare var videojs: any
     SanitiseUrlPipe
   ]
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, DoCheck {
   public item: any = {}
   public data: any
   public slug: string
   public showEmbed = false
   public embedButtonLabel = 'Copy'
   public embedButtonClass = 'btn-video'
+  public codeButtonLabel = 'Submit'
+  public codeButtonClass = ''
   public embeddedContent: any = []
   public activeTab = 'film'
   public types: any
@@ -46,6 +48,7 @@ export class ItemComponent implements OnInit {
   public enableSubtitles = false
   public createListTitle = ''
   public addListError = false
+  public useAccessCode = false
   public addListErrorMessage = 'An error occured'
   public listArray: any[] = []
   public listButtonClass = 'btn-lesson-plan'
@@ -54,6 +57,9 @@ export class ItemComponent implements OnInit {
   public showNotification = false
   public notificationRemove = false
   public notificationFavourite = false
+  public contentAccess = false
+  public viewRemainingCount = 1
+  public accessCode: string
   public apiUrl = 'https://www.truetube.co.uk/v5/api/me'
   public advisoryMessage = '<p>This video may contain content <strong>unsuitable for sensitive or younger students.</strong> Teacher discretion is advised.</p>'
   public paginationData = {
@@ -74,6 +80,22 @@ export class ItemComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+
+      if (localStorage.getItem('authedByCode') !== null) {
+        const currentAuthCode = JSON.parse(localStorage.getItem('authedByCode'))
+        if (moment().diff(moment(currentAuthCode.timestamp), 'minutes') > 1440) {
+          localStorage.removeItem('authedByCode')
+        }
+      }
+
+      if (localStorage.getItem('watchedUnregistered') === 'true' && !this.auth.authenticated() && localStorage.getItem('authedByCode') === null) {
+        this.viewRemainingCount = 0;
+      } else if (this.auth.authenticated() || localStorage.getItem('authedByCode') !== null) {
+        this.viewRemainingCount = 1
+        this.contentAccess = true
+      }
+    }
     this.types = ContentTypes
     this.data = this.route.url
     .switchMap((url: any) => this.dataService.itemBySlug(url))
@@ -133,6 +155,26 @@ export class ItemComponent implements OnInit {
     })
   }
 
+  ngDoCheck()	{
+    if (isPlatformBrowser(this.platformId)) {
+      if(this.auth.authenticated() || localStorage.getItem('authedByCode') !== null) {
+        this.viewRemainingCount = 1
+        this.contentAccess = true
+      }
+    } else {
+      if(this.auth.authenticated()) {
+        this.viewRemainingCount = 1
+        this.contentAccess = true
+      }
+    }
+  }
+
+  showAccessCode(event) {
+    event.preventDefault()
+    this.useAccessCode = (this.useAccessCode === true) ? false : true
+  }
+
+
   hasAttributes(attribute: any) {
     return (_.isUndefined(attribute) || attribute === null || attribute === false || attribute.length === 0) ? false : true
   }
@@ -169,6 +211,28 @@ export class ItemComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.analyticsService.emitEvent('Content Tab', event.tabLabel, item.title)
     }
+  }
+
+  checkAccessCode(event: any) {
+    event.preventDefault()
+    this.dataService.checkAccessCode(this.accessCode).subscribe(
+      res => {
+        if (res.status === 200) {
+          if (isPlatformBrowser(this.platformId)) {
+            const accessData = {value: this.accessCode, timestamp: new Date().getTime()}
+            localStorage.setItem('authedByCode', JSON.stringify(accessData))
+          }
+        }
+      },
+      err => {
+        this.codeButtonLabel = 'Code incorrect'
+        this.codeButtonClass = 'btn-error'
+        setTimeout(() => {
+          this.codeButtonLabel = 'Submit'
+          this.codeButtonClass = ''
+        }, 2000)
+      }
+    )
   }
 
   embedCopySuccess(event: any) {
@@ -236,119 +300,124 @@ export class ItemComponent implements OnInit {
       this.http.post(this.apiUrl + '/' + listSlug + '/' + this.item.id, {
         title : this.createListTitle
       }, { headers: header }).subscribe(
-      (data) => {
-        this.listArray.push({
-          title: this.createListTitle,
-          checked: true
-        })
+        (data) => {
+          this.listArray.push({
+            title: this.createListTitle,
+            checked: true
+          })
 
-        this.toggleNotification(this.createListTitle, true)
+          this.toggleNotification(this.createListTitle, true)
+          setTimeout(() => {
+            this.createListTitle = ''
+          }, 2200)
+        })
+      } else {
+        this.addListError = true
+        this.addListErrorMessage = 'Please enter a list name'
         setTimeout(() => {
-          this.createListTitle = ''
-        }, 2200)
-      })
-    } else {
-      this.addListError = true
-      this.addListErrorMessage = 'Please enter a list name'
+          this.addListError = false
+        }, 3000)
+      }
+    }
+
+    toggleNotification(list: any, added: any) {
+      this.showNotification = false
+      let message = 'Removed from '
+      if (added === false) {
+        this.notificationRemove = true
+      } else {
+        message = 'Added to '
+        this.notificationRemove = false
+      }
+      this.notificationMessage = message + list
+      this.showNotification = true
       setTimeout(() => {
-        this.addListError = false
+        this.showNotification = false
       }, 3000)
     }
-  }
 
-  toggleNotification(list: any, added: any) {
-    this.showNotification = false
-    let message = 'Removed from '
-    if (added === false) {
-      this.notificationRemove = true
-    } else {
-      message = 'Added to '
-      this.notificationRemove = false
-    }
-    this.notificationMessage = message + list
-    this.showNotification = true
-    setTimeout(() => {
-      this.showNotification = false
-    }, 3000)
-  }
-
-  setList(event: any, key: any, title: string) {
-    if (event.target.checked) {
-      this.notificationFavourite = false
-      if (key === 'favourites') {
-        this.addedToFavourites = true
-        this.notificationFavourite = true
-      }
-      this.toggleNotification(title, true)
-      this.http.post(this.apiUrl + '/' + key + '/' + this.item.id, {}).subscribe(
-      (data) => {
-        if (isPlatformBrowser(this.platformId)) {
-          this.analyticsService.emitEvent('List', 'Add', this.item.id)
+    setList(event: any, key: any, title: string) {
+      if (event.target.checked) {
+        this.notificationFavourite = false
+        if (key === 'favourites') {
+          this.addedToFavourites = true
+          this.notificationFavourite = true
         }
-      })
-    } else {
-      this.notificationFavourite = false
-      this.toggleNotification(title, false)
-      if (key === 'favourites') {
-        this.addedToFavourites = false
-        this.notificationFavourite = true
-      }
-      this.http.delete(this.apiUrl + '/' + key + '/' + this.item.id).subscribe(
-      (data) => {
-        if (isPlatformBrowser(this.platformId)) {
-          this.analyticsService.emitEvent('List', 'Remove', this.item.id)
-        }
-      })
-    }
-  }
-
-  keyCheck(event: any) {
-    if (event.key === 'Enter') {
-      this.addList(event)
-    }
-  }
-
-  playPlayer(event: any) {
-    event.preventDefault()
-    this.play = true
-    this.hideAdvisory = true
-  }
-
-  playSubtitlePlayer(event: any) {
-    event.preventDefault()
-    event.target.blur()
-    this.play = true
-    this.hideAdvisory = true
-    this.enableSubtitles = true
-  }
-
-  isItemInList() {
-    this.http.get(this.apiUrl)
-      .subscribe(
-        (data) => {
-          this.addedToFavourites = false
-          this.userData = JSON.parse(data['_body'])
-          this.listArray = []
-          _.each(this.userData.lists, (list, key) => {
-            let arrayItem = {
-              title: list.title,
-              key: key,
-              checked: false,
-              order: 1
+        this.toggleNotification(title, true)
+        this.http.post(this.apiUrl + '/' + key + '/' + this.item.id, {}).subscribe(
+          (data) => {
+            if (isPlatformBrowser(this.platformId)) {
+              this.analyticsService.emitEvent('List', 'Add', this.item.id)
             }
-            _.each(list.items, (listItem) => {
-              if (listItem === this.item.id && list.title === 'Favourites') {
-                arrayItem.checked = true
-                this.addedToFavourites = true
-                arrayItem.order = 0
-              } else if (listItem === this.item.id) {
-                arrayItem.checked = true
-                this.listTitle = list.title
+          })
+        } else {
+          this.notificationFavourite = false
+          this.toggleNotification(title, false)
+          if (key === 'favourites') {
+            this.addedToFavourites = false
+            this.notificationFavourite = true
+          }
+          this.http.delete(this.apiUrl + '/' + key + '/' + this.item.id).subscribe(
+            (data) => {
+              if (isPlatformBrowser(this.platformId)) {
+                this.analyticsService.emitEvent('List', 'Remove', this.item.id)
               }
             })
-            this.listArray.push(arrayItem)
-          })
+          }
         }
-      )
-  }
-}
+
+        keyCheck(event: any) {
+          if (event.key === 'Enter') {
+            this.addList(event)
+          }
+        }
+
+        playPlayer(event: any) {
+          event.preventDefault()
+          this.play = true
+          this.hideAdvisory = true
+        }
+
+        playerEvent(event: string) {
+          if (!this.auth.authenticated() && localStorage.getItem('authedByCode') === null) this.viewRemainingCount = 0;
+        }
+
+
+        playSubtitlePlayer(event: any) {
+          event.preventDefault()
+          event.target.blur()
+          this.play = true
+          this.hideAdvisory = true
+          this.enableSubtitles = true
+        }
+
+        isItemInList() {
+          this.http.get(this.apiUrl)
+          .subscribe(
+            (data) => {
+              this.addedToFavourites = false
+              this.userData = JSON.parse(data['_body'])
+              this.listArray = []
+              _.each(this.userData.lists, (list, key) => {
+                let arrayItem = {
+                  title: list.title,
+                  key: key,
+                  checked: false,
+                  order: 1
+                }
+                _.each(list.items, (listItem) => {
+                  if (listItem === this.item.id && list.title === 'Favourites') {
+                    arrayItem.checked = true
+                    this.addedToFavourites = true
+                    arrayItem.order = 0
+                  } else if (listItem === this.item.id) {
+                    arrayItem.checked = true
+                    this.listTitle = list.title
+                  }
+                })
+                this.listArray.push(arrayItem)
+              })
+            }
+          )
+        }
+      }

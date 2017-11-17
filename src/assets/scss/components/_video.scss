@@ -1,227 +1,269 @@
 .video-js-wrapper, .audio-wrapper {
-  width:100%;
-  padding-bottom:56.25%;
-  height:0;
-  position:relative;
-  display:flex;
-  align-items:center;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
   justify-content: center;
   flex: 0 0 75%;
   .video-js {
-    transition: all 0.4s ease;
-    position:absolute;
-    top:0px;
-    left:0px;
-    width:100%;
-    height:100%;
+    transition: all .4s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     &:hover {
       .vjs-big-play-button {
-        background-color:$brand-gray;
+        background-color: $brand-gray;
       }
     }
   }
   .vjs-poster {
-    align-items:inherit;
+    align-items: inherit;
     justify-content: inherit;
-    width:100%;
-    height:100%;
-    position:absolute;
-    top:0;
-    left:0;
-    cursor:pointer;
-    background-size:cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    background-size: cover;
   }
   .vjs-big-play-button {
-    width:130px;
-    height:130px;
-    border-radius:130px;
-    background:$brand-red no-repeat 57% 50% url("/assets/images/play.svg");
-    margin:-65px 0 0 -65px;
-    border:none;
+    width: 130px;
+    height: 130px;
+    border-radius: 130px;
+    background: $brand-red no-repeat 57% 50% url('/assets/images/play.svg');
+    margin: -65px 0 0 -65px;
+    border: none;
     &:before {
-      display:none;
+      display: none;
     }
     &:hover {
-      background-color:$brand-gray;
+      background-color: $brand-gray;
     }
     @media(max-width: $breakpoint-sm) {
       background-size: 40px 40px;
-      height:80px;
-      width:80px;
-      border-radius:80px;
-      margin:-40px 0 0 -40px;
+      height: 80px;
+      width: 80px;
+      border-radius: 80px;
+      margin: -40px 0 0 -40px;
     }
   }
 }
 
 .audio-wrapper {
   .vjs-big-play-button {
-    background:$color-audio no-repeat 57% 50% url("/assets/images/play.svg");
+    background: $color-audio no-repeat 57% 50% url('/assets/images/play.svg');
   }
   .vjs-poster {
-    display:block !important;
+    display: block !important;
   }
   .vjs-fullscreen-control {
-    display:none !important;
-  }
-  .audio-header {
-
+    display: none !important;
   }
 }
 
 .video-header, .audio-header {
-  min-height:4rem;
-  border-top:solid 1px $gray-lighter;
-  display:flex;
+  min-height: 4rem;
+  border-top: solid 1px $gray-lighter;
+  display: flex;
   font-weight: $font-weight-normal;
-  align-items:center;
+  align-items: center;
   .video-actions {
-    display:flex;
-    font-size:$font-size-sm;
-    margin-left:auto;
+    display: flex;
+    font-size: $font-size-sm;
+    margin-left: auto;
     a {
-      margin-left:2.5rem;
+      margin-left: 2.5rem;
     }
   }
   .advisory-warning {
-    border:solid 1px $gray-light;
+    border: solid 1px $gray-light;
     font-weight: bold;
-    font-size:0.875rem;
-    padding: 0.05rem .5rem 0;
+    font-size: .875rem;
+    padding: .05rem .5rem 0;
     border-radius: .15rem;
   }
 }
+
+.video-registration-warning {
+  padding: 2rem;
+  border-radius: .25rem;
+  font-weight: 300;
+  margin: 0 auto 1rem;
+  font-size: $font-size-base;
+  background: $brand-gray;
+  with: 100%;
+  color: white;
+  text-align: center;
+  a {
+    color: white;
+    border-bottom: dotted 1px white;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+}
+
+.video-registration-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.8);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-base;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  a {
+    color: white;
+    border-bottom: dotted 1px white;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+
+  .video-registration-overlay-message {
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 300;
+    @media(max-width: $breakpoint-md) {
+      font-size: 1rem;
+      line-height: 1;
+    }
+  }
+  .btn-error {
+    background: $brand-red;
+  }
+}
+
 .video-embed-container {
-  border-top:solid 1px $gray-lighter;
-  display:none;
-  position:relative;
+  border-top: solid 1px $gray-lighter;
+  display: none;
+  position: relative;
   .btn {
-    border-radius:$border-radius-sm;
+    border-radius: $border-radius-sm;
   }
   label {
     margin-bottom: 1rem;
     font-weight: $font-weight-normal;
   }
   .video-embed-form {
-    border-radius:$border-radius-sm;
-    background:$gray-lightest;
+    border-radius: $border-radius-sm;
+    background: $gray-lightest;
     .btn {
-      margin:0;
+      margin: 0;
     }
   }
   &.show {
-    display:block;
+    display: block;
   }
 }
 
 .video-footer {
-  min-height:4rem;
+  min-height: 4rem;
   @media(max-width: $breakpoint-xl) {
     border-bottom: solid 2px $gray-lighter;
-    margin-bottom:1rem;
+    margin-bottom: 1rem;
   }
   @media(max-width: $breakpoint-md) {
-    font-size:$font-size-sm;
+    font-size: $font-size-sm;
   }
   .info {
     &:nth-of-type(2) {
-      border-right:none;
+      border-right: none;
     }
   }
-  display:flex;
+  display: flex;
   font-weight: $font-weight-normal;
-  align-items:center;
+  align-items: center;
   .video-actions {
-    font-size:$font-size-sm;
-    margin-left:auto;
+    font-size: $font-size-sm;
+    margin-left: auto;
     a {
-      margin-left:2.5rem;
+      margin-left: 2.5rem;
     }
   }
   .video-share {
-    display:flex;
+    display: flex;
     align-items: center;
-    margin-left:auto;
+    margin-left: auto;
     .share-title {
       @media(min-width: $breakpoint-md) {
-        margin-right:.75rem;
+        margin-right: .75rem;
       }
     }
-
   }
 }
 
 .vjs-control-bar {
-  font-size:.75rem;
+  font-size: .75rem;
 }
 
 .vjs-menu, .vjs-play-progress, .vjs-mouse-display {
-  font-family:$font-family-base !important;
+  font-family: $font-family-base !important;
   font-weight: $font-weight-normal;
   &:before {
-    font-family:VideoJS;
+    font-family: VideoJS;
   }
 }
 
 .video-js {
   .vjs-progress-control {
-      .vjs-progress-holder {
-        font-size:1.66666666em;
-      }
+    .vjs-progress-holder {
+      font-size: 1.66666666em;
+    }
   }
-
 }
 
 
 .advisory-warning-overlay {
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  position:absolute;
-  top:0px;
-  left:0px;
-  background:rgba(0,0,0,0.7);
-  z-index:9999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 9999;
   align-items: center;
   .advisory-warning {
-    display:flex;
-    flex-direction:column;
-    margin:auto;
-    color:white;
-    padding:1rem;
-    .title {
-      text-transform:uppercase;
-      padding:.25rem .75rem;
-      border-radius:.25rem;
-      font-weight:700;
-      margin:0 auto 1rem;
-      font-size:$font-size-lg;
-      background:$brand-red;
-    }
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    color: white;
+    line-height: 1;
     .link {
-      border-bottom:solid 1px rgba(255,255,255,0.2);
+      border-bottom: solid 1px rgba(255,255,255,.2);
       margin: 0 auto;
     }
-    background:rgba(0,0,0,0.4);
-    border:none;
-    font-weight:$font-weight-normal;
-    text-align:center;
-    width:100%;
-    font-size:$font-size-sm;
+    background: rgba(0,0,0,.4);
+    border: none;
+    font-weight: $font-weight-normal;
+    text-align: center;
+    width: 100%;
+    font-size: $font-size-sm;
     @media(min-width: $breakpoint-sm) {
-      width:50%;
-      border-radius:.5rem;
+      width: 50%;
+      border-radius: .5rem;
     }
   }
 }
 
 .vjs-captions-button {
   &:before {
-    content:'' !important;
-    background-image: url("/assets/images/subtitles_white.svg");
+    content: '' !important;
+    background-image: url('/assets/images/subtitles_white.svg');
     background-size: 24px;
-    background-repeat:no-repeat;
-    background-position:center;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }

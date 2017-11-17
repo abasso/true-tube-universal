@@ -8,6 +8,7 @@ export const myConfig: AuthConfiguration = {
     clientID: 'c1OIvYBFmOpdrUgXuHGD5j3KE7rjFSJT',
     domain: 'truetube.eu.auth0.com',
     options: {
+      signUpLink: '/register',
       autoclose: true,
       rememberLastLogin: false,
       languageDictionary: {

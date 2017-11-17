@@ -13,7 +13,7 @@
         <h4 *ngIf="!userType">All of our accounts are <span>100% free forever</span> and have full access to the complete range of content on the site.</h4>
         <!-- <h2>Which account do you need?</h2> -->
         </div>
-        <div class="switch-registration" *ngIf="userType">Don't want to register as a {{userType}}? <a (click)="userType=null">Go back</a></div>
+        <div class="switch-registration" *ngIf="userType">Don't want to register as a {{userType}}? <a (click)="userType=null; hasErrors=false; ">Go back</a></div>
         <div class="row register-types" *ngIf="!userType">
 
             <div class="register-type">

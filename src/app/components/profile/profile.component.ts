@@ -17,6 +17,9 @@ export class ProfileComponent {
     public notificationMessage: string
     public rmUnifyUser = false
     public notificationEmail = false
+    public embedButtonLabel = 'Copy'
+    public embedButtonClass = 'btn-video'
+    public showAccessCode = false
     public lists: any[] = []
     public menu: any[] = [
       {
@@ -44,6 +47,11 @@ export class ProfileComponent {
     ) {
         route.data.subscribe(data => {
             this.profile = data['profile']
+            if (this.profile.userMetaData) {
+              if (this.profile.userMetaData.memberType === 'teacher' || this.profile.userMetaData.memberType === 'other') {
+                this.showAccessCode = true
+              }
+            }
         })
     }
 
@@ -70,6 +78,15 @@ export class ProfileComponent {
           }, 3000)
         }
       })
+    }
+
+    embedCopySuccess(event: any) {
+      this.embedButtonLabel = 'Copied'
+      this.embedButtonClass = 'btn-success'
+      setTimeout(() => {
+        this.embedButtonLabel = 'Copy'
+        this.embedButtonClass = 'btn-video'
+      }, 1000)
     }
 
     update() {

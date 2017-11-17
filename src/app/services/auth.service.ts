@@ -84,9 +84,6 @@ export class Auth {
       redirectUrl = localStorage.getItem('redirectUrl')
     }
     this.auth0.client.userInfo(authResult.access_token, (err, user) => {
-      console.log(localStorage.getItem('token'));
-      console.log(err)
-      console.log(user)
         // Now you have the user's information
       if (isPlatformBrowser(this.platformId)) {
            localStorage.setItem('profile', user)
@@ -110,25 +107,6 @@ export class Auth {
     }
     this.lock.show()
   }
-
-  // public login(data) {
-  //   console.log('logging in')
-  //   //event.preventDefault()
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     localStorage.setItem('redirectUrl', this.router.url)
-  //   }
-  //   this.auth0.client.login({
-  //     realm: 'Username-Password-Authentication', //connection name or HRD domain
-  //     username: data.email,
-  //     password: data.password,
-  //     scope: 'read:order write:order',
-  //     }, function(err, authResult) {
-  //       console.log('There was an error', err)
-  //       if(err) return err
-  //       console.log('The result', authResult)
-  //
-  //   });
-  // }
 
   public signup(event: any) {
     event.preventDefault()
@@ -161,8 +139,6 @@ export class Auth {
   }
 
   public authenticated() {
-    // Check if there's an unexpired JWT
-    // It searches for an item in localStorage with key == 'id_token'
     if (isPlatformBrowser(this.platformId)) {
       return tokenNotExpired() || this.checkRM()
     }
@@ -189,9 +165,16 @@ export class Auth {
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
-  constructor(private auth: Auth) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private auth: Auth,
+  ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    return this.auth.authenticated() || !!localStorage.getItem('rmlogin')
+    if (isPlatformBrowser(this.platformId)) {
+      return this.auth.authenticated() || !!localStorage.getItem('rmlogin')
+    } else {
+      return this.auth.authenticated()
+    }
   }
 }
 
