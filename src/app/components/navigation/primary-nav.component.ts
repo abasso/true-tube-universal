@@ -45,12 +45,14 @@ export class PrimaryNavComponent implements OnInit {
 
   login(event: any) {
     this.auth.login(event)
+    this.menuClick.emit(event)
+
     //this.loginClick.emit(event)
   }
 
   register(event: any) {
     event.preventDefault()
-    this.auth.signup(event)
+    //this.auth.signup(event)
     this.menuClick.emit(event)
   }
 

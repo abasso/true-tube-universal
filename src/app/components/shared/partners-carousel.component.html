@@ -7,6 +7,7 @@
 		>Work with us</a>
 	</div>
   <swiper [config]="carouselConfig">
+		<div class="swiper-wrapper">
     <div class="swiper-slide" *ngFor="let item of slides">
         <a href="{{item.link}}"
 				(click)="analyticsService.emitEvent('Partner Carousel', 'Navigate', item.link)"
@@ -14,6 +15,7 @@
           <img src="{{item.image}}" alt="{{item.image.alt}}">
       </a>
     </div>
+	</div>
 </swiper>
 	</div>
 </div>

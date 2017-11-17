@@ -62,8 +62,8 @@ export class RegisterComponent implements OnInit {
     this.dataService.districts()
     .subscribe(
       (data) => {
-        this.districts = _.map(data.features, item => {
-          return item['attributes']['LAD16NM']
+        this.districts = _.map(data.aggregations.group_by_la.buckets, item => {
+          return item['key']
         })
       })
   }

@@ -9,6 +9,6 @@ analyticsService.emitEvent('Primary Nav', 'Navigate', 'Logout')" class="primary-
 <div class="primary-nav__item primary-nav__account" *ngIf="!auth.authenticated()"><a href="#" (click)="login($event);
 analyticsService.emitEvent('Primary Nav', 'Navigate', 'Login')" class="primary-nav__link">Login</a></div>
  <div class="primary-nav__item primary-nav__account" *ngIf="!auth.authenticated()"><a
- (click)="analyticsService.emitEvent('Primary Nav', 'Navigate', 'Register')"
+ (click)="analyticsService.emitEvent('Primary Nav', 'Navigate', 'Register'); register($event)"
   [routerLink]="['/register']" class="primary-nav__link">Register</a></div>
 <app-search #search (searchSubmitted)="searchDone($event)" class="primary-nav__search" [ngClass]="{'active': search.focussed}"></app-search>

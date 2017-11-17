@@ -224,8 +224,20 @@ export class DataService {
   }
 
   districts() {
+    let header = new Headers()
+    let options = new RequestOptions({ headers: header })
+    header.append('Content-Type', 'application/json')
     return this.http
-    .get(this.districtUrl)
+    .post(this.schoolsUrl, {
+      "size": 0,
+        "aggs": {
+          "group_by_la": {
+        "terms": {
+          "field": "la_name", "size": 2000
+        }
+      }
+    }
+    }, options )
     .map((response) => ( response.json()))
   }
 

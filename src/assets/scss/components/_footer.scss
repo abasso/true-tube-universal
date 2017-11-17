@@ -1,104 +1,108 @@
 .partners-carousel {
-  margin-top:1rem;
-  background:$gray-lightest;
-  padding:.5rem 0 0;
+  margin-top: 1rem;
+  background: $gray-lightest;
+  padding: .5rem 0 0;
 
   .partners-carousel-header {
-    margin:1.75rem 0 1rem 0;
+    margin: 1.75rem 0 1rem 0;
     h3 {
-      margin:0;
-      padding:0 0 0.25rem;
-      border-bottom:solid 2px $brand-yellow;
+      margin: 0;
+      padding: 0 0 .25rem;
+      border-bottom: solid 2px $brand-yellow;
     }
-    display:flex;
+    display: flex;
     align-items: center;
     a {
-      margin-left:auto;
+      margin-left: auto;
     }
   }
   .swiper {
     margin: 0 1rem;
   }
   .swiper-wrapper {
-    padding-bottom:3.5rem;
+    padding-bottom: 3.5rem;
+    height: auto !important;
+  }
+  .swiper-container {
+    height: auto !important;
   }
   .swiper-slide {
-    text-align:center;
-    border-radius:$border-radius-lg;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    min-height:10rem;
+    text-align: center;
+    border-radius: $border-radius-lg;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    height: 10rem;
 
     a {
-      margin:auto;
-      width:60%;
+      margin: auto;
+      width: 60%;
     }
   }
   .swiper-pagination {
-    border:none;
+    border: none;
   }
   // h3 {
   //   padding-bottom:1rem;
   // }
   img {
-    width:100%;
-    min-height:0;
+    width: 100%;
+    min-height: 0;
   }
 }
 
 footer {
-  font-size:$font-size-sm;
+  font-size: $font-size-sm;
 
   .container {
-    display:flex;
-    flex-direction:column;
-    margin:2rem;
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
     @media(max-width: $breakpoint-lg) {
-      margin:0;
+      margin: 0;
     }
     @media(min-width: $breakpoint-xl) {
-      margin:2rem auto;
+      margin: 2rem auto;
     }
   }
   a {
-    color:white;
+    color: white;
     &:hover {
-      color:$brand-yellow;
+      color: $brand-yellow;
     }
   }
-  padding:1rem 0;
-  background:$brand-gray;
-  color:$gray;
+  padding: 1rem 0;
+  background: $brand-gray;
+  color: $gray;
   font-weight: $font-weight-normal;
 
   .footer-nav-container {
     app-footer-nav {
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       @media(min-width: $breakpoint-md) {
-        flex-direction:row;
+        flex-direction: row;
       }
     }
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     @media(min-width: $breakpoint-md) {
-      flex-direction:row;
+      flex-direction: row;
     }
     .footer-nav {
-      min-width:200px;
-      display:flex;
-      flex-direction:column;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
 
       a {
-        float:left;
-        clear:both;
-        color:white;
+        float: left;
+        clear: both;
+        color: white;
         // display:flex;
-        border-bottom:dotted 1px $gray;
-        margin:.25rem 0;
+        border-bottom: dotted 1px $gray;
+        margin: .25rem 0;
         &:hover {
-          color:$brand-yellow;
+          color: $brand-yellow;
         }
         // @media(min-width: $breakpoint-xl) {
         //   flex-direction:row;
@@ -107,84 +111,83 @@ footer {
     }
   }
   .footer-address {
-    color:white;
+    color: white;
     @media(max-width: $breakpoint-md) {
-    border-top:solid 2px $gray;
-    padding:1rem 0;
-    margin:1rem 0 0;
-  }
+      border-top: solid 2px $gray;
+      padding: 1rem 0;
+      margin: 1rem 0 0;
+    }
     @media(min-width: $breakpoint-md) {
-      margin-left:auto;
-      text-align:right;
+      margin-left: auto;
+      text-align: right;
     }
   }
 
   .footer-info {
-    font-size:$font-size-xs;
-    margin-bottom:0;
-    display:flex;
-    flex-direction:column;
+    font-size: $font-size-xs;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
     @media(min-width: $breakpoint-md) {
-      margin-top:3rem;
-      flex-direction:row;
+      margin-top: 3rem;
+      flex-direction: row;
       align-items: center;
     }
-
   }
 }
 
 .copyright {
   @media(max-width: $breakpoint-md) {
-    order:2;
+    order: 2;
   }
   a {
-    margin-left:.25rem;
+    margin-left: .25rem;
   }
 }
 
 .footer-produced-by {
-  display:flex;
+  display: flex;
   align-items: center;
   align-self: baseline;
-  color:white;
-  margin-left:auto;
+  color: white;
+  margin-left: auto;
   @media(max-width: $breakpoint-md) {
-    order:1;
-    width:100%;
-    border-top:solid 1px $gray;
-    border-bottom:solid 1px $gray;
-    padding:1rem 0;
-    margin-bottom:1rem;
+    order: 1;
+    width: 100%;
+    border-top: solid 1px $gray;
+    border-bottom: solid 1px $gray;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
   }
   a {
-    background:no-repeat bottom right url("/assets/images/ctvc-logo.svg");
-    background-size:contain;
-    height:30px;
-    width:100px;
-    margin-left:.5rem;
+    background: no-repeat bottom right url('/assets/images/ctvc-logo.svg');
+    background-size: contain;
+    height: 30px;
+    width: 100px;
+    margin-left: .5rem;
     @media(max-width: $breakpoint-lg) {
-      margin-left:auto;
+      margin-left: auto;
     }
   }
 }
 
 app-awards {
-  display:flex;
+  display: flex;
   @media(max-width: $breakpoint-sm) {
-    flex-direction:column;
+    flex-direction: column;
   }
 }
 
 .award {
-  margin-right:.5rem;
-  display:flex;
+  margin-right: .5rem;
+  display: flex;
   img {
-    height:50px;
+    height: 50px;
   }
   @media(max-width: $breakpoint-md) {
-    padding:1rem 0;
+    padding: 1rem 0;
   }
   @media(max-width: $breakpoint-sm) {
-    padding:.5rem 0;
+    padding: .5rem 0;
   }
 }
