@@ -1,11 +1,11 @@
 import { PLATFORM_ID, Component, OnInit, Inject, Input } from '@angular/core'
-import { DataService } from './../../../services/data.service'
-import { ValidationService } from './../../../services/validation.service'
-import { Auth } from './../../../services/auth.service'
-import { myConfig } from './../../../services/auth.config'
+import { DataService } from './../../services/data.service'
+import { ValidationService } from './../../services/validation.service'
+import { Auth } from './../../services/auth.service'
+import { myConfig } from './../../services/auth.config'
 
 import { ActivatedRoute, Router } from '@angular/router'
-import { ContentTypes } from './../../../definitions/content-types'
+import { ContentTypes } from './../../definitions/content-types'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
@@ -17,11 +17,11 @@ import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/distinctUntilChanged'
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
+  selector: 'app-profile-update',
+  templateUrl: './update.component.html',
   styles: []
 })
-export class RegisterComponent implements OnInit {
+export class ProfileUpdateComponent implements OnInit {
   @Input() control: FormControl
   public data: any
   public form

@@ -56,6 +56,7 @@ import { AccessibilityNavComponent } from './components/navigation/accessibility
 import { CalendarComponent } from './components/content/calendar/calendar.component'
 import { EventComponent } from './components/content/event/event.component'
 import { ProfileComponent } from './components/profile/profile.component'
+import { ProfileUpdateComponent } from './components/profile/update.component'
 import { ProfileResolver } from './components/profile/profile.resolver'
 import { UserListsComponent } from './components/profile/lists.component'
 import { UserListComponent } from './components/profile/list.component'
@@ -272,6 +273,7 @@ export function metaFactory(): MetaLoader {
     AudioComponent,
     PrimaryNavComponent,
     ProfileComponent,
+    ProfileUpdateComponent,
     QueryStringPipe,
     RegisterComponent,
     SanitiseUrlPipe,

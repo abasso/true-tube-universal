@@ -20,7 +20,7 @@
               <h3>Teacher</h3>
               <ul>
                 <li>View unlimited content on the site</li>
-                <li>Save Favourites</li>
+                <li>Save favourites</li>
                 <li>Create and save lists</li>
                 <li>Download videos for offline viewing</li>
                 <li>Download lesson plans and supporting material</li>
@@ -32,7 +32,7 @@
               <h3>Student</h3>
               <ul>
                 <li>View unlimited content on the site</li>
-                <li>Save Favourites</li>
+                <li>Save favourites</li>
                 <li>Create and save lists</li>
                 <li>Download videos for offline viewing</li>
                 <li>Download lesson plans and supporting material</li>
@@ -43,7 +43,7 @@
               <h3>Other</h3>
               <ul>
                 <li>View unlimited content on the site</li>
-                <li>Save Favourites</li>
+                <li>Save favourites</li>
                 <li>Create and save lists</li>
                 <li>Download videos for offline viewing</li>
                 <li>Download lesson plans and supporting material</li>
@@ -61,23 +61,45 @@
             </div>
             <div class="form-group" [ngClass]="{ 'error': formErrors.password === true }">
               <label for="password">Password (required)</label>
-              <input required type="password" formControlName="password" (blur)="errorCheck(form)" />
+              <input required type="password" formControlName="password" (change)="errorCheck(form)" (blur)="errorCheck(form)" />
               <div class="form-error" *ngIf="formErrors.password">A password is required</div>
             </div>
             <div class="form-group">
               <label for="email">Type of Teacher (required)</label>
-              <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value)" (blur)="errorCheck(form)">
+              <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value); errorCheck(form)" (blur)="errorCheck(form)">
                 <option disabled selected>What kind of teacher are you?</option>
-                <option value="permanent">Permanent Teacher</option>
-                <option value="private">Private Teacher</option>
-                <option value="supply">Supply Teacher</option>
+                <option value="full">Full time</option>
+                <option value="part">Part time</option>
+                <option value="supply">Supply</option>
                 <option value="other">Other</option>
               </select>
               <div class="form-error" *ngIf="formErrors.teacherTypeSelect">A type is required</div>
             </div>
+            <div class="form-group">
+              <label for="email">What subject do you teach?</label>
+              <select required class="custom-select form-control" formControlName="teacherSubjectSelect" #teacherSubjectSelect (blur)="errorCheck(form)" (change)="errorCheck(form)">
+                <option disabled selected>Please choose a subject</option>
+                <option value="re/rs">RE/RS</option>
+                <option value="Citizenship">Citizenship</option>
+                <option value="PSHE">PSHE</option>
+                <option value="other">Other</option>
+                <option value="English">English</option>
+                <option value="EFL/EAL">EFL/EAL</option>
+                <option value="IT">IT</option>
+                <option value="Maths">Maths</option>
+                <option value="Economics">Economics</option>
+                <option value="Biology">Biology</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Physics">Physics</option>
+                <option value="Philosophy">Philosophy</option>
+                <option value="Media">Media</option>
+                <option value="Sociology">Sociology</option>
+              </select>
+              <div class="form-error" *ngIf="formErrors.teacherSubjectSelect">A subject is required</div>
+            </div>
             <div class="form-group" *ngIf="teacherTypeSelect">
               <label for="email">Location (required)</label>
-              <select required class="custom-select form-control" #location formControlName="location" (change)="setLocation(location.value)" (blur)="errorCheck(form)">
+              <select required class="custom-select form-control" #location formControlName="location" (change)="setLocation(location.value); errorCheck(form)" (blur)="errorCheck(form)">
                 <option disabled selected>Please choose your location</option>
                 <option value="england">England</option>
                 <option value="scotland">Scotland</option>
@@ -89,12 +111,12 @@
             </div>
             <div class="form-group form-autofill" *ngIf="showAuthority">
               <label for="email">Local Authority (required)</label>
-              <input formControlName="authority" id="typeahead-authority" placeholder="e.g. Brent" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" />
+              <input formControlName="authority" id="typeahead-authority" placeholder="e.g. Brent" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" (change)="errorCheck(form)"/>
               <div class="form-error" *ngIf="formErrors.authority">A local authority is required</div>
             </div>
             <div class="form-group form-autofill" *ngIf="showSchools">
               <label for="email">School (required)</label>
-              <input formControlName="school" required id="typeahead-school" placeholder="e.g. St Georges" type="text" class="form-control" [ngbTypeahead]="searchSchools" (click)="errorCheck(form)" (blur)="errorCheck(form)"/>
+              <input formControlName="school" required id="typeahead-school" placeholder="e.g. St Georges" type="text" class="form-control" [ngbTypeahead]="searchSchools" (click)="errorCheck(form)" (blur)="errorCheck(form)" (change)="errorCheck(form)"/>
               <div class="form-error" *ngIf="formErrors.school">A school authority is required</div>
             </div>
             <div class="form-group">
@@ -102,7 +124,7 @@
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
                 <div class="custom-control-indicator"></div>
-                <span class="custom-control-description">Newsletter</span>
+                <span class="custom-control-description">Subscribe to our newsletter</span>
               </label>
             </div>
             <div class="button-group register-submit">
@@ -138,7 +160,7 @@
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
                 <div class="custom-control-indicator"></div>
-                <span class="custom-control-description">Newsletter</span>
+                <span class="custom-control-description">Subscribe to our newsletter</span>
               </label>
             </div>
             <div class="button-group register-submit">
@@ -163,7 +185,7 @@
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
                 <div class="custom-control-indicator"></div>
-                <span class="custom-control-description">Newsletter</span>
+                <span class="custom-control-description">Subscribe to our newsletter</span>
               </label>
             </div>
             <div class="button-group register-submit">
@@ -177,10 +199,10 @@
   </div>
   <div class="col-xs-12 col-ml-12 col-xl-3">
     <div class="registration-prompt">
-      <h2>Why Register?</h2>
-      <h4>For You</h4>
+      <h2>Why register?</h2>
+      <h4>For you</h4>
       <p>By registering you get the ability to watch, view and download the unlimited range of content on our site. It also gives you access to tools and functions to help you manage and organise our content. Check out the features etc above.</p>
-      <h4>For Us</h4>
+      <h4>For us</h4>
       <p><strong>We are proud of the fact we can offer our amazing range of content completely free.</strong></p>
       <p>To continue to do this we need to understand our users and how they interact with our productions, it helps guide us in what to make and what you like, by registering you enable us to do this.</p>
 

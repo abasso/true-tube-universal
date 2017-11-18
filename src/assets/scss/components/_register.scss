@@ -1,5 +1,5 @@
 
-.register-form {
+.register-form, .update-form {
   h1 {
     padding-bottom: 1.5rem;
     margin-bottom: 0;
@@ -18,6 +18,11 @@
     display: flex;
     align-items: center;
     font-weight: 300;
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: solid 4px $gray-lightest;
+    width: 100%;
   }
   h3 {
     display: flex;
@@ -26,7 +31,7 @@
     justify-content: center;
   }
   h4 {
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1rem;
     margin-top: 2rem;
     span {
@@ -38,6 +43,11 @@
     border-bottom: dotted 1px rgba(0,0,0,.2);
     font-size: $font-size-sm;
     margin-left: auto;
+  }
+  p {
+    font-weight: $font-weight-normal;
+    font-size: $font-size-sm;
+    margin: 1rem 0 0;
   }
   input {
     border: 1px solid #f1f1f1;
@@ -225,6 +235,56 @@
     padding-right: 1rem;
     @media(max-width:$breakpoint-sm) {
       font-size: .75rem;
+    }
+  }
+}
+
+.update-modal-mask {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,.8);
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100001;
+  overflow-y: auto;
+  @media(max-width:$breakpoint-lg) {
+    background: white;
+  }
+  .update-modal {
+    border-radius: .5rem;
+    background: white;
+    width: 80%;
+    padding: 0 3rem 3rem;
+    @media(max-width:$breakpoint-lg) {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      padding: 0 2rem 2rem;
+      .row {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+}
+
+.update-form {
+  .register-types {
+    margin: 1rem 0 0;
+  }
+  .update-skip {
+    display: flex;
+    width: 100%;
+    padding: 3rem 1rem 0;
+    justify-content: center;
+    align-items: center;
+    font-weight: $font-weight-normal;
+    font-size: $font-size-sm;
+    a {
+      margin: 0 .25rem;
     }
   }
 }
