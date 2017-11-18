@@ -38,10 +38,7 @@ import { HomeListingComponent } from './components/content/home/list.component'
 import { HomeSortComponent } from './components/content/home/sort.component'
 import { CarouselComponent } from './components/content/home/carousel.component'
 import { PartnersCarouselComponent } from './components/shared/partners-carousel.component'
-import { LoginComponent } from './components/shared/login.component'
 import { RegisterComponent } from './components/content/register/register.component'
-// import { SwiperModule } from 'ngx-swiper-wrapper'
-// import { SwiperConfigInterface } from 'ngx-swiper-wrapper'
 import { SwiperModule } from '../../node_modules/angular2-useful-swiper'
 import { EventsBlockComponent } from './components/shared/events.component'
 import { TopicsComponent } from './components/shared/topics.component'
@@ -66,10 +63,6 @@ import { RmAuthComponent } from './components/profile/rm-auth.component'
 import { MetaGuard } from '@ngx-meta/core'
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core'
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
-
-// import {PopoverModule} from 'ngx-popover'
-
-// import { MetaModule } from 'ng2-meta'
 
 // Raven
 //   .config('https://2978499738d5454a8c9bdaa1bc5ae034@sentry.io/141702')
@@ -265,7 +258,6 @@ export function metaFactory(): MetaLoader {
     ListingComponent,
     ListItemComponent,
     ListingSortComponent,
-    LoginComponent,
     PageComponent,
     PagesNavComponent,
     PaginationPipe,
