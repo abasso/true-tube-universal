@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://staging.truetube.co.uk/authcallback',
+      redirect_uri: 'http://localhost:8011/authcallback',
       email: form.controls.email.value,
       password: form.controls.password.value,
       user_metadata: {

@@ -49,7 +49,8 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnDestroy() {
       if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
+        this.playerEvent.emit('watchedUnregistered')
+        setTimeout(() => {
         if (!_.isUndefined(this.videoJSplayer)) {
           if (this.hasBeenPlayed === true) {
             this.analyticsService.emitEvent('Exit time ' + this.playHeadTime, 'Watch', this.embed.title)

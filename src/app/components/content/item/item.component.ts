@@ -255,7 +255,6 @@ export class ItemComponent implements OnInit, DoCheck {
     })
     this.toggleNotification('Favourites', true)
     this.addedToFavourites = true
-
   }
 
   removeFromFavourites(event: any) {
@@ -379,7 +378,9 @@ export class ItemComponent implements OnInit, DoCheck {
         }
 
         playerEvent(event: string) {
-          if (!this.auth.authenticated() && localStorage.getItem('authedByCode') === null) this.viewRemainingCount = 0;
+          if (!this.auth.authenticated() && localStorage.getItem('authedByCode') === null) {
+            this.viewRemainingCount = 0;
+          }
         }
 
 

@@ -1,4 +1,4 @@
-<div class="update-modal-mask">
+<div class="update-modal-mask"  *ngIf="!auth.hasUserType()">
   <div class="update-modal">
     <div class="row">
       <div class="col-xs-12 col-ml-12 col-xl-12 update-form">

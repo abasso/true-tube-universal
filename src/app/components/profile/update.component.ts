@@ -16,11 +16,14 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/distinctUntilChanged'
 
+declare let auth0: any
+
 @Component({
   selector: 'app-profile-update',
   templateUrl: './update.component.html',
   styles: []
 })
+
 export class ProfileUpdateComponent implements OnInit {
   @Input() control: FormControl
   public data: any
@@ -34,14 +37,14 @@ export class ProfileUpdateComponent implements OnInit {
   public location: string = null
   public type: string = null
   public model: any
+  private auth0Manage
   public showAuthority: boolean
   public showSchools: boolean
   public newsletterSubscribe = true
   public hasErrors = false
   public registrationError: string
+  private profile
   public formErrors = {
-    email: false,
-    password: false,
     country: false,
     teacherType: false,
     location: false,
@@ -56,8 +59,7 @@ export class ProfileUpdateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public auth: Auth
 ) {
-
-  }
+}
   ngOnInit() {
     this.dataService.districts()
     .subscribe(
@@ -74,8 +76,6 @@ export class ProfileUpdateComponent implements OnInit {
     const signupData = {
       connection: 'Username-Password-Authentication',
       redirect_uri: 'http://staging.truetube.co.uk/authcallback',
-      email: form.controls.email.value,
-      password: form.controls.password.value,
       user_metadata: {
         memberType: form.controls.memberType.value,
         newsletter: (form.controls.newsletter.value) ? 'true' : 'false'
@@ -93,15 +93,20 @@ export class ProfileUpdateComponent implements OnInit {
     if (form.controls.memberType.value === 'student') {
       signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
     }
+    if (isPlatformBrowser(this.platformId)) {
+      this.profile = JSON.parse(localStorage.getItem('profile'))
+    }
 
-
-    this.auth.auth0.redirect.signupAndLogin(signupData, (err, authResult) => {
+    this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, signupData.user_metadata, (err, authResult) => {
         if(err) {
           this.registrationError = err.description
         }
         if(authResult) {
+          localStorage.setItem('profile', JSON.stringify(authResult))
+          this.auth.hasUserType()
         }
-    });
+    })
+
   }
 
   errorCheck(form) {
@@ -161,8 +166,6 @@ export class ProfileUpdateComponent implements OnInit {
     if(this.type === 'full' || this.type === 'part') {
       this.form = this.formBuilder.group({
         'memberType' : ['teacher'],
-        'email' : [this.form.controls.email.value, Validators.email],
-        'password' : [this.form.controls.password.value, Validators.required],
         'teacherTypeSelect' : [this.type, Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
         'location' : ['', Validators.required],
@@ -173,8 +176,6 @@ export class ProfileUpdateComponent implements OnInit {
     } else {
       this.form = this.formBuilder.group({
         'memberType' : ['teacher'],
-        'email' : [this.form.controls.email.value, Validators.email],
-        'password' : [this.form.controls.password.value, Validators.required],
         'location' : ['', Validators.required],
         'teacherTypeSelect' : [this.type, Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
@@ -211,8 +212,6 @@ export class ProfileUpdateComponent implements OnInit {
     if (this.userType === 'teacher') {
       this.form = this.formBuilder.group({
         'memberType' : ['teacher'],
-        'email' : ['', Validators.email],
-        'password' : ['', Validators.required],
         'teacherTypeSelect' : ['', Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
         'location' : ['', Validators.required],
@@ -221,8 +220,6 @@ export class ProfileUpdateComponent implements OnInit {
     } else if (this.userType === 'student') {
       this.form = this.formBuilder.group({
         'memberType' : ['student'],
-        'email' : ['', Validators.email],
-        'password' : ['', Validators.required],
         'studentTypeSelect' : ['', Validators.required],
         'newsletter': [true]
       })
@@ -230,8 +227,6 @@ export class ProfileUpdateComponent implements OnInit {
     } else {
       this.form = this.formBuilder.group({
         'memberType' : ['other'],
-        'email' : ['', Validators.email],
-        'password' : ['', Validators.required],
         'newsletter': [true]
       })
     }

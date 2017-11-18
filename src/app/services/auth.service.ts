@@ -19,6 +19,7 @@ export class Auth {
   // Configure Auth0
   public lock
   public auth0
+  public auth0Manage
   private userProfile: any
   public loggedInStatus: any = new Subject()
   constructor(
@@ -38,42 +39,39 @@ export class Auth {
         callbackURL: 'http://localhost:3000/',
         responseType: 'token id_token'
       })
-    this.lock.on('authenticated', (authResult: any) => {
-      let redirectUrl: string = ''
-      if (isPlatformBrowser(this.platformId)) {
+      if(this.authenticated()) {
+        this.auth0Manage = new auth0.Management({
+          domain: 'truetube.eu.auth0.com',
+          token: localStorage.getItem('token')
+        });
+      }
+      this.lock.on('authenticated', (authResult: any) => {
+        let redirectUrl: string = ''
         localStorage.setItem('token', authResult.idToken)
         redirectUrl = localStorage.getItem('redirectUrl')
-      }
-      // Fetch profile information
-       this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
-         if (error) {
-           // Handle error
-           return
-         }
-         if (isPlatformBrowser(this.platformId)) {
-           localStorage.setItem('profile', JSON.stringify(profile))
-         }
-         this.userProfile = profile
-         ga('set', 'userId', profile.user_id)
-       })
-       this.loggedInStatus.next('update')
-      if (redirectUrl) {
+        this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
+          if (error) {
+            return
+          }
+          localStorage.setItem('profile', JSON.stringify(profile))
+          this.userProfile = profile
+          ga('set', 'userId', profile.user_id)
+        })
+        this.loggedInStatus.next('update')
+        if (redirectUrl) {
           this.router.navigate([redirectUrl])
-      } else {
+        } else {
           this.router.navigate(['/me'])
-      }
-    })
+        }
+      })
 
-    this.lock.on('show', () => {
-      if (isPlatformBrowser(this.platformId)) {
+      this.lock.on('show', () => {
         let parent: any = document.querySelectorAll('.auth0-lock-body-content')
         parent[0].insertAdjacentHTML('beforebegin', '<div class="rm-unify-login"><a class="btn btn-rm-unify">Log In with <img src="/assets/images/logo_RM.png" /></a>or<div>')
         document.querySelectorAll('.btn-rm-unify')[0].addEventListener('click', (event) => {
           this.loginWithRM(event)
         })
-      }
-    })
-
+      })
     }
   }
 
@@ -84,18 +82,18 @@ export class Auth {
       redirectUrl = localStorage.getItem('redirectUrl')
     }
     this.auth0.client.userInfo(authResult.access_token, (err, user) => {
-        // Now you have the user's information
+      // Now you have the user's information
       if (isPlatformBrowser(this.platformId)) {
-           localStorage.setItem('profile', user)
-         }
+        localStorage.setItem('profile', user)
+      }
 
-         this.userProfile = user
-         this.loggedInStatus.next('update')
-       if (redirectUrl) {
-           this.router.navigate([redirectUrl])
-       } else {
-           this.router.navigate(['/me'])
-       }
+      this.userProfile = user
+      this.loggedInStatus.next('update')
+      if (redirectUrl) {
+        this.router.navigate([redirectUrl])
+      } else {
+        this.router.navigate(['/me'])
+      }
       //ga('set', 'userId', user.user_id)
     });
   }
@@ -144,6 +142,27 @@ export class Auth {
     }
   }
 
+  public hasUserType() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.authenticated()) {
+        const profile = JSON.parse(localStorage.getItem('profile'))
+        if(profile !== null) {
+          if(profile.user_metadata) {
+            return (typeof profile.user_metadata.teacherType !== 'undefined') ? true : false
+          } else {
+            return false
+          }
+        } else {
+          return false
+        }
+      } else {
+        return true
+      }
+    } else {
+      return true
+    }
+  }
+
   public logout(event: any) {
     event.preventDefault()
 
@@ -151,6 +170,7 @@ export class Auth {
     // Remove token from localStorage
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('token')
+      localStorage.removeItem('profile')
     }
     this.userProfile = undefined
     if (this.checkRM()) {
@@ -179,16 +199,16 @@ export class LoggedInGuard implements CanActivate {
 }
 
 export function authFactory(
-    http: Http,
-    options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    // Config options if you want
-  }), http, options)
-}
+  http: Http,
+  options: RequestOptions) {
+    return new AuthHttp(new AuthConfig({
+      // Config options if you want
+    }), http, options)
+  }
 
-// Include this in your ngModule providers
-export const AUTH_PROVIDERS = {
-  provide: AuthHttp,
-  deps: [Http, RequestOptions],
-  useFactory: authFactory
-}
+  // Include this in your ngModule providers
+  export const AUTH_PROVIDERS = {
+    provide: AuthHttp,
+    deps: [Http, RequestOptions],
+    useFactory: authFactory
+  }

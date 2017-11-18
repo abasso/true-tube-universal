@@ -41,11 +41,17 @@ main {
 
 .tab-videos {
   &.video-disabled {
+    .icon-cc {
+      pointer-events: none;
+    }
     app-video-player {
       pointer-events: none;
     }
   }
   &.video-enabled {
+    .icon-cc {
+      pointer-events: all !important;
+    }
     app-video-player {
       pointer-events: all !important;
     }
