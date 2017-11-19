@@ -155,14 +155,6 @@
               </select>
               <div class="form-error" *ngIf="formErrors.studentTypeSelect">A student type is required</div>
             </div>
-            <div class="form-group">
-              <label></label>
-              <label class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
-                <div class="custom-control-indicator"></div>
-                <span class="custom-control-description">Subscribe to our newsletter</span>
-              </label>
-            </div>
             <div class="button-group register-submit">
               <button type="submit" class="btn btn-login">Register</button>
               <div class="form-error" *ngIf="registrationError">{{registrationError}}</div>

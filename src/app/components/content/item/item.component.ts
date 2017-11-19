@@ -213,18 +213,20 @@ export class ItemComponent implements OnInit, DoCheck {
     }
   }
 
-  checkAccessCode(event: any) {
+  checkAccessCode(event: any, item: string) {
     event.preventDefault()
     this.dataService.checkAccessCode(this.accessCode).subscribe(
       res => {
         if (res.status === 200) {
           if (isPlatformBrowser(this.platformId)) {
+            this.analyticsService.emitEvent('Access code correct - ' + this.accessCode, 'Action', item)
             const accessData = {value: this.accessCode, timestamp: new Date().getTime()}
             localStorage.setItem('authedByCode', JSON.stringify(accessData))
           }
         }
       },
       err => {
+        this.analyticsService.emitEvent('Access code incorrect - ' + this.accessCode, 'Action', item)
         this.codeButtonLabel = 'Code incorrect'
         this.codeButtonClass = 'btn-error'
         setTimeout(() => {

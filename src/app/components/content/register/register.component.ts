@@ -73,12 +73,11 @@ export class RegisterComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://localhost:8011/authcallback',
+      redirect_uri: 'http://staging.truetube.co.uk/authcallback',
       email: form.controls.email.value,
       password: form.controls.password.value,
       user_metadata: {
-        memberType: form.controls.memberType.value,
-        newsletter: (form.controls.newsletter.value) ? 'true' : 'false'
+        memberType: form.controls.memberType.value
       }
     }
     if (form.controls.memberType.value === 'teacher') {
@@ -88,10 +87,13 @@ export class RegisterComponent implements OnInit {
         signupData.user_metadata['authority'] = form.controls.authority.value
         signupData.user_metadata['school'] = this.selectedSchool._id
       }
+      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
     }
-
     if (form.controls.memberType.value === 'student') {
       signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
+    }
+    if (form.controls.memberType.value === 'other') {
+      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
     }
 
 
@@ -100,6 +102,7 @@ export class RegisterComponent implements OnInit {
           this.registrationError = err.description
         }
         if(authResult) {
+          this.userType = null
         }
     });
   }
@@ -112,12 +115,12 @@ export class RegisterComponent implements OnInit {
         this.hasErrors = true
       } else {
         this.formErrors[formElement] = false
-        if(formElement === 'authority') {
+        if(formElement === 'authority' && form.controls[formElement]['_pristine'] === false) {
           setTimeout(() => {
             this.setAuthority(form.controls[formElement]['_value'])
           }, 500)
         }
-        if(formElement === 'school') {
+        if(formElement === 'school' && form.controls[formElement]['_pristine'] === false) {
           setTimeout(() => {
             this.setSchool(form.controls[formElement]['_value'])
           }, 500)
@@ -193,6 +196,7 @@ export class RegisterComponent implements OnInit {
         this.schools = _.map(this.schoolsList, item => {
           return item['_source']['name']
         })
+        this.schools = _.uniq(this.schools)
       })
   }
 
@@ -223,8 +227,7 @@ export class RegisterComponent implements OnInit {
         'memberType' : ['student'],
         'email' : ['', Validators.email],
         'password' : ['', Validators.required],
-        'studentTypeSelect' : ['', Validators.required],
-        'newsletter': [true]
+        'studentTypeSelect' : ['', Validators.required]
       })
 
     } else {

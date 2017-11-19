@@ -78,7 +78,7 @@ export class ProfileUpdateComponent implements OnInit {
       redirect_uri: 'http://staging.truetube.co.uk/authcallback',
       user_metadata: {
         memberType: form.controls.memberType.value,
-        newsletter: (form.controls.newsletter.value) ? 'true' : 'false'
+        defferedProfileUpdate: null
       }
     }
     if (form.controls.memberType.value === 'teacher') {
@@ -88,10 +88,13 @@ export class ProfileUpdateComponent implements OnInit {
         signupData.user_metadata['authority'] = form.controls.authority.value
         signupData.user_metadata['school'] = this.selectedSchool._id
       }
+      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
     }
-
     if (form.controls.memberType.value === 'student') {
       signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
+    }
+    if (form.controls.memberType.value === 'other') {
+      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
     }
     if (isPlatformBrowser(this.platformId)) {
       this.profile = JSON.parse(localStorage.getItem('profile'))
@@ -106,7 +109,22 @@ export class ProfileUpdateComponent implements OnInit {
           this.auth.hasUserType()
         }
     })
+  }
 
+  defferProfileUpdate(event) {
+    event.preventDefault()
+    if (isPlatformBrowser(this.platformId)) {
+      this.profile = JSON.parse(localStorage.getItem('profile'))
+    }
+    this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, {defferedProfileUpdate: new Date()}, (err, authResult) => {
+        if(err) {
+          this.registrationError = err.description
+        }
+        if(authResult) {
+          localStorage.setItem('profile', JSON.stringify(authResult))
+          this.auth.hasUserType()
+        }
+    })
   }
 
   errorCheck(form) {
@@ -220,8 +238,7 @@ export class ProfileUpdateComponent implements OnInit {
     } else if (this.userType === 'student') {
       this.form = this.formBuilder.group({
         'memberType' : ['student'],
-        'studentTypeSelect' : ['', Validators.required],
-        'newsletter': [true]
+        'studentTypeSelect' : ['', Validators.required]
       })
 
     } else {

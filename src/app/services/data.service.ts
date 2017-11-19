@@ -242,11 +242,17 @@ export class DataService {
   }
 
   schools(district) {
-    let search: any = new URLSearchParams()
-    search.set('q', 'la_name:' + district)
-    search.set('size', '5000')
+    let header = new Headers()
+    let options = new RequestOptions({ headers: header })
+    header.append('Content-Type', 'application/json')
+    const body = {
+	     "from" : 0, "size" : 5000,
+       "query" : {
+        "term" : { "la_name" : district }
+      }
+    }
     return this.http
-    .get(this.schoolsUrl, { search })
+    .post(this.schoolsUrl, body, options)
     .map((response) => ( response.json()))
   }
 

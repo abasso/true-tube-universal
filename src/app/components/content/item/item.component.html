@@ -51,7 +51,7 @@
 		<div *ngIf="!auth.authenticated()">
 			<div *ngIf="!contentAccess">
 				<div class="video-registration-warning" *ngIf="viewRemainingCount === 1">
-					You have 1 view left before you will need to <a href="#" (click)="auth.login($event);">login</a> or use an access code to watch videos.
+					You have 1 view left before you will need to <a href="#" (click)="auth.login($event); analyticsService.emitEvent('Login from 1 view warning', 'Action', item.title)">login</a> or use an access code to watch videos.
 				</div>
 			</div>
 		</div>
@@ -70,14 +70,13 @@
 		<div class="video-js-wrapper">
 			<div class="video-registration-overlay" *ngIf="viewRemainingCount === 0">
 				<div class="video-registration-overlay-message" *ngIf="!useAccessCode">
-					Please <a href="#" (click)="auth.login($event);">login</a> or use an <a href="#" (click)="showAccessCode($event)">access code</a> to watch more videos.<br><br>
-					Don't have an account? <a [routerLink]="['/register']">Register for free</a>
+					Please <a href="#" (click)="auth.login($event); analyticsService.emitEvent('Login from overlay', 'Action', item.title)">login</a> or use an <a href="#" (click)="showAccessCode($event); analyticsService.emitEvent('Show Access Code', 'Action', item.title)">access code</a> to watch more videos.<br><br>
+					Don't have an account? <a [routerLink]="['/register']" (click)="analyticsService.emitEvent('Register from overlay', 'Navigation', item.title)">Register for free</a>
 				</div>
 				<div class="video-registration-overlay-code" *ngIf="useAccessCode">
-
 					<div class="form-group">
 						<input class="form-control form-control-lg" placeholder="Access Code" [(ngModel)]="accessCode" />
-						<button class="btn-lg btn {{codeButtonClass}}" [innerHTML]="codeButtonLabel" (click)="checkAccessCode($event)"></button>
+						<button class="btn-lg btn {{codeButtonClass}}" [innerHTML]="codeButtonLabel" (click)="checkAccessCode($event, item.title)"></button>
 					</div>
 					Don't have an access code? <a href="#" (click)="auth.login($event);">login</a> or <a [routerLink]="['/register']">Register for free</a>
 				</div>

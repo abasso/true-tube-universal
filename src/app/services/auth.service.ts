@@ -8,9 +8,10 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Subject } from 'rxjs/Subject'
 declare let ga: Function
 import * as _ from 'lodash'
+import * as moment from 'moment'
+
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
-// Avoid name not found warnings
 declare let Auth0Lock: any
 declare let auth0: any
 
@@ -36,7 +37,7 @@ export class Auth {
       this.auth0 = new auth0.WebAuth({
         domain: myConfig.domain,
         clientID: myConfig.clientID,
-        callbackURL: 'http://localhost:3000/',
+        callbackURL: 'http://localhost:8011/',
         responseType: 'token id_token'
       })
       if(this.authenticated()) {
@@ -84,7 +85,7 @@ export class Auth {
     this.auth0.client.userInfo(authResult.access_token, (err, user) => {
       // Now you have the user's information
       if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('profile', user)
+        localStorage.setItem('profile', JSON.stringify(user))
       }
 
       this.userProfile = user
@@ -94,7 +95,7 @@ export class Auth {
       } else {
         this.router.navigate(['/me'])
       }
-      //ga('set', 'userId', user.user_id)
+      ga('set', 'userId', user.user_id)
     });
   }
 
@@ -145,10 +146,19 @@ export class Auth {
   public hasUserType() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.authenticated()) {
+        this.auth0Manage = new auth0.Management({
+          domain: 'truetube.eu.auth0.com',
+          token: localStorage.getItem('token')
+        });
         const profile = JSON.parse(localStorage.getItem('profile'))
         if(profile !== null) {
           if(profile.user_metadata) {
-            return (typeof profile.user_metadata.teacherType !== 'undefined') ? true : false
+            if(profile.user_metadata.defferedProfileUpdate) {
+              if (moment().diff(moment(profile.user_metadata.defferedProfileUpdate), 'days') < 1) {
+                return true
+              }
+            }
+            return (typeof profile.user_metadata.memberType !== 'undefined') ? true : false
           } else {
             return false
           }
