@@ -292,3 +292,16 @@
     font-size: $font-size-sm;
   }
 }
+
+.register-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: .5rem;
+  @media(min-width:$breakpoint-lg) {
+    margin-left: 300px;
+    margin-top: -1.75rem;
+  }
+  .custom-control + .custom-control {
+    margin-left: 0;
+  }
+}

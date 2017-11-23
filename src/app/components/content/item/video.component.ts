@@ -22,13 +22,16 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
   private videoJSplayer: any
   public playHeadTime = 0
   public hasBeenPlayed = false
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public analyticsService: AnalyticsService
   ) { }
 
   ngOnInit() {
+    console.log("INIT")
     this.resetPlayer()
+    this.hasBeenPlayed = false
   }
 
   ngOnChanges() {
@@ -79,15 +82,15 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
             }})
               let v = document.getElementsByTagName('video')[0]
               v.addEventListener('play', (data) => {
-
-                let watchCount = (localStorage.getItem('watchCount') === null) ? 0 : parseInt(localStorage.getItem('watchCount'))
-                localStorage.setItem('watchCount', (watchCount + 1).toString())
-                localStorage.setItem('watchedUnregistered', 'true')
-                if(parseInt(localStorage.getItem('watchCount')) > 1) {
-                  this.playerEvent.emit('watchedUnregistered')
-                }
-                this.hasBeenPlayed = true
-                this.analyticsService.emitEvent('Play', 'Watch', self.embed.title)
+                if(this.hasBeenPlayed === false) {
+                  let watchCount = (localStorage.getItem('watchCount') === null) ? 0 : parseInt(localStorage.getItem('watchCount'))
+                  localStorage.setItem('watchCount', (watchCount + 1).toString())
+                  localStorage.setItem('watchedUnregistered', 'true')
+                  if(parseInt(localStorage.getItem('watchCount')) > 1) {
+                    this.playerEvent.emit('watchedUnregistered')
+                  }
+                  this.analyticsService.emitEvent('Play', 'Watch', self.embed.title)
+                  this.hasBeenPlayed = true                }
               }, true)
               v.addEventListener('progress', function(data) {
                 self.playHeadTime = self.videoJSplayer.currentTime()

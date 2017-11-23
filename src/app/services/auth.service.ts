@@ -37,7 +37,7 @@ export class Auth {
       this.auth0 = new auth0.WebAuth({
         domain: myConfig.domain,
         clientID: myConfig.clientID,
-        callbackURL: 'http://localhost:8011/',
+        callbackURL: 'http://' + window.location.host + '/',
         responseType: 'token id_token'
       })
       if(this.authenticated()) {

@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
   public newsletterSubscribe = true
   public hasErrors = false
   public registrationError: string
+  public redirectUri = 'www.truetube.co.uk'
   public formErrors = {
     email: false,
     password: false,
@@ -66,6 +67,9 @@ export class RegisterComponent implements OnInit {
           return item['key']
         })
       })
+      if (isPlatformBrowser(this.platformId)) {
+        this.redirectUri = window.location.host
+      }
   }
 
   register(form) {
@@ -73,7 +77,7 @@ export class RegisterComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://staging.truetube.co.uk/authcallback',
+      redirect_uri: 'http://' + this.redirectUri + '/authcallback',
       email: form.controls.email.value,
       password: form.controls.password.value,
       user_metadata: {
@@ -87,10 +91,22 @@ export class RegisterComponent implements OnInit {
         signupData.user_metadata['authority'] = form.controls.authority.value
         signupData.user_metadata['school'] = this.selectedSchool._id
       }
-      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
+      let keystages = {
+        'keystage1' : form.controls.keystage1.value.toString(),
+        'keystage2' : form.controls.keystage2.value.toString(),
+        'keystage3' : form.controls.keystage3.value.toString(),
+        'keystage4' : form.controls.keystage4.value.toString(),
+        'sixthForm' : form.controls.sixthForm.value.toString(),
+        'furtherEducation' : form.controls.furtherEducation.value.toString()
+      }
+      signupData.user_metadata['keystages'] = JSON.stringify(keystages)
+      signupData.user_metadata['newsletter'] = form.controls.newsletter.value.toString()
     }
     if (form.controls.memberType.value === 'student') {
       signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
+      if (form.controls.studentTypeSelect.value === 'other') {
+        signupData.user_metadata['studentTypeOther'] = form.controls.studentTypeOther.value
+      }
     }
     if (form.controls.memberType.value === 'other') {
       signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
@@ -171,6 +187,12 @@ export class RegisterComponent implements OnInit {
         'location' : ['', Validators.required],
         'authority' : ['', Validators.required],
         'school' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
     } else {
@@ -181,6 +203,12 @@ export class RegisterComponent implements OnInit {
         'location' : ['', Validators.required],
         'teacherTypeSelect' : [this.type, Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
 
@@ -220,6 +248,12 @@ export class RegisterComponent implements OnInit {
         'teacherTypeSelect' : ['', Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
         'location' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
     } else if (this.userType === 'student') {
@@ -227,7 +261,8 @@ export class RegisterComponent implements OnInit {
         'memberType' : ['student'],
         'email' : ['', Validators.email],
         'password' : ['', Validators.required],
-        'studentTypeSelect' : ['', Validators.required]
+        'studentTypeSelect' : ['', Validators.required],
+        'studentTypeOther' : ['']
       })
 
     } else {

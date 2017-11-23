@@ -43,6 +43,7 @@ export class ProfileUpdateComponent implements OnInit {
   public newsletterSubscribe = true
   public hasErrors = false
   public registrationError: string
+  public redirectUri = 'www.truetube.co.uk'
   private profile
   public formErrors = {
     country: false,
@@ -68,6 +69,9 @@ export class ProfileUpdateComponent implements OnInit {
           return item['key']
         })
       })
+      if (isPlatformBrowser(this.platformId)) {
+        this.redirectUri = window.location.host
+      }
   }
 
   register(form) {
@@ -75,7 +79,7 @@ export class ProfileUpdateComponent implements OnInit {
     if (this.hasErrors) return
     const signupData = {
       connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://staging.truetube.co.uk/authcallback',
+      redirect_uri: 'http://' + this.redirectUri + '/authcallback',
       user_metadata: {
         memberType: form.controls.memberType.value,
         defferedProfileUpdate: null
