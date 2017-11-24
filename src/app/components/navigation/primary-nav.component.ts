@@ -7,6 +7,7 @@ import { Auth } from './../../services/auth.service'
 import * as _ from 'lodash'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 import { AnalyticsService } from './../../services/analytics.service'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-primary-nav',
@@ -23,7 +24,8 @@ export class PrimaryNavComponent implements OnInit {
     private filter: ListFilterComponent,
     private listService: ListService,
     public auth: Auth,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    public router: Router
   ) {
     this.items = _.filter(ContentTypes, {inMenu: true})
   }
@@ -51,9 +53,10 @@ export class PrimaryNavComponent implements OnInit {
   }
 
   register(event: any) {
-    event.preventDefault()
-    //this.auth.signup(event)
     this.menuClick.emit(event)
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('redirectUrl', this.router.url)
+    }
   }
 
   profile(event: any) {

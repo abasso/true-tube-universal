@@ -21,7 +21,7 @@
                 <li>View unlimited content on the site</li>
                 <li>Save favourites</li>
                 <li>Create and save lists</li>
-                <li>Download videos to watch offline</li>
+                <li>Download films to watch offline</li>
                 <li>Download lesson plans and other supporting material</li>
                 <li>Access code to give to students to view content</li>
               </ul>
@@ -33,7 +33,7 @@
                 <li>View unlimited content on the site</li>
                 <li>Save favourites</li>
                 <li>Create and save lists</li>
-                <li>Download videos to watch offline</li>
+                <li>Download films to watch offline</li>
                 <li>Download lesson plans and other supporting material</li>
               </ul>
               <a class="btn btn-login" (click)="setUserType('student')">Choose</a>
@@ -44,7 +44,7 @@
                 <li>View unlimited content on the site</li>
                 <li>Save favourites</li>
                 <li>Create and save lists</li>
-                <li>Download videos to watch offline</li>
+                <li>Download films to watch offline</li>
                 <li>Download lesson plans and other supporting material</li>
                 <li>Access code to view content without login</li>
               </ul>
@@ -117,21 +117,24 @@
               <label>What is your main subject?</label>
               <select required class="custom-select form-control" formControlName="teacherSubjectSelect" #teacherSubjectSelect (blur)="errorCheck(form)" (change)="errorCheck(form)">
                 <option disabled selected>Please choose a subject</option>
-                <option value="re/rs">RE/RS</option>
+                <option value="RE/RS">RE/RS</option>
                 <option value="Citizenship">Citizenship</option>
                 <option value="PSHE">PSHE</option>
-                <option value="other">Other</option>
+                <option disabled>-----------</option>
+                <option value="Biology">Biology</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Economics">Economics</option>
                 <option value="English">English</option>
                 <option value="EFL/EAL">EFL/EAL</option>
                 <option value="IT">IT</option>
                 <option value="Maths">Maths</option>
-                <option value="Economics">Economics</option>
-                <option value="Biology">Biology</option>
-                <option value="Chemistry">Chemistry</option>
+                <option value="Media">Media</option>
                 <option value="Physics">Physics</option>
                 <option value="Philosophy">Philosophy</option>
-                <option value="Media">Media</option>
                 <option value="Sociology">Sociology</option>
+                <option value="Science">Science</option>
+                <option disabled>-----------</option>
+                <option value="other">Other</option>
                 <option value="Everything">Everything</option>
               </select>
               <div class="form-error" *ngIf="formErrors.teacherSubjectSelect">A subject is required</div>
@@ -216,10 +219,6 @@
               <label for="password">Password (required)</label>
               <input required type="password" formControlName="password" (blur)="errorCheck(form)" />
               <div class="form-error" *ngIf="formErrors.password">A valid password is required</div>
-            </div>
-            <div class="form-group">
-              <label for="email">Profession</label>
-              <input id="otherPofession" formControlName="otherPofession" (blur)="errorCheck(form)" />
             </div>
             <div class="form-group">
               <label></label>

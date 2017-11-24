@@ -35,8 +35,7 @@
     font-size: 1rem;
     margin-top: 2rem;
     span {
-      font-weight: 400;
-      padding: 0 .25rem;
+      font-weight: 500;
     }
   }
   a {
@@ -124,16 +123,12 @@
 }
 
 .registration-prompt {
-  background: $brand-gray;
-  color: white;
   width: 100%;
   display: flex;
-  border-radius: .5rem;
   display: flex;
   flex-direction: column;
   font-weight: $font-weight-normal;
   font-size: $font-size-sm;
-  padding: 2rem;
 
   h2 {
     border-bottom: solid 4px $brand-red;

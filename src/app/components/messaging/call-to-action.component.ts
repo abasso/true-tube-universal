@@ -3,7 +3,7 @@ import * as Cookies from 'js-cookie'
 import * as _ from 'lodash'
 import { Auth } from './../../services/auth.service'
 import { AnalyticsService } from './../../services/analytics.service'
-
+import { ActivatedRoute, Router } from '@angular/router'
 import { isPlatformBrowser, isPlatformServer } from '@angular/common'
 
 @Component({
@@ -17,7 +17,8 @@ export class CallToActionComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public auth: Auth,
-    public analyticsService: AnalyticsService
+    public analyticsService: AnalyticsService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -48,8 +49,9 @@ export class CallToActionComponent implements OnInit {
   }
 
   register(event: any) {
-    event.preventDefault()
-    this.auth.signup(event)
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('redirectUrl', this.router.url)
+    }
   }
 
   toggleSite(event: any) {

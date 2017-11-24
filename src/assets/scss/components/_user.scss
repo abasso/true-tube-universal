@@ -1,20 +1,20 @@
 .user-list {
-  border-bottom:solid 1px $gray-lighter;
-  display:flex;
+  border-bottom: solid 1px $gray-lighter;
+  display: flex;
   align-items: center;
-  padding:1rem ;
-  background:white;
+  padding: 1rem ;
+  background: white;
   .user-list-options {
-    margin:0 0 0 auto;
+    margin: 0 0 0 auto;
     .btn {
-      margin:0;
+      margin: 0;
     }
   }
   .list-title {
     text-transform: capitalize;
   }
   &.removing {
-    background:$gray-lightest;
+    background: $gray-lightest;
   }
   &.removed {
     transition: all 0s, opacity 200ms linear;
@@ -24,71 +24,71 @@
 
 .profile {
   .menu-item {
-    margin:1rem 0 0;
-    padding:0 0 1rem 0;
-    border-bottom:solid 1px $gray-lighter;
-    list-style:none;
-    width:100%;
+    margin: 1rem 0 0;
+    padding: 0 0 1rem 0;
+    border-bottom: solid 1px $gray-lighter;
+    list-style: none;
+    width: 100%;
   }
   h1 {
-    border-bottom:solid 2px $gray-lighter;
-    padding-bottom:1rem;
+    border-bottom: solid 2px $gray-lighter;
+    padding-bottom: 1rem;
   }
   h3 {
-    border-bottom:solid 1px $gray-lighter;
-    padding-bottom:.5rem;
-    margin-bottom:.5rem;
+    border-bottom: solid 1px $gray-lighter;
+    padding-bottom: .5rem;
+    margin-bottom: .5rem;
   }
   p {
-    font-weight:$font-weight-normal;
-    font-size:$font-size-sm;
+    font-weight: $font-weight-normal;
+    font-size: $font-size-sm;
   }
 }
 
 .profile {
   .content-nav-mobile {
-    display:none;
+    display: none;
     @media(max-width: $breakpoint-lg) {
-      display:flex;
+      display: flex;
     }
-    margin:1rem 0 -1rem;
+    margin: 1rem 0 -1rem;
     select {
-      display:flex;
-      background-color:$gray-lightest;
-      border:solid 1px $gray-lighter;
-      color:$brand-gray;
+      display: flex;
+      background-color: $gray-lightest;
+      border: solid 1px $gray-lighter;
+      color: $brand-gray;
     }
   }
 }
 
 .profile-list {
   .block-media__headline {
-    display:flex;
-    align-items:center;
+    display: flex;
+    align-items: center;
   }
   .user-list-delete {
-    margin-left:auto;
+    margin-left: auto;
   }
 }
 
 .user-list-delete {
-    background: white no-repeat 10px center url("/assets/images/remove.svg");
-    color:$brand-gray;
-    border:solid 1px $gray-lighter;
-    background-size:16px 16px;
-    padding-left:36px;
-    font-size:$font-size-sm;
-    border-radius:$border-radius-sm;
+  background: white no-repeat 10px center url('/assets/images/remove.svg');
+  color: $brand-gray;
+  border: solid 1px $gray-lighter;
+  background-size: 16px 16px;
+  padding-left: 36px;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
 }
 
 // .profile-password {
 //   border-top:solid 2px $gray-lighter;
 // }
 .rm-unify-login {
-  text-align:center;
-  padding:.5rem .5rem 0;
+  text-align: center;
+  padding: .5rem .5rem 0;
   margin: 0 0 .25rem !important;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   @media(max-width: 480px) {
     margin: 0rem 0 -2rem !important;
     top: 50px;
@@ -96,29 +96,29 @@
   }
   .btn-rm-unify {
     img {
-      height:20px;
+      height: 20px;
     }
-    background:$brand-gray;
-    display:block !important;
-    color:white !important;
-    padding:.5rem 0 !important;
-    border:none !important;
-    width:100%;
+    background: $brand-gray;
+    display: block !important;
+    color: white !important;
+    padding: .5rem 0 !important;
+    border: none !important;
+    width: 100%;
     &:hover {
-      background:darken($brand-gray, 10%);
+      background: darken($brand-gray, 10%);
     }
   }
 }
 
 .signin-notification {
-  background-color:$brand-red;
-  color:white;
-  padding:1rem;
-  text-align:center;
-  margin:.25rem -.5rem -.25rem;
-  font-size:.75rem;
+  background-color: $brand-red;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  margin: .25rem -.5rem -.25rem;
+  font-size: .75rem;
   strong {
-    margin-bottom:.5rem;
+    margin-bottom: .5rem;
   }
 }
 
@@ -129,12 +129,10 @@
         &.auth0-lock-with-tabs {
           .auth0-lock-body-content {
             padding-top: 0;
-            margin-top: -7rem;
           }
         }
       }
       .auth0-global-message {
-
       }
     }
   }
@@ -143,5 +141,5 @@
   }
 }
 .auth0-global-message-error {
-  background:$brand-red !important;
+  background: $brand-red !important;
 }

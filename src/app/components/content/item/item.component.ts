@@ -174,6 +174,11 @@ export class ItemComponent implements OnInit, DoCheck {
     this.useAccessCode = (this.useAccessCode === true) ? false : true
   }
 
+  register(event: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('redirectUrl', this.router.url)
+    }
+  }
 
   hasAttributes(attribute: any) {
     return (_.isUndefined(attribute) || attribute === null || attribute === false || attribute.length === 0) ? false : true
