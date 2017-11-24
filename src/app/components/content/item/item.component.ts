@@ -227,7 +227,7 @@ export class ItemComponent implements OnInit, DoCheck {
       },
       err => {
         this.analyticsService.emitEvent('Access code incorrect - ' + this.accessCode, 'Action', item)
-        this.codeButtonLabel = 'Code incorrect'
+        this.codeButtonLabel = 'Incorrect Code'
         this.codeButtonClass = 'btn-error'
         setTimeout(() => {
           this.codeButtonLabel = 'Submit'

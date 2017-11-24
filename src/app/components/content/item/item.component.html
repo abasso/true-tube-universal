@@ -75,7 +75,7 @@
 				</div>
 				<div class="video-registration-overlay-code" *ngIf="useAccessCode">
 					<div class="form-group">
-						<input class="form-control form-control-lg" placeholder="Access Code" [(ngModel)]="accessCode" />
+						<input class="form-control form-control-lg" placeholder="Access code" [(ngModel)]="accessCode" />
 						<button class="btn-lg btn {{codeButtonClass}}" [innerHTML]="codeButtonLabel" (click)="checkAccessCode($event, item.title)"></button>
 					</div>
 					Don't have an access code? <a href="#" (click)="auth.login($event);">login</a> or <a [routerLink]="['/register']">Register for free</a>

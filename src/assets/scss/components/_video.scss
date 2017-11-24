@@ -129,6 +129,13 @@
     line-height: 1.3;
     font-weight: 500;
   }
+  .btn {
+    border-radius: .25rem;
+    font-weight: 500;
+    @media(max-width: $breakpoint-md) {
+      margin-top: 1rem;
+    }
+  }
 
   .video-registration-overlay-message {
     font-size: 1.5rem;

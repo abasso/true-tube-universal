@@ -19,6 +19,7 @@ import { ListingSortComponent } from './components/content/listing/sort.componen
 import { DataService } from './services/data.service'
 import { ValidationService } from './services/validation.service'
 import { AnalyticsService } from './services/analytics.service'
+import { UnlessDirective } from './directives/unless.directive'
 import { ListService } from './services/list.service'
 import { UserService } from './services/user.service'
 import { MetaService } from './services/meta.service'
@@ -276,7 +277,8 @@ export function metaFactory(): MetaLoader {
     UserNavComponent,
     FeedbackComponent,
     RmAuthComponent,
-    VideoComponent
+    VideoComponent,
+    UnlessDirective
   ],
   imports: [
     // PopoverModule,

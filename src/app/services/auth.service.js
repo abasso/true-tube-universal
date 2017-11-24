@@ -37,9 +37,6 @@ var Auth = (function () {
                 }
                 // Fetch profile information
                 _this.lock.getProfile(authResult.idToken, function (error, profile) {
-                  console.log("THE PROFILE RESULT")
-                  console.log(profile)
-                  console.log(JSON.stringify(profile))
                     if (error) {
                         // Handle error
                         return;

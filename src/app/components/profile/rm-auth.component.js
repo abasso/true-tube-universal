@@ -22,16 +22,13 @@ var RmAuthComponent = (function () {
             .map(function (r) { return r.json(); })
             .subscribe(function (success) {
             if (success.authenticated) {
-                // logged in via RM Unify
                 localStorage.setItem('rmlogin', success.token);
                 _this.router.navigate(['/me']);
             }
             else {
-                // not logged in via RM Unify
                 _this.router.navigate(['/']);
             }
         }, function (error) {
-            console.log('error checking authentication');
             _this.router.navigate(['/']);
             return true;
         });

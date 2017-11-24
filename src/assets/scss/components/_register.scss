@@ -251,8 +251,12 @@
   justify-content: center;
   z-index: 100001;
   overflow-y: auto;
+  opacity: 1;
   @media(max-width:$breakpoint-lg) {
     background: white;
+  }
+  &.show {
+    opacity: 0;
   }
   .update-modal {
     border-radius: .5rem;

@@ -1,63 +1,62 @@
-<div class="update-modal-mask" *ngIf="!auth.hasUserType()">
+<div class="update-modal-mask" *unless="auth.hasUserType()">
   <div class="update-modal">
-    <div class="row">
+    <div class="row register">
       <div class="col-xs-12 col-ml-12 col-xl-12 update-form">
         <div class="content-header wrap-title m-t-1">
           <div class="page-title-wrapper">
             <div class="row register">
-              <h1 class="page-title">
-                Confirm your details
-              </h1>
-              <br>
-              <p *ngIf="!userType">We are reconfirming all of the user details we have on our site. Please take a moment to confirm yours.</p>
-              <h2 *ngIf="!userType">First, please tell us what kind of TrueTube user you are?</h2>
+            <h1 class="page-title">
+              Confirm your details
+            </h1>
+            <br>
             </div>
             <div class="switch-registration" *ngIf="userType">Not a {{userType}}? <a (click)="userType=null; hasErrors=false; ">Go back</a></div>
             <div class="row register-types" *ngIf="!userType">
 
-              <div class="register-type">
-                <h3>Teacher</h3>
-                <ul>
-                  <li>View unlimited content on the site</li>
-                  <li>Save favourites</li>
-                  <li>Create and save lists</li>
-                  <li>Download videos for offline viewing</li>
-                  <li>Download lesson plans and supporting material</li>
-                  <li>Student passcode to give to students to view content</li>
-                </ul>
-                <a class="btn btn-login" (click)="setUserType('teacher')">Choose</a>
-              </div>
-              <div class="register-type">
-                <h3>Student</h3>
-                <ul>
-                  <li>View unlimited content on the site</li>
-                  <li>Save favourites</li>
-                  <li>Create and save lists</li>
-                  <li>Download videos for offline viewing</li>
-                  <li>Download lesson plans and supporting material</li>
-                </ul>
-                <a class="btn btn-login" (click)="setUserType('student')">Choose</a>
-              </div>
-              <div class="register-type">
-                <h3>Other</h3>
-                <ul>
-                  <li>View unlimited content on the site</li>
-                  <li>Save favourites</li>
-                  <li>Create and save lists</li>
-                  <li>Download videos for offline viewing</li>
-                  <li>Download lesson plans and supporting material</li>
-                </ul>
-                <a class="btn btn-login" (click)="setUserType('other')">Choose</a>
-              </div>
+                <div class="register-type">
+                  <h3>Teacher</h3>
+                  <ul>
+                    <li>View unlimited content on the site</li>
+                    <li>Save favourites</li>
+                    <li>Create and save lists</li>
+                    <li>Download videos to watch offline</li>
+                    <li>Download lesson plans and other supporting material</li>
+                    <li>Access code to give to students to view content</li>
+                  </ul>
+                  <a class="btn btn-login" (click)="setUserType('teacher')">Choose</a>
+                </div>
+                <div class="register-type">
+                  <h3>Student</h3>
+                  <ul>
+                    <li>View unlimited content on the site</li>
+                    <li>Save favourites</li>
+                    <li>Create and save lists</li>
+                    <li>Download videos to watch offline</li>
+                    <li>Download lesson plans and other supporting material</li>
+                  </ul>
+                  <a class="btn btn-login" (click)="setUserType('student')">Choose</a>
+                </div>
+                <div class="register-type">
+                  <h3>Other</h3>
+                  <ul>
+                    <li>View unlimited content on the site</li>
+                    <li>Save favourites</li>
+                    <li>Create and save lists</li>
+                    <li>Download videos to watch offline</li>
+                    <li>Download lesson plans and other supporting material</li>
+                    <li>Access code to view content without login</li>
+                  </ul>
+                  <a class="btn btn-login" (click)="setUserType('other')">Choose</a>
+                </div>
             </div>
             <div class="update-skip" *ngIf="!userType">
               Dont have time? <a href="#" (click)="defferProfileUpdate($event);">Click here</a> to skip for now (we will ask you again soon)
             </div>
-            <form [formGroup]="form" (ngSubmit)="register(form)" *ngIf="userType">
+            <form [formGroup]="form" (ngSubmit)="register(form)" *ngIf="form">
               <div class="form-teacher" *ngIf="userType === 'teacher'">
                 <input type="hidden" value="teacher" formControlName="memberType" />
                 <div class="form-group">
-                  <label for="email">Type of Teacher (required)</label>
+                  <label>Type of Teacher (required)</label>
                   <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value); errorCheck(form)" (blur)="errorCheck(form)">
                     <option disabled selected>What kind of teacher are you?</option>
                     <option value="full">Full time</option>
@@ -68,7 +67,45 @@
                   <div class="form-error" *ngIf="formErrors.teacherTypeSelect">A type is required</div>
                 </div>
                 <div class="form-group">
-                  <label for="email">What subject do you teach?</label>
+                  <label>Which keystages do you teach?</label>
+                  <div class="register-checkbox-group">
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="keystage1" (change)="errorCheck(form)" value="Keystage 1" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Keystage 1</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="keystage2" (change)="errorCheck(form)" value="Keystage 2" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Keystage 2</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="keystage3" (change)="errorCheck(form)" value="Keystage 3" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Keystage 3</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="keystage4" (change)="errorCheck(form)" value="keystage 4" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Keystage 4</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="sixthForm" (change)="errorCheck(form)" value="Sixth Form" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Sixth Form</span>
+                  </label>
+                  <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" formControlName="furtherEducation" (change)="errorCheck(form)" value="Further Education" />
+                    <div class="custom-control-indicator"></div>
+                    <span class="custom-control-description">Further Education</span>
+                  </label>
+                </div>
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+                  <label>What is your main subject?</label>
                   <select required class="custom-select form-control" formControlName="teacherSubjectSelect" #teacherSubjectSelect (blur)="errorCheck(form)" (change)="errorCheck(form)">
                     <option disabled selected>Please choose a subject</option>
                     <option value="re/rs">RE/RS</option>
@@ -86,11 +123,12 @@
                     <option value="Philosophy">Philosophy</option>
                     <option value="Media">Media</option>
                     <option value="Sociology">Sociology</option>
+                    <option value="Everything">Everything</option>
                   </select>
                   <div class="form-error" *ngIf="formErrors.teacherSubjectSelect">A subject is required</div>
                 </div>
                 <div class="form-group" *ngIf="teacherTypeSelect">
-                  <label for="email">Location (required)</label>
+                  <label>Location (required)</label>
                   <select required class="custom-select form-control" #location formControlName="location" (change)="setLocation(location.value); errorCheck(form)" (blur)="errorCheck(form)">
                     <option disabled selected>Please choose your location</option>
                     <option value="england">England</option>
@@ -102,12 +140,12 @@
                   <div class="form-error" *ngIf="formErrors.location">A location is required</div>
                 </div>
                 <div class="form-group form-autofill" *ngIf="showAuthority">
-                  <label for="email">Local Authority (required)</label>
+                  <label>Local Authority (required)</label>
                   <input formControlName="authority" id="typeahead-authority" placeholder="e.g. Brent" type="text" class="form-control" [ngbTypeahead]="searchAuthority" (click)="errorCheck(form)" (blur)="errorCheck(form)" (change)="errorCheck(form)"/>
                   <div class="form-error" *ngIf="formErrors.authority">A local authority is required</div>
                 </div>
                 <div class="form-group form-autofill" *ngIf="showSchools">
-                  <label for="email">School (required)</label>
+                  <label>School (required)</label>
                   <input formControlName="school" required id="typeahead-school" placeholder="e.g. St Georges" type="text" class="form-control" [ngbTypeahead]="searchSchools" (click)="errorCheck(form)" (blur)="errorCheck(form)" (change)="errorCheck(form)"/>
                   <div class="form-error" *ngIf="formErrors.school">A school authority is required</div>
                 </div>
@@ -130,11 +168,17 @@
                   <label for="email">Type of Student (required)</label>
                   <select required class="custom-select form-control" formControlName="studentTypeSelect" (blur)="errorCheck(form)" (click)="errorCheck(form)" #studentTypeSelect>
                     <option disabled selected>What kind of student are you?</option>
-                    <option value="permanent">Permanent</option>
-                    <option value="part time">Part Time</option>
-                    <option value="mature">Mature</option>
+                    <option value="primary">Primary school</option>
+                    <option value="secondary">Secondary School</option>
+                    <option value="sixth form">Sixth Form</option>
+                    <option value="further education">Further Education</option>
+                    <option value="mature student">Mature Student</option>
                     <option value="other">Other</option>
                   </select>
+                </div>
+                  <div class="form-group" [ngClass]="{'hidden-xs-up': form.controls.studentTypeSelect._value !== 'other'}">
+                  <label for="email"></label>
+                    <input placeholder="Please tell us what kind of student you are" required type="text" formControlName="studentTypeOther" (blur)="errorCheck(form)" />
                   <div class="form-error" *ngIf="formErrors.studentTypeSelect">A student type is required</div>
                 </div>
                 <div class="button-group register-submit">
@@ -145,6 +189,11 @@
               <div class="form-other" *ngIf="userType === 'other'">
                 <input type="hidden" value="other" formControlName="memberType" />
                 <div class="form-group">
+                  <label for="email">Profession</label>
+                  <input id="otherPofession" formControlName="otherPofession" (blur)="errorCheck(form)" />
+                </div>
+                <div class="form-group">
+                  <label></label>
                   <label class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" formControlName="newsletter" value="newsletter" (change)="errorCheck(form)" [checked]="newsletterSubscribe">
                     <div class="custom-control-indicator"></div>
@@ -161,5 +210,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>

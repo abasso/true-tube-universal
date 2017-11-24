@@ -18,16 +18,13 @@ export class RmAuthComponent implements OnInit {
             .subscribe(
                 success => {
                     if (success.authenticated) {
-                        // logged in via RM Unify
                         localStorage.setItem('rmlogin', success.token)
                         this.router.navigate(['/me'])
                     } else {
-                        // not logged in via RM Unify
                         this.router.navigate(['/'])
                     }
                 },
                 error => {
-                    console.log('error checking authentication')
                     this.router.navigate(['/'])
                     return true
                 }

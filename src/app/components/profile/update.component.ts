@@ -37,7 +37,6 @@ export class ProfileUpdateComponent implements OnInit {
   public location: string = null
   public type: string = null
   public model: any
-  private auth0Manage
   public showAuthority: boolean
   public showSchools: boolean
   public newsletterSubscribe = true
@@ -46,6 +45,8 @@ export class ProfileUpdateComponent implements OnInit {
   public redirectUri = 'www.truetube.co.uk'
   private profile
   public formErrors = {
+    email: false,
+    password: false,
     country: false,
     teacherType: false,
     location: false,
@@ -60,7 +61,8 @@ export class ProfileUpdateComponent implements OnInit {
     private formBuilder: FormBuilder,
     public auth: Auth
 ) {
-}
+
+  }
   ngOnInit() {
     this.dataService.districts()
     .subscribe(
@@ -72,47 +74,6 @@ export class ProfileUpdateComponent implements OnInit {
       if (isPlatformBrowser(this.platformId)) {
         this.redirectUri = window.location.host
       }
-  }
-
-  register(form) {
-    this.registerErrorCheck(form)
-    if (this.hasErrors) return
-    const signupData = {
-      connection: 'Username-Password-Authentication',
-      redirect_uri: 'http://' + this.redirectUri + '/authcallback',
-      user_metadata: {
-        memberType: form.controls.memberType.value,
-        defferedProfileUpdate: null
-      }
-    }
-    if (form.controls.memberType.value === 'teacher') {
-      signupData.user_metadata['teacherType'] = form.controls.teacherTypeSelect.value
-      if(form.controls.teacherTypeSelect.value === 'full' || form.controls.teacherTypeSelect.value === 'part') {
-        signupData.user_metadata['location'] = form.controls.location.value
-        signupData.user_metadata['authority'] = form.controls.authority.value
-        signupData.user_metadata['school'] = this.selectedSchool._id
-      }
-      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
-    }
-    if (form.controls.memberType.value === 'student') {
-      signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
-    }
-    if (form.controls.memberType.value === 'other') {
-      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
-    }
-    if (isPlatformBrowser(this.platformId)) {
-      this.profile = JSON.parse(localStorage.getItem('profile'))
-    }
-
-    this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, signupData.user_metadata, (err, authResult) => {
-        if(err) {
-          this.registrationError = err.description
-        }
-        if(authResult) {
-          localStorage.setItem('profile', JSON.stringify(authResult))
-          this.auth.hasUserType()
-        }
-    })
   }
 
   defferProfileUpdate(event) {
@@ -131,6 +92,59 @@ export class ProfileUpdateComponent implements OnInit {
     })
   }
 
+  register(form) {
+    this.registerErrorCheck(form)
+    if (this.hasErrors) return
+    const signupData = {
+      connection: 'Username-Password-Authentication',
+      redirect_uri: 'http://' + this.redirectUri + '/authcallback',
+      user_metadata: {
+        memberType: form.controls.memberType.value
+      }
+    }
+    if (form.controls.memberType.value === 'teacher') {
+      signupData.user_metadata['teacherType'] = form.controls.teacherTypeSelect.value
+      if(form.controls.teacherTypeSelect.value === 'full' || form.controls.teacherTypeSelect.value === 'part') {
+        signupData.user_metadata['location'] = form.controls.location.value
+        signupData.user_metadata['authority'] = form.controls.authority.value
+        signupData.user_metadata['school'] = this.selectedSchool._id
+      }
+      let keystages = {
+        'keystage1' : form.controls.keystage1.value.toString(),
+        'keystage2' : form.controls.keystage2.value.toString(),
+        'keystage3' : form.controls.keystage3.value.toString(),
+        'keystage4' : form.controls.keystage4.value.toString(),
+        'sixthForm' : form.controls.sixthForm.value.toString(),
+        'furtherEducation' : form.controls.furtherEducation.value.toString()
+      }
+      signupData.user_metadata['keystages'] = JSON.stringify(keystages)
+      signupData.user_metadata['newsletter'] = form.controls.newsletter.value.toString()
+    }
+    if (form.controls.memberType.value === 'student') {
+      signupData.user_metadata['studentType'] = form.controls.studentTypeSelect.value
+      if (form.controls.studentTypeSelect.value === 'other') {
+        signupData.user_metadata['studentTypeOther'] = form.controls.studentTypeOther.value
+      }
+    }
+    if (form.controls.memberType.value === 'other') {
+      signupData.user_metadata['newsletter'] = (form.controls.newsletter.value) ? 'true' : 'false'
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.profile = JSON.parse(localStorage.getItem('profile'))
+    }
+
+    this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, signupData.user_metadata, (err, authResult) => {
+        if(err) {
+          this.registrationError = err.description
+        }
+        if(authResult) {
+          localStorage.setItem('profile', JSON.stringify(authResult))
+          this.auth.hasUserType()
+        }
+    })
+  }
+
   errorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
@@ -139,12 +153,12 @@ export class ProfileUpdateComponent implements OnInit {
         this.hasErrors = true
       } else {
         this.formErrors[formElement] = false
-        if(formElement === 'authority') {
+        if(formElement === 'authority' && form.controls[formElement]['_pristine'] === false) {
           setTimeout(() => {
             this.setAuthority(form.controls[formElement]['_value'])
           }, 500)
         }
-        if(formElement === 'school') {
+        if(formElement === 'school' && form.controls[formElement]['_pristine'] === false) {
           setTimeout(() => {
             this.setSchool(form.controls[formElement]['_value'])
           }, 500)
@@ -157,7 +171,7 @@ export class ProfileUpdateComponent implements OnInit {
   registerErrorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
-      if (form.controls[formElement]['_status'] === 'INVALID') {
+      if (form.controls[formElement]['_status'] === 'INVALID' &&  formElement !== 'studentTypeOther') {
         this.formErrors[formElement] = true
         this.hasErrors = true
       } else {
@@ -193,6 +207,12 @@ export class ProfileUpdateComponent implements OnInit {
         'location' : ['', Validators.required],
         'authority' : ['', Validators.required],
         'school' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
     } else {
@@ -201,6 +221,12 @@ export class ProfileUpdateComponent implements OnInit {
         'location' : ['', Validators.required],
         'teacherTypeSelect' : [this.type, Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
 
@@ -216,6 +242,7 @@ export class ProfileUpdateComponent implements OnInit {
         this.schools = _.map(this.schoolsList, item => {
           return item['_source']['name']
         })
+        this.schools = _.uniq(this.schools)
       })
   }
 
@@ -237,12 +264,19 @@ export class ProfileUpdateComponent implements OnInit {
         'teacherTypeSelect' : ['', Validators.required],
         'teacherSubjectSelect' : ['', Validators.required],
         'location' : ['', Validators.required],
+        'keystage1' : [false],
+        'keystage2' : [false],
+        'keystage3' : [false],
+        'keystage4' : [false],
+        'sixthForm' : [false],
+        'furtherEducation' : [false],
         'newsletter': [true]
       })
     } else if (this.userType === 'student') {
       this.form = this.formBuilder.group({
         'memberType' : ['student'],
-        'studentTypeSelect' : ['', Validators.required]
+        'studentTypeSelect' : ['', Validators.required],
+        'studentTypeOther' : ['']
       })
 
     } else {

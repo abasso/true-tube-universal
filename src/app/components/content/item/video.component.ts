@@ -29,7 +29,6 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log("INIT")
     this.resetPlayer()
     this.hasBeenPlayed = false
   }

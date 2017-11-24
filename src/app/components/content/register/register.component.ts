@@ -149,7 +149,7 @@ export class RegisterComponent implements OnInit {
   registerErrorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
-      if (form.controls[formElement]['_status'] === 'INVALID') {
+      if (form.controls[formElement]['_status'] === 'INVALID' &&  formElement !== 'studentTypeOther') {
         this.formErrors[formElement] = true
         this.hasErrors = true
       } else {
@@ -269,6 +269,7 @@ export class RegisterComponent implements OnInit {
       this.form = this.formBuilder.group({
         'memberType' : ['other'],
         'email' : ['', Validators.email],
+        'otherProfession' : [''],
         'password' : ['', Validators.required],
         'newsletter': [true]
       })
