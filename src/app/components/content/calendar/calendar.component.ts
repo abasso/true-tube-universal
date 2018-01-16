@@ -73,7 +73,8 @@ export class CalendarComponent implements OnInit {
                 if (monthStart <= selectedMonth.daysInMonth()) {
                   days.splice(i, 0, {
                     day: monthStart++,
-                    month: selectedMonth.month()
+                    month: selectedMonth.month(),
+                    year: this.currentYear
                   })
                   // Add next months days
                 } else {
@@ -136,6 +137,7 @@ export class CalendarComponent implements OnInit {
                       event.index = previousDay['index']
                     }
                 }
+                
                 if (day.day === event.startDate.date() && day.month === event.startDate.month() && day.year === event.startDate.year()) {
                   if (_.isUndefined(event.index)) {
                     if (day.events.length === 0) {
