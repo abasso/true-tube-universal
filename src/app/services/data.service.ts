@@ -243,8 +243,8 @@ export class DataService {
 
   schools(district) {
     let header = new Headers()
-    let options = new RequestOptions({ headers: header })
     header.append('Content-Type', 'application/json')
+    let options = new RequestOptions({ headers: header })
     const body = {
 	     "from" : 0, "size" : 5000,
        "query" : {
