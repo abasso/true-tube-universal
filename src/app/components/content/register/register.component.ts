@@ -86,6 +86,7 @@ export class RegisterComponent implements OnInit {
     }
     if (form.controls.memberType.value === 'teacher') {
       signupData.user_metadata['teacherType'] = form.controls.teacherTypeSelect.value
+      signupData.user_metadata['subject'] = form.controls.teacherSubjectSelect.value
       if(form.controls.teacherTypeSelect.value === 'full' || form.controls.teacherTypeSelect.value === 'part') {
         signupData.user_metadata['location'] = form.controls.location.value
         signupData.user_metadata['authority'] = form.controls.authority.value
