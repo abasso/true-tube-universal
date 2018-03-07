@@ -2,6 +2,10 @@
 <div class="feedback-background" *ngIf="showFeedback" (click)="toggleFeedback()"></div>
 <div class="feedback-form" *ngIf="showFeedback">
   <h2>Feedback</h2>
+  <label *ngIf="thanks">Thanks for geting in touch.</label>
+  <button *ngIf="thanks" type="button" class="btn btn-default" (click)="hideFeedback()">Close</button>
+
+  <div class="feedback-form-form" *ngIf="!thanks">
   <label>What do you want to let us know about?</label>
   <div *ngFor="let feedbacks of feedbackTypes">
       <div class="form-check">
@@ -16,6 +20,11 @@
   </div>
   <hr>
   <div class="form-group">
+    <label for="textareaDetails">Email</label>
+    <br>
+    <input type="text" class="form-control" id="textareaDetails" placeholder="" #text (change)="feedback.email = $event.target.value;" />
+  </div>
+  <div class="form-group">
     <label for="textareaDetails">Please provide some details of your feedback</label>
     <br>
     <textarea class="form-control" id="textareaDetails" #text (change)="feedback.feedback = text.value" [value]="feedback.feedback" rows="3"></textarea>
@@ -24,4 +33,5 @@
     <button type="submit" class="btn btn-primary" (click)="submitFeedback()">Submit</button>
     <button type="button" class="btn btn-default" (click)="toggleFeedback()">Cancel</button>
   </div>
+</div>
 </div>

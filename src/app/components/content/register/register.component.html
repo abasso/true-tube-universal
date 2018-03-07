@@ -68,8 +68,8 @@
               <label>Type of Teacher (required)</label>
               <select required class="custom-select form-control" formControlName="teacherTypeSelect" #teacherTypeSelect (change)="setTeacherType(teacherTypeSelect.value); errorCheck(form)" (blur)="errorCheck(form)">
                 <option disabled selected>What kind of teacher are you?</option>
-                <option value="full">Full time</option>
-                <option value="part">Part time</option>
+                <option value="full">UK Full time</option>
+                <option value="part">UK Part time</option>
                 <option value="supply">Supply</option>
                 <option value="other">Other</option>
               </select>
@@ -146,6 +146,7 @@
                 <option value="england">England</option>
                 <option value="scotland">Scotland</option>
                 <option value="wales">Wales</option>
+                <option value="northern ireland">Northern Ireland</option>
                 <option value="ireland">Ireland</option>
                 <option value="other">Other</option>
               </select>

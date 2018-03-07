@@ -47,7 +47,10 @@ export class RegisterComponent implements OnInit {
     teacherType: false,
     location: false,
     authority: false,
-    school: false
+    school: false,
+    teacherTypeSelect: false,
+    teacherSubjectSelect: false,
+    studentTypeSelect: false
   }
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -150,7 +153,7 @@ export class RegisterComponent implements OnInit {
   registerErrorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
-      if (form.controls[formElement]['_status'] === 'INVALID' &&  formElement !== 'studentTypeOther') {
+      if (form.controls[formElement]['_status'] === 'INVALID' && form.controls[formElement]['_touched'] === true && form.controls[formElement]['_pristine'] === false) {
         this.formErrors[formElement] = true
         this.hasErrors = true
       } else {

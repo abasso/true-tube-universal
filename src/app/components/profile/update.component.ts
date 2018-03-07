@@ -43,6 +43,7 @@ export class ProfileUpdateComponent implements OnInit {
   public hasErrors = false
   public registrationError: string
   public redirectUri = 'www.truetube.co.uk'
+  public showoverlay = this.auth.hasUserType() || false
   private profile
   public formErrors = {
     email: false,
@@ -51,7 +52,10 @@ export class ProfileUpdateComponent implements OnInit {
     teacherType: false,
     location: false,
     authority: false,
-    school: false
+    school: false,
+    teacherTypeSelect: false,
+    teacherSubjectSelect: false,
+    studentTypeSelect: false
   }
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -172,7 +176,7 @@ export class ProfileUpdateComponent implements OnInit {
   registerErrorCheck(form) {
     this.hasErrors = false
     for (let formElement in form.controls) {
-      if (form.controls[formElement]['_status'] === 'INVALID' &&  formElement !== 'studentTypeOther') {
+      if (form.controls[formElement]['_status'] === 'INVALID' && form.controls[formElement]['_touched'] === true && form.controls[formElement]['_pristine'] === false) {
         this.formErrors[formElement] = true
         this.hasErrors = true
       } else {
