@@ -57,6 +57,8 @@ export class PrimaryNavComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('redirectUrl', this.router.url)
     }
+    this.auth.signup(event)
+
   }
 
   profile(event: any) {

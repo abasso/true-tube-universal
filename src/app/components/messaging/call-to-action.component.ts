@@ -52,6 +52,7 @@ export class CallToActionComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('redirectUrl', this.router.url)
     }
+    this.auth.signup(event)
   }
 
   toggleSite(event: any) {

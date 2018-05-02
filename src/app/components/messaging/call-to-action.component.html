@@ -1,7 +1,7 @@
 <div class="container">
 <div class="call-to-action-copy" *ngIf="!auth.authenticated()">
   Award-winning free resources for RE, PSHE and Citizenship
-  <button href="#" [routerLink]="['/register']" class="btn btn-login" (click)="analyticsService.emitEvent('Call To Action', 'Action', 'Register')"
+  <button href="#" class="btn btn-login" (click)="analyticsService.emitEvent('Call To Action', 'Action', 'Register'); register($event)"
   >Register for Free</button>
 </div>
 <div class="call-to-action-copy call-to-action-tools" *ngIf="auth.authenticated()">

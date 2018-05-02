@@ -21,7 +21,7 @@ export class Auth {
   public lock
   public auth0
   public auth0Manage
-  private userProfile: any
+  public userProfile: any
   public loggedInStatus: any = new Subject()
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -29,6 +29,8 @@ export class Auth {
     private router: Router
   ) {
     if (isPlatformBrowser(this.platformId)) {
+      if(localStorage.getItem('token') === 'undefined') localStorage.removeItem('token')
+      let token = localStorage.getItem('token')
       this.lock = new Auth0Lock(
         myConfig.clientID,
         myConfig.domain,
@@ -37,33 +39,47 @@ export class Auth {
       this.auth0 = new auth0.WebAuth({
         domain: myConfig.domain,
         clientID: myConfig.clientID,
-        callbackURL: 'http://' + window.location.host + '/',
-        responseType: 'token id_token'
+        redirectUri: 'http://' + window.location.host + '/',
+        responseType: 'token id_token',
+        audience: 'https://redefinitions.eu.auth0.com/userinfo',
+        allowSignUp: false
       })
       if(this.authenticated()) {
         this.auth0Manage = new auth0.Management({
           domain: 'truetube.eu.auth0.com',
-          token: localStorage.getItem('token')
+          token: token
         });
       }
       this.lock.on('authenticated', (authResult: any) => {
+        console.log(authResult)
+        if(authResult.error) return null;
+        if(localStorage.getItem('token') === 'undefined') localStorage.removeItem('token')
+        if(typeof localStorage.getItem('token') === 'undefined' || typeof localStorage.getItem('rmlogin') === 'undefined') return
         let redirectUrl: string = ''
         localStorage.setItem('token', authResult.idToken)
         redirectUrl = localStorage.getItem('redirectUrl')
-        this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
-          if (error) {
-            return
-          }
-          localStorage.setItem('profile', JSON.stringify(profile))
-          this.userProfile = profile
-          ga('set', 'userId', profile.user_id)
-        })
+        if(authResult.accessToken) {
+          this.lock.getProfile(authResult.accessToken, (error: any, profile: any) => {
+            if (error) {
+              return console.log("THERE WAS AN ERROR GETTING THE USER DATA", error)
+            }
+            localStorage.setItem('profile', JSON.stringify(profile))
+            this.userProfile = profile
+            ga('set', 'userId', profile.user_id)
+          })
+        }
+
         this.loggedInStatus.next('update')
         if (redirectUrl) {
           this.router.navigate([redirectUrl])
         } else {
           this.router.navigate(['/me'])
         }
+      })
+
+      this.lock.on('hash_parsed', (authResult) => {
+        // if(authResult.errorDescription === "Unknown or invalid login ticket.") {
+        // }
       })
 
       this.lock.on('show', () => {
@@ -79,7 +95,9 @@ export class Auth {
   public isAuthed(authResult: any) {
     let redirectUrl: string = ''
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('token', authResult.id_token)
+      if (authResult.error) return null;
+      if (localStorage.getItem('token') === 'undefined' || localStorage.getItem('token') === 'null') localStorage.removeItem('token')
+      if (authResult.id_token) localStorage.setItem('token', authResult.id_token)
       redirectUrl = localStorage.getItem('redirectUrl')
     }
     this.auth0.client.userInfo(authResult.access_token, (err, user) => {
@@ -103,25 +121,24 @@ export class Auth {
     event.preventDefault()
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('redirectUrl', this.router.url)
+      window.location.href = "http://truetube.eu.auth0.com/login?client=c1OIvYBFmOpdrUgXuHGD5j3KE7rjFSJT"
     }
-    this.lock.show()
   }
 
   public signup(event: any) {
     event.preventDefault()
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('redirectUrl', '/me')
-    }
-    this.lock.show({initialScreen: 'signUp'})
+      window.location.href = "http://truetube.eu.auth0.com/login?client=c1OIvYBFmOpdrUgXuHGD5j3KE7rjFSJT&initialpage=signUp"
+    }    
   }
 
-  public loginWithState(event: any, state: any) {
-    event.preventDefault()
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('redirectUrl', this.router.url + state)
-    }
-    this.lock.show()
-  }
+  // public loginWithState(event: any, state: any) {
+  //   event.preventDefault()
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     localStorage.setItem('redirectUrl', this.router.url + state)
+  //   }
+  //   this.lock.show()
+  // }
 
   public loginWithRM(event: any) {
     event.preventDefault()
@@ -139,6 +156,10 @@ export class Auth {
 
   public authenticated() {
     if (isPlatformBrowser(this.platformId)) {
+      if(localStorage.getItem('token') === 'undefined') {
+        localStorage.removeItem('token')
+        return false
+      }
       return tokenNotExpired() || this.checkRM()
     }
   }
@@ -146,9 +167,12 @@ export class Auth {
   public hasUserType() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.authenticated()) {
+        if(localStorage.getItem('rmlogin') !== null) return true
+        if(localStorage.getItem('token') === 'undefined' || localStorage.getItem('token') === 'null') return localStorage.removeItem('token')
+        let token = localStorage.getItem('token') || localStorage.getItem('rmlogin')
         this.auth0Manage = new auth0.Management({
           domain: 'truetube.eu.auth0.com',
-          token: localStorage.getItem('token')
+          token: token
         });
         const profile = JSON.parse(localStorage.getItem('profile'))
         if(profile !== null) {

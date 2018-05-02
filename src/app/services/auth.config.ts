@@ -25,7 +25,9 @@ export const myConfig: AuthConfiguration = {
       },
       popupOptions: { width: 500 },
       auth: {
-        redirect: false
+        redirect: true,
+        redirectUrl: "https://truetube.co.uk/authcallback",
+        responseType: "token",
       },
       // socialButtonStyle: 'small',
       // allowSignUp: false,
@@ -33,23 +35,5 @@ export const myConfig: AuthConfiguration = {
           logo: '/assets/images/true-tube-logo_black.svg',
           primaryColor: '#FBE407'
         },
-        additionalSignUpFields: [
-
-          {
-          type: 'select',
-          name: 'account_type',
-          placeholder: 'Teacher or student?',
-          options: [
-            {value: 'Teacher', label: 'Teacher'},
-            {value: 'Student', label: 'Student'}          ],
-          // The following properties are optional
-          // icon: 'https://example.com/assests/location_icon.png',
-        },
-        {
-          type: 'text',
-          name: 'school',
-          placeholder: 'School Name'
-        }
-      ]
     }
 };

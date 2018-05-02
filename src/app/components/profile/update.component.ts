@@ -83,17 +83,19 @@ export class ProfileUpdateComponent implements OnInit {
   defferProfileUpdate(event) {
     event.preventDefault()
     if (isPlatformBrowser(this.platformId)) {
+      if(localStorage.getItem('token') === 'undefined' || localStorage.getItem('token') === null) return;
       this.profile = JSON.parse(localStorage.getItem('profile'))
+      this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, {defferedProfileUpdate: new Date()}, (err, authResult) => {
+          if(err) {
+            this.registrationError = err.description
+          }
+          if(authResult) {
+            localStorage.setItem('profile', JSON.stringify(authResult))
+            this.auth.hasUserType()
+          }
+      })
     }
-    this.auth.auth0Manage.patchUserMetadata(this.profile.user_id, {defferedProfileUpdate: new Date()}, (err, authResult) => {
-        if(err) {
-          this.registrationError = err.description
-        }
-        if(authResult) {
-          localStorage.setItem('profile', JSON.stringify(authResult))
-          this.auth.hasUserType()
-        }
-    })
+
   }
 
   register(form) {

@@ -10,6 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
+import { Auth } from './../../../services/auth.service'
+
 var RmAuthComponent = (function () {
     function RmAuthComponent(http, router) {
         this.http = http;
@@ -23,7 +25,23 @@ var RmAuthComponent = (function () {
             .subscribe(function (success) {
             if (success.authenticated) {
                 localStorage.setItem('rmlogin', success.token);
-                _this.router.navigate(['/me']);
+                localStorage.setItem('token', success.token);
+                let redirectUrl: string = ''
+                redirectUrl = localStorage.getItem('redirectUrl')
+                Auth.lock.getProfile(success.token, (error: any, profile: any) => {
+                  if (error) {
+                    return console.log("THERE WAS AN ERROR GETTING THE USER DATA FOR AN RM USER", error)
+                  }
+                  localStorage.setItem('profile', JSON.stringify(profile))
+                  Auth.userProfile = profile
+                  ga('set', 'userId', profile.user_id)
+                })
+                Auth.loggedInStatus.next('update')
+                if (redirectUrl) {
+                  _.this.router.navigate([redirectUrl])
+                } else {
+                  _.this.router.navigate(['/me'])
+                }
             }
             else {
                 _this.router.navigate(['/']);

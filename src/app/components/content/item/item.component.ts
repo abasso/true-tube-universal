@@ -72,8 +72,8 @@ export class ItemComponent implements OnInit, DoCheck {
     private router: Router,
     private dataService: DataService,
     private userService: UserService,
-    private location: Location,
-    private auth: Auth,
+    public location: Location,
+    public auth: Auth,
     private http: AuthHttp,
     public analyticsService: AnalyticsService,
     private meta: MetaService
@@ -178,6 +178,7 @@ export class ItemComponent implements OnInit, DoCheck {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('redirectUrl', this.router.url)
     }
+    this.auth.signup(event)
   }
 
   hasAttributes(attribute: any) {

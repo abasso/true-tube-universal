@@ -63,6 +63,7 @@ export class RegisterComponent implements OnInit {
 
   }
   ngOnInit() {
+    window.location.href = "http://truetube.eu.auth0.com/login?client=c1OIvYBFmOpdrUgXuHGD5j3KE7rjFSJT&initialpage=signUp"
     this.dataService.districts()
     .subscribe(
       (data) => {

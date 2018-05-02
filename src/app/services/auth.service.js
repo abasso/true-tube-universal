@@ -32,6 +32,8 @@ var Auth = (function () {
             this.lock.on('authenticated', function (authResult) {
                 var redirectUrl = '';
                 if (isPlatformBrowser(_this.platformId)) {
+                    if(authResult.error) return null;
+                    if(localStorage.getItem('token') === 'undefined') return localStorage.removeItem('token')
                     localStorage.setItem('token', authResult.idToken);
                     redirectUrl = localStorage.getItem('redirectUrl');
                 }

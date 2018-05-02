@@ -10,7 +10,7 @@ import { ROUTES } from './routes';
 import { enableProdMode } from '@angular/core';
 enableProdMode();
 const app = express();
-const port = 8011;
+const port = process.env.PORT || 8011;
 const baseUrl = `http://localhost:${port}`;
 
 app.engine('html', ngExpressEngine({
@@ -41,6 +41,6 @@ ROUTES.forEach(route => {
   });
 });
 
-app.listen(8011,() => {
+app.listen(port,() => {
 	console.log(`Listening at ${baseUrl}`);
 });
