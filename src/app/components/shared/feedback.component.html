@@ -6,7 +6,8 @@
   <button *ngIf="thanks" type="button" class="btn btn-default" (click)="hideFeedback()">Close</button>
 
   <div class="feedback-form-form" *ngIf="!thanks">
-  <label>What do you want to let us know about?</label>
+  <div class="required">fields marked with * are compulsory</div>
+  <label>What do you want to let us know about? <sup class="required">*</sup></label>
   <div *ngFor="let feedbacks of feedbackTypes">
       <div class="form-check">
         <label class="form-check-label">
@@ -20,7 +21,7 @@
   </div>
   <hr>
   <div class="form-group">
-    <label for="textareaDetails">Email</label>
+    <label for="textareaDetails">Email <sup class="required">*</sup></label>
     <br>
     <input type="text" class="form-control" id="textareaDetails" placeholder="" #text (change)="feedback.email = $event.target.value;" />
   </div>

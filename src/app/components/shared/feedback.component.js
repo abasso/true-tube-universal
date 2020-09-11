@@ -44,7 +44,10 @@ var FeedbackComponent = (function () {
     };
     FeedbackComponent.prototype.submitFeedback = function (event) {
         // this.feedback.json = window
-        this.dataService.sendFeedback(this.feedback);
+        if (this.feedback.email == '' || this.feedback.type == '') {
+        } else {
+          this.dataService.sendFeedback(this.feedback)
+        }
     };
     return FeedbackComponent;
 }());

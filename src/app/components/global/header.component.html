@@ -1,4 +1,7 @@
-  <header class="c-header" role="banner">
+<div class="delete-notification">
+    Our privacy policy has changed, by continuing to use the site you are agreeing to the policy. Please take a moment to review it <a  href="#" [routerLink]="['/privacy-and-cookies']">click here.</a>
+      </div>
+ <header class="c-header" role="banner">
   <div class="container">
     <div class="mobile-logo hidden-lg-up">
 			<a href="#" [routerLink]="['/']" class="c-logo-link" (click)="analyticsService.emitEvent('Primary Nav', 'Navigate', 'Home')">

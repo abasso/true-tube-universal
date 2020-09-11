@@ -237,14 +237,15 @@ app-list {
 
 .loading-grid {
   display:flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-width:100%;
   width:100%;
   height:70%;
-  background:center center url("/assets/images/true-tube-logo_black.svg");
+  background:top center url("/assets/images/true-tube-logo_black.svg");
   background-size:70px auto;
   background-repeat:no-repeat;
+  margin-top: 80px;
 
   .spinner {
   height: 110px;
@@ -258,6 +259,7 @@ app-list {
   border-top: 6px solid #fff;
   border-radius: 100%;
   position:relative;
+  margin-top: -43px;
   }
 
   // .spinner:before {

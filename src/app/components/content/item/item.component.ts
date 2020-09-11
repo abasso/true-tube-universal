@@ -19,6 +19,7 @@ import { MetaService } from '@ngx-meta/core'
 
 declare var videojs: any
 
+
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
@@ -28,6 +29,7 @@ declare var videojs: any
   ]
 })
 export class ItemComponent implements OnInit, DoCheck {
+  public views_left = 50000-((localStorage.getItem('watchCount') === null) ? 0 : parseInt(localStorage.getItem('watchCount')));
   public item: any = {}
   public data: any
   public slug: string
@@ -92,7 +94,7 @@ export class ItemComponent implements OnInit, DoCheck {
       if (localStorage.getItem('watchedUnregistered') === 'true' && !this.auth.authenticated() && localStorage.getItem('authedByCode') === null) {
         this.viewRemainingCount = 0;
       } else if (this.auth.authenticated() || localStorage.getItem('authedByCode') !== null) {
-        this.viewRemainingCount = 1
+        this.viewRemainingCount = 50000
         this.contentAccess = true
       }
     }

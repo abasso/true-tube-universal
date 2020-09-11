@@ -19,7 +19,7 @@ var DataService = (function () {
         this.http = http;
         this.authHttp = authHttp;
         this.baseUrl = 'https://www.truetube.co.uk/v5/api/';
-        this.searchUrl = this.baseUrl + 'resources/_search';
+        this.searchUrl = this.baseUrl + 'resources/_search?sort=_score:desc,created:desc';
         this.meUrl = this.baseUrl + 'me';
         this.feedBackUrl = this.baseUrl + 'feedback';
         this.tempUrl = this.baseUrl + 'resources/resource';

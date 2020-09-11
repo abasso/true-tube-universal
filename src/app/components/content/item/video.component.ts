@@ -12,6 +12,7 @@ declare var videojs: any
 })
 export class VideoComponent implements OnInit, OnChanges, OnDestroy {
   @Output() playerEvent = new EventEmitter<string>()
+  @Input() views_left: any
   @Input() embed: any
   @Input() embeddedContent: any
   @Input() activeTab: any
@@ -22,6 +23,7 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
   private videoJSplayer: any
   public playHeadTime = 0
   public hasBeenPlayed = false
+  
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -83,13 +85,22 @@ export class VideoComponent implements OnInit, OnChanges, OnDestroy {
               v.addEventListener('play', (data) => {
                 if(this.hasBeenPlayed === false) {
                   let watchCount = (localStorage.getItem('watchCount') === null) ? 0 : parseInt(localStorage.getItem('watchCount'))
+                  this.views_left = 5-watchCount-1;
+                  if(this.views_left<0)
+                  {
+                    this.views_left=0; 
+                  }
                   localStorage.setItem('watchCount', (watchCount + 1).toString())
-                  localStorage.setItem('watchedUnregistered', 'true')
-                  if(parseInt(localStorage.getItem('watchCount')) > 1) {
-                    this.playerEvent.emit('watchedUnregistered')
+                  if(parseInt(localStorage.getItem('watchCount')) > 4) {
+                  //localStorage.setItem('watchedUnregistered', 'true')
+                  }
+                  if(parseInt(localStorage.getItem('watchCount')) > 5) {
+                    //this.playerEvent.emit('watchedUnregistered')
                   }
                   this.analyticsService.emitEvent('Play', 'Watch', self.embed.title)
-                  this.hasBeenPlayed = true                }
+                  if(parseInt(localStorage.getItem('watchCount')) > 4) {
+                  //this.hasBeenPlayed = true
+                                }                }
               }, true)
               v.addEventListener('progress', function(data) {
                 self.playHeadTime = self.videoJSplayer.currentTime()

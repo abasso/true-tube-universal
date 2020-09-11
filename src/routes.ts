@@ -10,6 +10,7 @@ export const ROUTES: string[] = [
   '/audio/:slug',
   '/node/:slug',
   '/resource/:slug',
+  '/covid',
   '/awards',
   '/team',
   '/partners',

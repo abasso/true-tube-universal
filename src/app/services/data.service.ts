@@ -11,7 +11,7 @@ import { Headers, RequestOptions } from '@angular/http'
 export class DataService {
 
   private baseUrl = 'https://www.truetube.co.uk/v5/api/'
-  private searchUrl = this.baseUrl + 'resources/_search'
+  private searchUrl = this.baseUrl + 'resources/_search?sort=_score:desc,created:desc'
   private meUrl = this.baseUrl + 'me'
   private feedBackUrl = this.baseUrl + 'feedback'
   private tempUrl = this.baseUrl + 'resources/resource'
@@ -214,7 +214,7 @@ export class DataService {
         month = month + 11
       }
       let monthStart: any = moment({ M: month, y: currentYear }).format('YYYY-MM-DD')
-      let monthEnd: any = moment({ M: month, D: moment({M: month}).daysInMonth(), y: currentYear}).format('YYYY-MM-DD')
+      let monthEnd: any = moment({ M: month, D: moment({M: month, y: currentYear}).daysInMonth(), y: currentYear}).format('YYYY-MM-DD')
       search.set('q', 'date.value:[' + monthStart + ' TO ' +  monthEnd + ']' )
     }
     search.set('size', '1000')

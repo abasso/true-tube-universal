@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { AppComponent } from './app.component'
 import { ListingComponent } from './components/content/listing/list.component'
 import { ListItemComponent } from './components/content/listing/list-item.component'
+import { ListItemRelatedComponent } from './components/content/listing/list-item-related.component'
 import { HeaderComponent } from './components/global/header.component'
 import { PrimaryNavComponent } from './components/navigation/primary-nav.component'
 import { SearchComponent } from './components/navigation/search.component'
@@ -119,6 +120,10 @@ const appRoutes: Routes = [
   {
     path: 'resource/:slug',
     component: ItemComponent
+  },
+  {
+    path: 'covid',
+    component: ItemPageComponent
   },
   {
     path: 'awards',
@@ -258,6 +263,7 @@ export function metaFactory(): MetaLoader {
     ListFilterComponent,
     ListingComponent,
     ListItemComponent,
+    ListItemRelatedComponent,
     ListingSortComponent,
     PageComponent,
     PagesNavComponent,

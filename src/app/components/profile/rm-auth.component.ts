@@ -19,6 +19,7 @@ export class RmAuthComponent implements OnInit {
                 success => {
                     if (success.authenticated) {
                         localStorage.setItem('rmlogin', success.token)
+                        localStorage.setItem('token', success.token)
                         this.router.navigate(['/me'])
                     } else {
                         this.router.navigate(['/'])

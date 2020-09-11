@@ -20,7 +20,10 @@ export const myConfig: AuthConfiguration = {
           login: {
             "lock.invalid_email_password": "Wrong email or password. Are you logging in with credentials from the old site? You need to reset your password.",
             "lock.invalid_username_password": "Wrong username or password. Are you logging in with credentials from the old site? You need to reset your password.",
-          }
+          }        
+        },
+        success: {
+              forgotPassword: "We've just sent you an email to reset your password. Didn't get the email? Please check your spam/junk email folder",
         }
       },
       popupOptions: { width: 500 },

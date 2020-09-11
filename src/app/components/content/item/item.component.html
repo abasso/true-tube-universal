@@ -15,7 +15,7 @@
 			</div>
 
 		</div>
-		<div class="tab tab-videos" [ngClass]="{'visible': activeTab === 'film', 'video-disabled': viewRemainingCount === 0, 'video-enabled': auth.authenticated()}" *ngFor="let embed of embeddedContent.film">
+		<div class="tab tab-videos" [ngClass]="{'visible': activeTab === 'film', 'video-disabled': viewRemainingCount === -50000, 'video-enabled': auth.authenticated()}" *ngFor="let embed of embeddedContent.film">
 			<div class="video-header">
 				<span class="info icon-clock icon-v-shift icon-small icon-left" *ngIf="embed.duration" >{{dataService.duration(embed.duration)}}</span>
 
@@ -50,8 +50,8 @@
 		</div>
 		<div *ngIf="!auth.authenticated()">
 			<div *ngIf="!contentAccess">
-				<div class="video-registration-warning" *ngIf="viewRemainingCount === 1">
-					You have 1 view left before you will need to <a href="#" (click)="auth.login($event); analyticsService.emitEvent('Login from 1 view warning', 'Action', item.title)">login</a> or use an access code to watch films.
+				<div class="video-registration-warning" *ngIf="viewRemainingCount === -50000" style="display:none;">
+					You have {{views_left}} <span *ngIf="views_left>1">views</span><span *ngIf="views_left==1">view</span> left before you will need to <a href="#" (click)="auth.login($event); analyticsService.emitEvent('Login from 1 view warning', 'Action', item.title)">login</a> or use an access code to watch films.
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 		</div>
 
 		<div class="video-js-wrapper">
-			<div class="video-registration-overlay" *ngIf="viewRemainingCount === 0">
+			<div class="video-registration-overlay" *ngIf="viewRemainingCount === -50000">
 				<div class="video-registration-overlay-message" *ngIf="!useAccessCode">
 					Please <a href="#" (click)="auth.login($event); analyticsService.emitEvent('Login from overlay', 'Action', item.title)">login</a> or use an <a href="#" (click)="showAccessCode($event); analyticsService.emitEvent('Show Access Code', 'Action', item.title)">access code</a> to watch more films.<br><br>
 					Don't have an account? <a (click)="analyticsService.emitEvent('Register from overlay', 'Navigation', item.title); register()">Register for free</a>
@@ -92,7 +92,7 @@
 				<span class="link">Click to play</span>
 			</span>
 		</a>
-		<app-video-player [embed]="embed" [embeddedContent]="embeddedContent" [subtitles]="item.subtitles" [activeTab]="activeTab" [play]="play" [enableSubtitles]="enableSubtitles" (playerEvent)="playerEvent($event)"></app-video-player>
+		<app-video-player [embed]="embed" [embeddedContent]="embeddedContent" [subtitles]="item.subtitles" [activeTab]="activeTab" [play]="play" [enableSubtitles]="enableSubtitles" (playerEvent)="playerEvent($event)" [views_left]="views_left"></app-video-player>
 	</div>
 
 	<div class="video-footer">
@@ -219,7 +219,7 @@
 	</h2>
 	<div class="grid-nav">
 	</div>
-	<app-list-item [ngClass]="{'row': true, 'grid-row': true, 'list-row': displayList, 'content-grid': true}" [items]="item.related" [paginationData]="paginationData"></app-list-item>
+	<app-list-item-related [ngClass]="{'row': true, 'grid-row': true, 'list-row': displayList, 'content-grid': true}" [items]="item.related" [paginationData]="paginationData"></app-list-item-related>
 </div>
 
 </div>

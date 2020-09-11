@@ -68,8 +68,11 @@ export class FeedbackComponent implements OnInit {
 
   public submitFeedback(event: any): void {
     // this.feedback.json = window
-    this.dataService.sendFeedback(this.feedback)
-    this.thanks = true
+    if (this.feedback.email == '' || this.feedback.type == '') {
+    } else {
+      this.dataService.sendFeedback(this.feedback)
+      this.thanks = true
+    }
   }
 
   public hideFeedback(event: any): void {

@@ -36,7 +36,7 @@ export const ContentTypes = [
     name: 'typeInteractive',
     term: 'interactive',
     class: 'interactive',
-    inMenu: true,
+    inMenu: false,
     active: false
   },
   // {
